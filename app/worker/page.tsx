@@ -5,6 +5,7 @@ import Link from "next/link";
 import AvailabilityToggle from "./AvailabilityToggle";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Star, ArrowRight } from "lucide-react";
+import { formatDateTime, formatCurrency } from "@/lib/format";
 
 export default async function WorkerDashboardPage() {
   const user = await getCurrentDbUser();
@@ -63,7 +64,7 @@ export default async function WorkerDashboardPage() {
         <div className="bg-[#0e0e0e] rounded-3xl p-8">
           <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Total Earnings</p>
           <p className="text-3xl sm:text-4xl font-black text-emerald-400 mt-3">
-            ₹{profile.totalEarnings.toLocaleString()}
+            ₹{formatCurrency(profile.totalEarnings)}
           </p>
         </div>
         <div className="bg-[#0e0e0e] rounded-3xl p-8">
@@ -103,8 +104,8 @@ export default async function WorkerDashboardPage() {
                       <p className="text-lg font-bold text-white">
                         {job.service.name}
                       </p>
-                      <p className="text-sm text-neutral-400 mt-1" suppressHydrationWarning>
-                        {job.customer.name} · {new Date(job.preferredTime).toLocaleString()}
+                      <p className="text-sm text-neutral-400 mt-1">
+                        {job.customer.name} · {formatDateTime(job.preferredTime)}
                       </p>
                       <p className="text-sm text-neutral-300 mt-2 line-clamp-1">
                         {job.description}

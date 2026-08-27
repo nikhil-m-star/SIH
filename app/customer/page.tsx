@@ -4,6 +4,7 @@ import { getCurrentDbUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Sparkles, ArrowRight, Clock } from "lucide-react";
+import { formatDate } from "@/lib/format";
 
 export default async function CustomerHomePage() {
   const user = await getCurrentDbUser();
@@ -104,7 +105,7 @@ export default async function CustomerHomePage() {
                     </p>
                     <p className="text-sm text-neutral-400 flex items-center gap-2 mt-1">
                       <Clock className="w-4 h-4" />
-                      <span suppressHydrationWarning>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                      <span>{formatDate(booking.createdAt)}</span>
                       <span>·</span>
                       <span>{booking.worker?.name || "Assigning worker"}</span>
                     </p>

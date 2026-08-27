@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import { Users, UserCheck, ClipboardList, CheckCircle2 } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
 
 export default async function AdminDashboardPage() {
   await requireRole("ADMIN");
@@ -40,11 +41,11 @@ export default async function AdminDashboardPage() {
   ];
 
   const financials = [
-    { label: "Total Gross Volume", value: `₹${(sums.amount || 0).toLocaleString()}`, color: "text-white" },
-    { label: "Worker Payouts (90%)", value: `₹${(sums.workerAmount || 0).toLocaleString()}`, color: "text-emerald-400" },
-    { label: "Welfare Fund (5%)", value: `₹${(sums.welfareFund || 0).toLocaleString()}`, color: "text-emerald-400/80" },
-    { label: "Training Fund (2%)", value: `₹${(sums.trainingFund || 0).toLocaleString()}`, color: "text-emerald-400/60" },
-    { label: "Cooperative Reserve (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-neutral-400" },
+    { label: "Total Gross Volume", value: `₹${formatCurrency(sums.amount || 0)}`, color: "text-white" },
+    { label: "Worker Payouts (90%)", value: `₹${formatCurrency(sums.workerAmount || 0)}`, color: "text-emerald-400" },
+    { label: "Welfare Fund (5%)", value: `₹${formatCurrency(sums.welfareFund || 0)}`, color: "text-emerald-400/80" },
+    { label: "Training Fund (2%)", value: `₹${formatCurrency(sums.trainingFund || 0)}`, color: "text-emerald-400/60" },
+    { label: "Cooperative Reserve (3%)", value: `₹${formatCurrency(sums.cooperativeShare || 0)}`, color: "text-neutral-400" },
   ];
 
   return (

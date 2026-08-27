@@ -4,6 +4,7 @@ import { getCurrentDbUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { PlusCircle, Clock } from "lucide-react";
+import { formatDate } from "@/lib/format";
 
 export default async function CustomerBookingsPage() {
   const user = await getCurrentDbUser();
@@ -62,7 +63,7 @@ export default async function CustomerBookingsPage() {
                   </p>
                   <p className="text-sm text-neutral-400 flex items-center gap-2 mt-1">
                     <Clock className="w-4 h-4" />
-                    <span suppressHydrationWarning>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                    <span>{formatDate(booking.createdAt)}</span>
                     <span>·</span>
                     <span>{booking.worker?.name || "Pending worker"}</span>
                   </p>

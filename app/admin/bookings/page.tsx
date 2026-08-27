@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import { ServiceIcon } from "@/components/ServiceIcon";
+import { formatDate } from "@/lib/format";
 
 export default async function AdminBookingsPage() {
   await requireRole("ADMIN");
@@ -66,8 +67,8 @@ export default async function AdminBookingsPage() {
                       {booking.status.replace("_", " ")}
                     </span>
                   </td>
-                  <td className="py-4 px-5 text-neutral-500 text-xs" suppressHydrationWarning>
-                    {new Date(booking.createdAt).toLocaleDateString()}
+                  <td className="py-4 px-5 text-neutral-500 text-xs">
+                    {formatDate(booking.createdAt)}
                   </td>
                 </tr>
               ))}

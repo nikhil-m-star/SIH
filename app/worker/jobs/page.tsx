@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Clock, ArrowRight } from "lucide-react";
+import { formatDate } from "@/lib/format";
 
 export default async function WorkerJobsPage() {
   const user = await getCurrentDbUser();
@@ -70,7 +71,7 @@ export default async function WorkerJobsPage() {
                               <Clock className="w-4 h-4" />
                               <span>{booking.customer.name}</span>
                               <span>·</span>
-                              <span suppressHydrationWarning>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                              <span>{formatDate(booking.createdAt)}</span>
                             </p>
                           </div>
                         </div>

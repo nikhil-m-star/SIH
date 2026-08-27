@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import ConfigForm from "./ConfigForm";
+import { formatDate, formatCurrency } from "@/lib/format";
 
 export default async function AdminTreasuryPage() {
   await requireRole("ADMIN");
@@ -61,7 +62,7 @@ export default async function AdminTreasuryPage() {
           <div key={item.label} className="flex items-center justify-between py-1.5">
             <span className="text-neutral-400 font-medium">{item.label}</span>
             <span className={`font-extrabold text-lg ${item.color}`}>
-              ₹{item.value.toLocaleString()}
+              ₹{formatCurrency(item.value)}
             </span>
           </div>
         ))}
@@ -114,8 +115,8 @@ export default async function AdminTreasuryPage() {
                     <td className="py-4 px-5 text-neutral-300 font-medium">
                       {tx.payment.booking?.service?.name || "—"}
                     </td>
-                    <td className="py-4 px-5 text-neutral-500 text-xs" suppressHydrationWarning>
-                      {new Date(tx.createdAt).toLocaleDateString()}
+                    <td className="py-4 px-5 text-neutral-500 text-xs">
+                      {formatDate(tx.createdAt)}
                     </td>
                   </tr>
                 ))}

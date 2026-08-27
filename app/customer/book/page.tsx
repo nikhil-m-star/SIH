@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createBooking } from "@/lib/actions";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Star, MapPin, Check, ArrowLeft } from "lucide-react";
+import { formatDateTime } from "@/lib/format";
 
 interface Service {
   id: string;
@@ -364,8 +365,8 @@ function BookServiceContent() {
             </div>
             <div className="flex justify-between py-1">
               <span className="text-neutral-400">Scheduled Time</span>
-              <span className="text-neutral-200 font-medium" suppressHydrationWarning>
-                {new Date(preferredTime).toLocaleString()}
+              <span className="text-neutral-200 font-medium">
+                {formatDateTime(preferredTime)}
               </span>
             </div>
             <div className="flex justify-between py-1">

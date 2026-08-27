@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import WorkerVerifyButton from "./WorkerVerifyButton";
 import { Star } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
 
 export default async function AdminWorkersPage() {
   await requireRole("ADMIN");
@@ -61,7 +62,7 @@ export default async function AdminWorkersPage() {
                   <span>{worker.completedJobs} jobs</span>
                   <span>·</span>
                   <span className="font-bold text-white">
-                    ₹{worker.totalEarnings.toLocaleString()} earned
+                    ₹{formatCurrency(worker.totalEarnings)} earned
                   </span>
                   <span>·</span>
                   <span className={worker.isAvailable ? "text-emerald-400 font-bold" : "text-neutral-500"}>

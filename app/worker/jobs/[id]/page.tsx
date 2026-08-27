@@ -5,6 +5,7 @@ import JobActions from "./JobActions";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Star, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { formatDateTime } from "@/lib/format";
 
 export default async function WorkerJobDetailPage({
   params,
@@ -80,8 +81,8 @@ export default async function WorkerJobDetailPage({
         </div>
         <div className="flex justify-between py-1">
           <span className="text-neutral-400">Scheduled Time</span>
-          <span className="text-neutral-200" suppressHydrationWarning>
-            {new Date(booking.preferredTime).toLocaleString()}
+          <span className="text-neutral-200">
+            {formatDateTime(booking.preferredTime)}
           </span>
         </div>
         {booking.address && (
