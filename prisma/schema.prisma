@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum UserRole {
+  CUSTOMER
+  WORKER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum Urgency {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TransactionType {
+  WORKER_PAYOUT
+  WELFARE_FUND
+  TRAINING_FUND
+  COOPERATIVE_SHARE
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String
+  role      UserRole @default(CUSTOMER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  workerProfile    WorkerProfile?
+  customerBookings Booking[]      @relation("CustomerBookings")
+  workerBookings   Booking[]      @relation("WorkerBookings")
+  ratingsGiven     Rating[]       @relation("RatingsGiven")
+  ratingsReceived  Rating[]       @relation("RatingsReceived")
+
+  @@index([clerkId])
+  @@index([role])
+}
+
+model WorkerProfile {
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio                String?
+  latitude           Float?
+  longitude          Float?
+  rating             Float              @default(0)
+  completedJobs      Int                @default(0)
+  totalEarnings      Float              @default(0)
+  verificationStatus VerificationStatus @default(PENDING)
+  isAvailable        Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  skills WorkerSkill[]
+
+  @@index([verificationStatus])
+  @@index([isAvailable])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  icon        String
+  basePrice   Float
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workerSkills WorkerSkill[]
+  bookings     Booking[]
+
+  @@index([isActive])
+}
+
+model WorkerSkill {
+  id              String        @id @default(cuid())
+  workerId        String
+  serviceId       String
+  experienceYears Int           @default(0)
+  worker          WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  service         Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+
+  @@unique([workerId, serviceId])
+  @@index([serviceId])
+}
+
+model Booking {
+  id             String        @id @default(cuid())
+  customerId     String
+  workerId       String?
+  serviceId      String
+  status         BookingStatus @default(PENDING)
+  description    String
+  latitude       Float
+  longitude      Float
+  address        String?
+  preferredTime  DateTime
+  estimatedPrice Float
+  actualPrice    Float?
+  urgency        Urgency       @default(MEDIUM)
+  aiUsed         Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  customer User     @relation("CustomerBookings", fields: [customerId], references: [id])
+  worker   User?    @relation("WorkerBookings", fields: [workerId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+  payment  Payment?
+  rating   Rating?
+
+  @@index([customerId])
+  @@index([workerId])
+  @@index([serviceId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  bookingId        String        @unique
+  amount           Float
+  status           PaymentStatus @default(PENDING)
+  workerAmount     Float
+  welfareFund      Float
+  trainingFund     Float
+  cooperativeShare Float
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  booking      Booking                  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  transactions CooperativeTransaction[]
+
+  @@index([status])
+}
+
+model Rating {
+  id         String   @id @default(cuid())
+  bookingId  String   @unique
+  customerId String
+  workerId   String
+  score      Int
+  comment    String?
+  createdAt  DateTime @default(now())
+
+  booking  Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  customer User    @relation("RatingsGiven", fields: [customerId], references: [id])
+  worker   User    @relation("RatingsReceived", fields: [workerId], references: [id])
+
+  @@index([workerId])
+}
+
+model CooperativeConfig {
+  id              String   @id @default(cuid())
+  workerSharePct  Float    @default(90)
+  welfarePct      Float    @default(5)
+  trainingPct     Float    @default(2)
+  cooperativePct  Float    @default(3)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CooperativeTransaction {
+  id          String          @id @default(cuid())
+  paymentId   String
+  type        TransactionType
+  amount      Float
+  description String?
+  createdAt   DateTime        @default(now())
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([type])
+  @@index([createdAt])
+}
