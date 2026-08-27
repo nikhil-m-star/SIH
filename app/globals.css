@@ -33,3 +33,190 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #222222;
 }
+
+/* ─── Clerk High-Contrast Dark & Emerald Overrides ─── */
+.cl-rootBox,
+.cl-cardBox,
+.cl-card {
+  background-color: #0e0e0e !important;
+  color: #ffffff !important;
+  border-radius: 1.5rem !important;
+  border: 1px solid #222222 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important;
+}
+
+.cl-headerTitle {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: -0.025em !important;
+}
+
+.cl-headerSubtitle {
+  color: #a3a3a3 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+.cl-socialButtonsBlockButton {
+  background-color: #181818 !important;
+  border: 1px solid #282828 !important;
+  color: #ffffff !important;
+  border-radius: 1rem !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background-color: #222222 !important;
+  border-color: #333333 !important;
+}
+
+.cl-socialButtonsBlockButtonText {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+}
+
+.cl-dividerLine {
+  background-color: #262626 !important;
+}
+
+.cl-dividerText {
+  color: #737373 !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.cl-formFieldLabel {
+  color: #f5f5f5 !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.cl-formFieldInput {
+  background-color: #181818 !important;
+  color: #ffffff !important;
+  border: 1px solid #282828 !important;
+  border-radius: 1rem !important;
+  padding: 0.875rem 1.25rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3) !important;
+  outline: none !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: #666666 !important;
+}
+
+.cl-formButtonPrimary {
+  background-color: #10b981 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  border-radius: 9999px !important;
+  padding: 0.875rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background-color: #34d399 !important;
+}
+
+.cl-footer,
+.cl-footerAction {
+  background-color: transparent !important;
+  color: #a3a3a3 !important;
+}
+
+.cl-footerActionText {
+  color: #a3a3a3 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+.cl-footerActionLink {
+  color: #10b981 !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+}
+
+.cl-footerActionLink:hover {
+  color: #34d399 !important;
+  text-decoration: underline !important;
+}
+
+.cl-identityPreviewText {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.cl-identityPreviewEditButton {
+  color: #10b981 !important;
+  font-weight: 700 !important;
+}
+
+.cl-otpCodeFieldInput {
+  background-color: #181818 !important;
+  color: #ffffff !important;
+  border: 1px solid #282828 !important;
+  border-radius: 1rem !important;
+  font-weight: 800 !important;
+}
+
+.cl-userButtonPopoverCard {
+  background-color: #0e0e0e !important;
+  border: 1px solid #222222 !important;
+  color: #ffffff !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8) !important;
+}
+
+.cl-userButtonPopoverActionButton {
+  color: #ffffff !important;
+}
+
+.cl-userButtonPopoverActionButton:hover {
+  background-color: #181818 !important;
+}
+
+.cl-userButtonPopoverActionButtonText {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.cl-userButtonPopoverFooter {
+  border-top: 1px solid #222222 !important;
+}
+
+.cl-userPreviewMainIdentifier {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.cl-userPreviewSecondaryIdentifier {
+  color: #a3a3a3 !important;
+}
+
+/* Catch-all for any text or button elements inside Clerk */
+.cl-rootBox * {
+  border-color: #282828;
+}
+
+.cl-rootBox p,
+.cl-rootBox span,
+.cl-rootBox h1,
+.cl-rootBox h2,
+.cl-rootBox h3,
+.cl-rootBox label {
+  color: inherit;
+}
