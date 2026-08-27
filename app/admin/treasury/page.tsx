@@ -60,7 +60,7 @@ export default async function AdminTreasuryPage() {
         {treasuryItems.map((item) => (
           <div key={item.label} className="flex items-center justify-between py-1.5">
             <span className="text-neutral-400 font-medium">{item.label}</span>
-            <span className={`font-mono font-extrabold text-lg ${item.color}`}>
+            <span className={`font-extrabold text-lg ${item.color}`}>
               ₹{item.value.toLocaleString()}
             </span>
           </div>
@@ -108,13 +108,13 @@ export default async function AdminTreasuryPage() {
                     <td className={`py-4 px-5 font-bold ${typeStyles[tx.type]}`}>
                       {typeLabels[tx.type]}
                     </td>
-                    <td className="py-4 px-5 font-mono font-extrabold text-white text-base">
+                    <td className="py-4 px-5 font-extrabold text-white text-base">
                       ₹{tx.amount}
                     </td>
                     <td className="py-4 px-5 text-neutral-300 font-medium">
                       {tx.payment.booking?.service?.name || "—"}
                     </td>
-                    <td className="py-4 px-5 text-neutral-500 font-mono text-xs">
+                    <td className="py-4 px-5 text-neutral-500 text-xs" suppressHydrationWarning>
                       {new Date(tx.createdAt).toLocaleDateString()}
                     </td>
                   </tr>

@@ -62,7 +62,7 @@ export default async function CustomerBookingsPage() {
                   </p>
                   <p className="text-sm text-neutral-400 flex items-center gap-2 mt-1">
                     <Clock className="w-4 h-4" />
-                    <span>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                    <span suppressHydrationWarning>{new Date(booking.createdAt).toLocaleDateString()}</span>
                     <span>·</span>
                     <span>{booking.worker?.name || "Pending worker"}</span>
                   </p>
@@ -74,7 +74,7 @@ export default async function CustomerBookingsPage() {
                 >
                   {booking.status.replace("_", " ")}
                 </span>
-                <p className="font-mono text-base font-extrabold text-white mt-2">
+                <p className="text-base font-extrabold text-white mt-2">
                   ₹{booking.actualPrice || booking.estimatedPrice}
                 </p>
               </div>

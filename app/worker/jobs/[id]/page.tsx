@@ -41,7 +41,7 @@ export default async function WorkerJobDetailPage({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Job Dispatch</h1>
-          <p className="text-sm text-neutral-400 font-mono mt-1">{booking.id}</p>
+          <p className="text-sm text-neutral-400 mt-1">{booking.id}</p>
         </div>
         <Link
           href="/worker/jobs"
@@ -80,7 +80,7 @@ export default async function WorkerJobDetailPage({
         </div>
         <div className="flex justify-between py-1">
           <span className="text-neutral-400">Scheduled Time</span>
-          <span className="text-neutral-200">
+          <span className="text-neutral-200" suppressHydrationWarning>
             {new Date(booking.preferredTime).toLocaleString()}
           </span>
         </div>
@@ -92,7 +92,7 @@ export default async function WorkerJobDetailPage({
         )}
         <div className="pt-4 border-t border-[#1c1c1c] flex justify-between items-center">
           <span className="font-extrabold text-white text-base">Total Booking Price</span>
-          <span className="font-mono font-black text-2xl text-emerald-400">
+          <span className="font-black text-2xl text-emerald-400">
             ₹{booking.actualPrice || booking.estimatedPrice}
           </span>
         </div>
@@ -103,7 +103,7 @@ export default async function WorkerJobDetailPage({
       {booking.payment && (
         <div className="bg-[#0e0e0e] rounded-3xl p-8 space-y-2 text-sm">
           <h3 className="font-extrabold text-white text-base">Your Direct Worker Share (90%)</h3>
-          <p className="text-4xl font-mono font-black text-emerald-400 pt-2">
+          <p className="text-4xl font-black text-emerald-400 pt-2">
             ₹{booking.payment.workerAmount}
           </p>
           <p className="text-xs text-neutral-400">

@@ -160,7 +160,7 @@ export default function WorkerProfilePage() {
                           onChange={(e) =>
                             updateExperience(service.id, parseInt(e.target.value) || 0)
                           }
-                          className="w-16 bg-black rounded-xl px-3 py-1.5 text-center text-white text-sm font-mono font-bold focus:outline-none"
+                          className="w-16 bg-black rounded-xl px-3 py-1.5 text-center text-white text-sm font-bold focus:outline-none"
                         />
                       </div>
                     )}
@@ -181,7 +181,7 @@ export default function WorkerProfilePage() {
               step="0.0001"
               value={latitude}
               onChange={(e) => setLatitude(parseFloat(e.target.value))}
-              className="w-full bg-[#181818] rounded-2xl px-5 py-3.5 text-sm text-white font-mono focus:outline-none focus:bg-[#202020]"
+              className="w-full bg-[#181818] rounded-2xl px-5 py-3.5 text-sm text-white focus:outline-none focus:bg-[#202020]"
             />
           </div>
           <div className="space-y-2">
@@ -193,7 +193,7 @@ export default function WorkerProfilePage() {
               step="0.0001"
               value={longitude}
               onChange={(e) => setLongitude(parseFloat(e.target.value))}
-              className="w-full bg-[#181818] rounded-2xl px-5 py-3.5 text-sm text-white font-mono focus:outline-none focus:bg-[#202020]"
+              className="w-full bg-[#181818] rounded-2xl px-5 py-3.5 text-sm text-white focus:outline-none focus:bg-[#202020]"
             />
           </div>
         </div>

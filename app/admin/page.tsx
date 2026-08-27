@@ -67,7 +67,7 @@ export default async function AdminDashboardPage() {
                 <span className="text-xs font-extrabold uppercase tracking-widest">{stat.label}</span>
                 <Icon className="w-5 h-5 text-neutral-400" />
               </div>
-              <p className="text-3xl sm:text-4xl font-mono font-black text-white mt-3">
+              <p className="text-3xl sm:text-4xl font-black text-white mt-3">
                 {stat.value}
               </p>
             </div>
@@ -84,7 +84,7 @@ export default async function AdminDashboardPage() {
           {financials.map((item) => (
             <div key={item.label} className="flex items-center justify-between py-1">
               <span className="text-neutral-400 font-medium">{item.label}</span>
-              <span className={`font-mono font-extrabold text-lg ${item.color}`}>
+              <span className={`font-extrabold text-lg ${item.color}`}>
                 {item.value}
               </span>
             </div>

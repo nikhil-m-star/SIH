@@ -70,7 +70,7 @@ export default async function WorkerJobsPage() {
                               <Clock className="w-4 h-4" />
                               <span>{booking.customer.name}</span>
                               <span>·</span>
-                              <span>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                              <span suppressHydrationWarning>{new Date(booking.createdAt).toLocaleDateString()}</span>
                             </p>
                           </div>
                         </div>
@@ -80,7 +80,7 @@ export default async function WorkerJobsPage() {
                           >
                             {booking.status.replace("_", " ")}
                           </span>
-                          <span className="font-mono text-base font-extrabold text-white">
+                          <span className="text-base font-extrabold text-white">
                             ₹{booking.actualPrice || booking.estimatedPrice}
                           </span>
                           <ArrowRight className="w-5 h-5 text-neutral-600" />

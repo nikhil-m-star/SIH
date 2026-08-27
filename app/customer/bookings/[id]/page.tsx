@@ -44,7 +44,7 @@ export default async function BookingDetailPage({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Booking Details</h1>
-          <p className="text-sm text-neutral-400 font-mono mt-1">{booking.id}</p>
+          <p className="text-sm text-neutral-400 mt-1">{booking.id}</p>
         </div>
         <Link
           href="/customer/bookings"
@@ -117,7 +117,7 @@ export default async function BookingDetailPage({
         )}
         <div className="flex justify-between py-1">
           <span className="text-neutral-400">Scheduled Time</span>
-          <span className="text-neutral-200">
+          <span className="text-neutral-200" suppressHydrationWarning>
             {new Date(booking.preferredTime).toLocaleString()}
           </span>
         </div>
@@ -129,7 +129,7 @@ export default async function BookingDetailPage({
         )}
         <div className="pt-4 border-t border-[#1c1c1c] flex justify-between items-center">
           <span className="font-extrabold text-white text-base">Total Price</span>
-          <span className="font-mono font-black text-2xl text-emerald-400">
+          <span className="font-black text-2xl text-emerald-400">
             ₹{booking.actualPrice || booking.estimatedPrice}
           </span>
         </div>
@@ -143,25 +143,25 @@ export default async function BookingDetailPage({
           </h3>
           <div className="flex justify-between text-neutral-300">
             <span>Worker Direct Payout (90%)</span>
-            <span className="font-mono font-extrabold text-emerald-400 text-base">
+            <span className="font-extrabold text-emerald-400 text-base">
               ₹{booking.payment.workerAmount}
             </span>
           </div>
           <div className="flex justify-between text-neutral-400">
             <span>Welfare Allocation</span>
-            <span className="font-mono text-blue-400">
+            <span className="text-blue-400 font-bold">
               ₹{booking.payment.welfareFund}
             </span>
           </div>
           <div className="flex justify-between text-neutral-400">
             <span>Training Allocation</span>
-            <span className="font-mono text-purple-400">
+            <span className="text-purple-400 font-bold">
               ₹{booking.payment.trainingFund}
             </span>
           </div>
           <div className="flex justify-between text-neutral-400">
             <span>Cooperative Operations</span>
-            <span className="font-mono text-neutral-400">
+            <span className="text-neutral-400 font-bold">
               ₹{booking.payment.cooperativeShare}
             </span>
           </div>

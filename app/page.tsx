@@ -102,7 +102,7 @@ export default function HomePage() {
                   { title: "Track & rate", desc: "Upfront price and direct post-job rating." },
                 ].map((item, i) => (
                   <div key={i} className="flex gap-5 items-start">
-                    <span className="text-lg font-bold text-neutral-500 font-mono">0{i + 1}</span>
+                    <span className="text-lg font-bold text-neutral-500">0{i + 1}</span>
                     <div>
                       <p className="text-lg font-bold text-white">{item.title}</p>
                       <p className="text-sm text-neutral-400 mt-1">{item.desc}</p>
@@ -124,7 +124,7 @@ export default function HomePage() {
                   { title: "Keep 90% direct payout", desc: "Automated payment settlement on completion." },
                 ].map((item, i) => (
                   <div key={i} className="flex gap-5 items-start">
-                    <span className="text-lg font-bold text-emerald-400/60 font-mono">0{i + 1}</span>
+                    <span className="text-lg font-bold text-emerald-400/60">0{i + 1}</span>
                     <div>
                       <p className="text-lg font-bold text-white">{item.title}</p>
                       <p className="text-sm text-neutral-400 mt-1">{item.desc}</p>
@@ -160,9 +160,9 @@ export default function HomePage() {
                     <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
                     <span className="text-neutral-200 font-semibold">{item.label}</span>
                   </div>
-                  <div className="flex items-center gap-5 font-mono">
-                    <span className="text-neutral-500 text-sm">{item.share}</span>
-                    <span className="font-extrabold text-lg text-white w-16 text-right">
+                  <div className="flex items-center gap-5">
+                    <span className="text-neutral-500 font-bold text-sm">{item.share}</span>
+                    <span className="font-extrabold text-xl text-white w-18 text-right">
                       {item.amount}
                     </span>
                   </div>

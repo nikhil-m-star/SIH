@@ -62,19 +62,19 @@ export default async function WorkerDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-[#0e0e0e] rounded-3xl p-8">
           <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Total Earnings</p>
-          <p className="text-3xl sm:text-4xl font-mono font-black text-emerald-400 mt-3">
+          <p className="text-3xl sm:text-4xl font-black text-emerald-400 mt-3">
             ₹{profile.totalEarnings.toLocaleString()}
           </p>
         </div>
         <div className="bg-[#0e0e0e] rounded-3xl p-8">
           <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Completed Jobs</p>
-          <p className="text-3xl sm:text-4xl font-mono font-black text-white mt-3">
+          <p className="text-3xl sm:text-4xl font-black text-white mt-3">
             {profile.completedJobs}
           </p>
         </div>
         <div className="bg-[#0e0e0e] rounded-3xl p-8">
           <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Rating Score</p>
-          <p className="text-3xl sm:text-4xl font-mono font-black text-amber-400 mt-3 flex items-center gap-2">
+          <p className="text-3xl sm:text-4xl font-black text-amber-400 mt-3 flex items-center gap-2">
             <Star className="w-7 h-7 fill-amber-400" />
             <span>{profile.rating.toFixed(1)}</span>
           </p>
@@ -103,7 +103,7 @@ export default async function WorkerDashboardPage() {
                       <p className="text-lg font-bold text-white">
                         {job.service.name}
                       </p>
-                      <p className="text-sm text-neutral-400 mt-1">
+                      <p className="text-sm text-neutral-400 mt-1" suppressHydrationWarning>
                         {job.customer.name} · {new Date(job.preferredTime).toLocaleString()}
                       </p>
                       <p className="text-sm text-neutral-300 mt-2 line-clamp-1">
@@ -112,7 +112,7 @@ export default async function WorkerDashboardPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono font-black text-2xl text-emerald-400">
+                    <p className="font-black text-2xl text-emerald-400">
                       ₹{job.estimatedPrice}
                     </p>
                     <span className="inline-block text-xs uppercase font-extrabold text-amber-400 bg-amber-500/15 px-3 py-1 rounded-full mt-2">

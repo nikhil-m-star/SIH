@@ -45,7 +45,7 @@ export default async function CustomerHomePage() {
               <ServiceIcon name={service.name} className="w-7 h-7" />
             </div>
             <p className="font-extrabold text-xl text-white">{service.name}</p>
-            <p className="text-sm text-neutral-400 mt-1 font-mono">
+            <p className="text-sm text-neutral-400 mt-1">
               From ₹{service.basePrice}
             </p>
           </Link>
@@ -104,14 +104,14 @@ export default async function CustomerHomePage() {
                     </p>
                     <p className="text-sm text-neutral-400 flex items-center gap-2 mt-1">
                       <Clock className="w-4 h-4" />
-                      <span>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                      <span suppressHydrationWarning>{new Date(booking.createdAt).toLocaleDateString()}</span>
                       <span>·</span>
                       <span>{booking.worker?.name || "Assigning worker"}</span>
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                  <span className="text-lg font-mono font-extrabold text-white">
+                  <span className="text-lg font-extrabold text-white">
                     ₹{booking.actualPrice || booking.estimatedPrice}
                   </span>
                   <StatusBadge status={booking.status} />

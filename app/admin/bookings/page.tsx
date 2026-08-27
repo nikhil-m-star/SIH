@@ -56,7 +56,7 @@ export default async function AdminBookingsPage() {
                   </td>
                   <td className="py-4 px-5 text-neutral-300 font-medium">{booking.customer.name}</td>
                   <td className="py-4 px-5 text-neutral-300 font-medium">{booking.worker?.name || "—"}</td>
-                  <td className="py-4 px-5 font-mono font-extrabold text-white text-base">
+                  <td className="py-4 px-5 font-extrabold text-white text-base">
                     ₹{booking.actualPrice || booking.estimatedPrice}
                   </td>
                   <td className="py-4 px-5">
@@ -66,7 +66,7 @@ export default async function AdminBookingsPage() {
                       {booking.status.replace("_", " ")}
                     </span>
                   </td>
-                  <td className="py-4 px-5 text-neutral-500 text-xs font-mono">
+                  <td className="py-4 px-5 text-neutral-500 text-xs" suppressHydrationWarning>
                     {new Date(booking.createdAt).toLocaleDateString()}
                   </td>
                 </tr>

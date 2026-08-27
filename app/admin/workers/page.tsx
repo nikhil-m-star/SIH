@@ -49,7 +49,7 @@ export default async function AdminWorkersPage() {
                     {worker.verificationStatus}
                   </span>
                 </div>
-                <p className="text-xs text-neutral-400 font-mono">
+                <p className="text-xs text-neutral-400">
                   {worker.user.email}
                 </p>
                 <div className="flex items-center gap-4 text-sm text-neutral-400 pt-2">
@@ -60,7 +60,7 @@ export default async function AdminWorkersPage() {
                   <span>·</span>
                   <span>{worker.completedJobs} jobs</span>
                   <span>·</span>
-                  <span className="font-mono font-bold text-white">
+                  <span className="font-bold text-white">
                     ₹{worker.totalEarnings.toLocaleString()} earned
                   </span>
                   <span>·</span>

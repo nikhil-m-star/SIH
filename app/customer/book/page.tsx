@@ -48,8 +48,11 @@ function BookServiceContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [urgency] = useState(preselectedUrgency || "MEDIUM");
+  const [minDate, setMinDate] = useState("");
 
   useEffect(() => {
+    setMinDate(new Date().toISOString().slice(0, 16));
+
     fetch("/api/services")
       .then((r) => r.json())
       .then((data: Service[]) => {
@@ -140,7 +143,7 @@ function BookServiceContent() {
         </p>
       </div>
 
-      {/* Minimal Stepper */}
+      {/* Stepper */}
       <div className="flex items-center gap-3 bg-[#0e0e0e] p-3 rounded-full w-fit">
         {["service", "details", "workers", "confirm"].map((s, i) => (
           <div key={s} className="flex items-center gap-2">
@@ -193,7 +196,7 @@ function BookServiceContent() {
                   <ServiceIcon name={service.name} className="w-7 h-7" />
                 </div>
                 <p className="font-extrabold text-xl text-white">{service.name}</p>
-                <p className="text-sm text-neutral-400 mt-1 font-mono font-semibold">
+                <p className="text-sm text-neutral-400 mt-1 font-semibold">
                   From ₹{service.basePrice}
                 </p>
               </button>
@@ -244,7 +247,7 @@ function BookServiceContent() {
               value={preferredTime}
               onChange={(e) => setPreferredTime(e.target.value)}
               className="w-full bg-[#181818] rounded-2xl px-5 py-4 text-sm text-white focus:outline-none focus:bg-[#202020]"
-              min={new Date().toISOString().slice(0, 16)}
+              min={minDate}
             />
           </div>
 
@@ -318,7 +321,7 @@ function BookServiceContent() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-mono font-black text-2xl text-emerald-400">
+                      <p className="font-black text-2xl text-emerald-400">
                         ₹{worker.estimatedPrice}
                       </p>
                       <p className="text-xs text-neutral-400 mt-1 font-medium">
@@ -361,7 +364,7 @@ function BookServiceContent() {
             </div>
             <div className="flex justify-between py-1">
               <span className="text-neutral-400">Scheduled Time</span>
-              <span className="text-neutral-200 font-medium">
+              <span className="text-neutral-200 font-medium" suppressHydrationWarning>
                 {new Date(preferredTime).toLocaleString()}
               </span>
             </div>
@@ -371,7 +374,7 @@ function BookServiceContent() {
             </div>
             <div className="pt-4 border-t border-[#1c1c1c] flex justify-between items-center">
               <span className="font-extrabold text-white text-lg">Total Estimated Price</span>
-              <span className="font-mono font-black text-3xl text-emerald-400">
+              <span className="font-black text-3xl text-emerald-400">
                 ₹{selectedWorker.estimatedPrice}
               </span>
             </div>

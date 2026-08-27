@@ -70,7 +70,7 @@ export default function ConfigForm({ config }: ConfigProps) {
             step={1}
             value={field.value}
             onChange={(e) => field.set(parseFloat(e.target.value) || 0)}
-            className="w-20 bg-[#181818] rounded-2xl px-4 py-2.5 text-right text-white font-mono font-bold text-base focus:outline-none focus:bg-[#202020]"
+            className="w-20 bg-[#181818] rounded-2xl px-4 py-2.5 text-right text-white font-bold text-base focus:outline-none focus:bg-[#202020]"
           />
         </div>
       ))}
@@ -78,7 +78,7 @@ export default function ConfigForm({ config }: ConfigProps) {
       <div className="flex items-center justify-between pt-4 border-t border-[#1c1c1c]">
         <span className="font-extrabold text-white text-base">Total Allocation</span>
         <span
-          className={`font-mono font-black text-xl ${
+          className={`font-black text-xl ${
             total === 100 ? "text-emerald-400" : "text-red-400"
           }`}
         >
