@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { completeOnboarding } from "@/lib/actions";
-import { User, Wrench, Shield, ArrowRight } from "lucide-react";
+import { User, Wrench, ArrowRight } from "lucide-react";
 
 export default function OnboardingPage() {
   const [loading, setLoading] = useState(false);
@@ -31,66 +31,63 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0b0c10] px-4 text-zinc-100">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-emerald-400">
-            <Shield className="w-6 h-6" />
-          </div>
-          <h1 className="text-xl font-extrabold text-white">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4 text-neutral-100">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
             Welcome{user?.firstName ? `, ${user.firstName}` : ""}
           </h1>
-          <p className="text-xs text-zinc-400 mt-1">Select your account type</p>
+          <p className="text-base text-neutral-400 mt-2">Select your account role</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-950/30 rounded-xl text-xs text-red-400">
+          <div className="mb-6 p-5 bg-red-950/30 rounded-3xl text-sm text-red-400 font-medium">
             {error}
           </div>
         )}
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <button
             onClick={() => handleRoleSelect("CUSTOMER")}
             disabled={loading}
-            className="w-full bg-[#13141d] hover:bg-[#1c1e2b] rounded-2xl p-5 text-left transition-all disabled:opacity-50 group flex items-center justify-between"
+            className="w-full bg-[#0e0e0e] hover:bg-[#181818] rounded-3xl p-7 text-left transition-all disabled:opacity-50 group flex items-center justify-between"
           >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#1d1f2c] flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 transition-colors">
-                <User className="w-5 h-5" />
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-2xl bg-[#1a1a1a] flex items-center justify-center text-neutral-200 group-hover:text-emerald-400 transition-colors">
+                <User className="w-7 h-7" />
               </div>
               <div>
-                <p className="font-bold text-xs text-white">Customer</p>
-                <p className="text-[11px] text-zinc-400 mt-0.5">
+                <p className="font-extrabold text-lg text-white">Customer</p>
+                <p className="text-sm text-neutral-400 mt-1">
                   Book and track verified local services
                 </p>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-emerald-400 transition-colors" />
+            <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-emerald-400 transition-colors" />
           </button>
 
           <button
             onClick={() => handleRoleSelect("WORKER")}
             disabled={loading}
-            className="w-full bg-[#13141d] hover:bg-[#1c1e2b] rounded-2xl p-5 text-left transition-all disabled:opacity-50 group flex items-center justify-between"
+            className="w-full bg-[#0e0e0e] hover:bg-[#181818] rounded-3xl p-7 text-left transition-all disabled:opacity-50 group flex items-center justify-between"
           >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#1d1f2c] flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 transition-colors">
-                <Wrench className="w-5 h-5" />
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-2xl bg-[#1a1a1a] flex items-center justify-center text-neutral-200 group-hover:text-emerald-400 transition-colors">
+                <Wrench className="w-7 h-7" />
               </div>
               <div>
-                <p className="font-bold text-xs text-white">Service Worker</p>
-                <p className="text-[11px] text-zinc-400 mt-0.5">
+                <p className="font-extrabold text-lg text-white">Service Worker</p>
+                <p className="text-sm text-neutral-400 mt-1">
                   Receive local jobs with 90% direct payout
                 </p>
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-emerald-400 transition-colors" />
+            <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-emerald-400 transition-colors" />
           </button>
         </div>
 
         {loading && (
-          <p className="text-center text-xs text-zinc-500 mt-4">
+          <p className="text-center text-sm text-neutral-500 mt-6 font-medium">
             Setting up your profile...
           </p>
         )}

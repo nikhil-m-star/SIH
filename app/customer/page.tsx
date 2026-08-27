@@ -23,27 +23,29 @@ export default async function CustomerHomePage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">
-          Welcome back, {user.name.split(" ")[0]}
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          Hello, {user.name.split(" ")[0]}
         </h1>
-        <p className="text-xs text-zinc-400 mt-1">Select a category to dispatch a verified worker</p>
+        <p className="text-base text-neutral-400 mt-2">
+          Select a service to dispatch a verified local worker
+        </p>
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {services.map((service) => (
           <Link
             key={service.id}
             href={`/customer/book?serviceId=${service.id}`}
-            className="bg-[#12131d] hover:bg-[#1a1c29] rounded-2xl p-5 transition-all group"
+            className="bg-[#0e0e0e] hover:bg-[#161616] rounded-3xl p-7 transition-all group"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#1d1f2d] flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 group-hover:bg-[#25283a] mb-4 transition-colors">
-              <ServiceIcon name={service.name} className="w-5 h-5" />
+            <div className="w-14 h-14 rounded-2xl bg-[#1a1a1a] flex items-center justify-center text-neutral-300 group-hover:text-emerald-400 mb-6 transition-colors">
+              <ServiceIcon name={service.name} className="w-7 h-7" />
             </div>
-            <p className="font-bold text-xs text-white">{service.name}</p>
-            <p className="text-[11px] text-zinc-500 mt-1 font-mono">
+            <p className="font-extrabold text-xl text-white">{service.name}</p>
+            <p className="text-sm text-neutral-400 mt-1 font-mono">
               From ₹{service.basePrice}
             </p>
           </Link>
@@ -53,63 +55,63 @@ export default async function CustomerHomePage() {
       {/* AI Help Banner */}
       <Link
         href="/customer/ai-help"
-        className="flex items-center justify-between bg-[#141622] hover:bg-[#1a1c2c] rounded-2xl p-5 transition-all group"
+        className="flex items-center justify-between bg-[#0e0e0e] hover:bg-[#161616] rounded-3xl p-8 transition-all group"
       >
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-            <Sparkles className="w-5 h-5" />
+        <div className="flex items-center gap-5">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-400/10 flex items-center justify-center text-emerald-400 shrink-0">
+            <Sparkles className="w-7 h-7" />
           </div>
           <div>
-            <p className="text-xs font-bold text-white">
+            <p className="text-lg font-extrabold text-white">
               Not sure which service you need?
             </p>
-            <p className="text-[11px] text-zinc-400 mt-0.5">
-              Describe your problem for automatic AI diagnosis and dispatch
+            <p className="text-sm text-neutral-400 mt-1">
+              Describe your problem for automatic AI diagnosis and instant worker dispatch
             </p>
           </div>
         </div>
-        <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-emerald-400 transition-colors" />
+        <ArrowRight className="w-6 h-6 text-neutral-500 group-hover:text-emerald-400 transition-colors shrink-0 ml-4" />
       </Link>
 
       {/* Recent Bookings */}
       {recentBookings.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+            <h2 className="text-xl font-extrabold text-white">
               Recent Bookings
             </h2>
             <Link
               href="/customer/bookings"
-              className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+              className="text-sm text-emerald-400 hover:text-emerald-300 font-bold transition-colors"
             >
               View all
             </Link>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {recentBookings.map((booking) => (
               <Link
                 key={booking.id}
                 href={`/customer/bookings/${booking.id}`}
-                className="flex items-center justify-between bg-[#12131c] hover:bg-[#181a26] rounded-2xl p-4 transition-colors"
+                className="flex items-center justify-between bg-[#0e0e0e] hover:bg-[#161616] rounded-3xl p-6 transition-colors"
               >
-                <div className="flex items-center gap-3.5">
-                  <div className="w-9 h-9 rounded-xl bg-[#1d1f2c] flex items-center justify-center text-zinc-400">
-                    <ServiceIcon name={booking.service.name} className="w-4 h-4" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#1a1a1a] flex items-center justify-center text-neutral-300">
+                    <ServiceIcon name={booking.service.name} className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white">
+                    <p className="text-base font-bold text-white">
                       {booking.service.name}
                     </p>
-                    <p className="text-[11px] text-zinc-500 flex items-center gap-1 mt-0.5">
-                      <Clock className="w-3 h-3" />
+                    <p className="text-sm text-neutral-400 flex items-center gap-2 mt-1">
+                      <Clock className="w-4 h-4" />
                       <span>{new Date(booking.createdAt).toLocaleDateString()}</span>
                       <span>·</span>
                       <span>{booking.worker?.name || "Assigning worker"}</span>
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono font-bold text-white">
+                <div className="flex items-center gap-5">
+                  <span className="text-lg font-mono font-extrabold text-white">
                     ₹{booking.actualPrice || booking.estimatedPrice}
                   </span>
                   <StatusBadge status={booking.status} />
@@ -125,16 +127,16 @@ export default async function CustomerHomePage() {
 
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400",
-    ACCEPTED: "bg-blue-500/10 text-blue-400",
-    IN_PROGRESS: "bg-purple-500/10 text-purple-400",
-    COMPLETED: "bg-emerald-500/10 text-emerald-400",
-    CANCELLED: "bg-zinc-800 text-zinc-400",
+    PENDING: "bg-amber-500/15 text-amber-400",
+    ACCEPTED: "bg-blue-500/15 text-blue-400",
+    IN_PROGRESS: "bg-purple-500/15 text-purple-400",
+    COMPLETED: "bg-emerald-500/15 text-emerald-400",
+    CANCELLED: "bg-neutral-800 text-neutral-400",
   };
 
   return (
     <span
-      className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${styles[status] || "bg-zinc-800 text-zinc-400"}`}
+      className={`text-xs font-bold px-3.5 py-1.5 rounded-full ${styles[status] || "bg-neutral-800 text-neutral-400"}`}
     >
       {status.replace("_", " ")}
     </span>

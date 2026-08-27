@@ -28,14 +28,14 @@ export default function WorkerVerifyButton({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+    <div className="flex flex-col sm:flex-row gap-3 shrink-0">
       {currentStatus !== "VERIFIED" && (
         <button
           onClick={() => handleAction("VERIFIED")}
           disabled={loading}
-          className="px-3.5 py-1.5 bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-zinc-950 rounded-full text-xs font-bold transition-all disabled:opacity-50 flex items-center justify-center gap-1"
+          className="px-5 py-2.5 bg-emerald-400/20 hover:bg-emerald-400 text-emerald-300 hover:text-black rounded-full text-xs font-bold transition-all disabled:opacity-50 flex items-center justify-center gap-1.5"
         >
-          <Check className="w-3.5 h-3.5" />
+          <Check className="w-4 h-4" />
           <span>Verify</span>
         </button>
       )}
@@ -43,9 +43,9 @@ export default function WorkerVerifyButton({
         <button
           onClick={() => handleAction("REJECTED")}
           disabled={loading}
-          className="px-3.5 py-1.5 bg-red-950/30 hover:bg-red-600/30 text-red-400 rounded-full text-xs font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-1"
+          className="px-5 py-2.5 bg-red-950/40 hover:bg-red-600/40 text-red-400 rounded-full text-xs font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
         >
-          <X className="w-3.5 h-3.5" />
+          <X className="w-4 h-4" />
           <span>Reject</span>
         </button>
       )}

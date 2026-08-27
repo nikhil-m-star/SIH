@@ -15,65 +15,65 @@ export default async function AdminWorkersPage() {
   });
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400",
-    VERIFIED: "bg-emerald-500/10 text-emerald-400",
-    REJECTED: "bg-red-500/10 text-red-400",
+    PENDING: "bg-amber-500/15 text-amber-400",
+    VERIFIED: "bg-emerald-500/15 text-emerald-400",
+    REJECTED: "bg-red-500/15 text-red-400",
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Worker Management</h1>
-        <p className="text-xs text-zinc-400 mt-1">Verification queue and cooperative roster</p>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Worker Management</h1>
+        <p className="text-base text-neutral-400 mt-2">Verification queue and cooperative roster</p>
       </div>
 
       {workers.length === 0 ? (
-        <div className="text-center py-16 bg-[#12131d] rounded-2xl text-xs text-zinc-500">
+        <div className="text-center py-20 bg-[#0e0e0e] rounded-3xl text-base text-neutral-500">
           <p>No workers registered yet.</p>
         </div>
       ) : (
-        <div className="space-y-2.5">
+        <div className="space-y-3">
           {workers.map((worker) => (
             <div
               key={worker.id}
-              className="bg-[#12131d] hover:bg-[#181a27] rounded-2xl p-5 flex items-center justify-between transition-colors"
+              className="bg-[#0e0e0e] hover:bg-[#161616] rounded-3xl p-7 flex items-center justify-between transition-colors"
             >
-              <div className="space-y-1 text-xs">
-                <div className="flex items-center gap-3">
-                  <span className="font-bold text-white text-sm">
+              <div className="space-y-1.5 text-sm">
+                <div className="flex items-center gap-4">
+                  <span className="font-extrabold text-white text-lg">
                     {worker.user.name}
                   </span>
                   <span
-                    className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusStyles[worker.verificationStatus]}`}
+                    className={`text-xs font-bold px-3 py-1 rounded-full ${statusStyles[worker.verificationStatus]}`}
                   >
                     {worker.verificationStatus}
                   </span>
                 </div>
-                <p className="text-[11px] text-zinc-500 font-mono">
+                <p className="text-xs text-neutral-400 font-mono">
                   {worker.user.email}
                 </p>
-                <div className="flex items-center gap-3 text-[11px] text-zinc-400 pt-1">
-                  <span className="flex items-center gap-1 text-amber-400 font-bold">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                <div className="flex items-center gap-4 text-sm text-neutral-400 pt-2">
+                  <span className="flex items-center gap-1.5 text-amber-400 font-bold">
+                    <Star className="w-4 h-4 fill-amber-400" />
                     <span>{worker.rating.toFixed(1)}</span>
                   </span>
                   <span>·</span>
-                  <span>{worker.completedJobs} completed jobs</span>
+                  <span>{worker.completedJobs} jobs</span>
                   <span>·</span>
                   <span className="font-mono font-bold text-white">
                     ₹{worker.totalEarnings.toLocaleString()} earned
                   </span>
                   <span>·</span>
-                  <span className={worker.isAvailable ? "text-emerald-400 font-semibold" : "text-zinc-500"}>
+                  <span className={worker.isAvailable ? "text-emerald-400 font-bold" : "text-neutral-500"}>
                     {worker.isAvailable ? "Available" : "Offline"}
                   </span>
                 </div>
                 {worker.skills.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-2">
+                  <div className="flex flex-wrap gap-2 pt-3">
                     {worker.skills.map((skill) => (
                       <span
                         key={skill.id}
-                        className="text-[10px] bg-[#1c1e2d] text-zinc-300 px-2 py-0.5 rounded-lg font-medium"
+                        className="text-xs bg-[#1a1a1a] text-neutral-200 px-3 py-1 rounded-xl font-semibold"
                       >
                         {skill.service.name} ({skill.experienceYears}y)
                       </span>

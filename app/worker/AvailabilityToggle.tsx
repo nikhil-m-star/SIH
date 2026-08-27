@@ -28,15 +28,15 @@ export default function AvailabilityToggle({
     <button
       onClick={handleToggle}
       disabled={loading}
-      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+      className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-extrabold transition-colors ${
         isAvailable
-          ? "bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25"
-          : "bg-[#181926] text-zinc-500 hover:bg-[#202232]"
+          ? "bg-emerald-400/15 text-emerald-400 hover:bg-emerald-400/25"
+          : "bg-[#141414] text-neutral-500 hover:bg-[#1f1f1f]"
       }`}
     >
       <span
-        className={`w-2 h-2 rounded-full ${
-          isAvailable ? "bg-emerald-400" : "bg-zinc-600"
+        className={`w-2.5 h-2.5 rounded-full ${
+          isAvailable ? "bg-emerald-400" : "bg-neutral-600"
         }`}
       />
       <span>{isAvailable ? "Available" : "Offline"}</span>

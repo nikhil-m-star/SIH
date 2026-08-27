@@ -64,18 +64,18 @@ export default function DashboardLayout({
         : "Admin";
 
   return (
-    <div className="flex h-[calc(100vh-64px)] bg-[#0b0c10] text-zinc-100">
+    <div className="flex h-[calc(100vh-80px)] bg-[#0c0d12] text-zinc-100">
       {/* Borderless Sidebar */}
-      <aside className="hidden md:flex w-60 flex-col bg-[#101118] p-4 m-3 rounded-2xl">
-        <div className="p-2 mb-3">
-          <p className="text-xs font-semibold text-zinc-200 truncate">
+      <aside className="hidden md:flex w-64 flex-col bg-[#13141d] p-5 m-4 rounded-3xl">
+        <div className="p-3 mb-4">
+          <p className="text-sm font-bold text-white truncate">
             {user?.fullName || "User"}
           </p>
-          <span className="inline-block text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full mt-1.5">
+          <span className="inline-block text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full mt-2">
             {roleBadge}
           </span>
         </div>
-        <nav className="flex-1 space-y-1">
+        <nav className="flex-1 space-y-2">
           {links.map((link) => {
             const Icon = link.icon;
             const isActive =
@@ -85,13 +85,13 @@ export default function DashboardLayout({
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
                   isActive
-                    ? "bg-[#1f2230] text-emerald-400 font-semibold shadow-sm"
-                    : "text-zinc-400 hover:bg-[#161822] hover:text-zinc-200"
+                    ? "bg-[#212435] text-emerald-400 shadow-sm"
+                    : "text-zinc-400 hover:bg-[#191b28] hover:text-white"
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-5 h-5" />
                 <span>{link.label}</span>
               </Link>
             );
@@ -100,7 +100,7 @@ export default function DashboardLayout({
       </aside>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#12131c]/95 backdrop-blur-xl z-40 flex px-2 py-1.5 shadow-2xl">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#13141d] z-40 flex px-3 py-2.5 shadow-2xl">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive =
@@ -110,11 +110,11 @@ export default function DashboardLayout({
             <Link
               key={link.href}
               href={link.href}
-              className={`flex-1 flex flex-col items-center py-1.5 text-[10px] rounded-lg transition-colors ${
-                isActive ? "text-emerald-400 font-semibold bg-[#1c1e2b]" : "text-zinc-500"
+              className={`flex-1 flex flex-col items-center py-2 text-xs rounded-xl transition-colors ${
+                isActive ? "text-emerald-400 font-bold bg-[#1f2232]" : "text-zinc-500 font-medium"
               }`}
             >
-              <Icon className="w-4 h-4 mb-0.5" />
+              <Icon className="w-5 h-5 mb-1" />
               <span>{link.label}</span>
             </Link>
           );
@@ -122,8 +122,8 @@ export default function DashboardLayout({
       </nav>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 pb-20 md:pb-8">
-        <div className="max-w-4xl mx-auto">{children}</div>
+      <main className="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10 pb-24 md:pb-10">
+        <div className="max-w-5xl mx-auto">{children}</div>
       </main>
     </div>
   );

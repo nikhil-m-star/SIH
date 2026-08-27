@@ -35,30 +35,30 @@ export default function JobActions({
   if (status === "COMPLETED" || status === "CANCELLED") return null;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {error && (
-        <div className="p-4 bg-red-950/30 rounded-2xl text-xs text-red-400">
+        <div className="p-5 bg-red-950/40 rounded-3xl text-sm text-red-400 font-semibold">
           {error}
         </div>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {status === "PENDING" && (
           <>
             <button
               onClick={() => handleAction(acceptBooking, "accept")}
               disabled={!!loading}
-              className="flex-1 px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md flex items-center justify-center gap-2"
+              className="flex-1 px-8 py-4 bg-emerald-400 hover:bg-emerald-300 text-black rounded-full text-base font-black disabled:opacity-50 transition-all flex items-center justify-center gap-2"
             >
-              <Check className="w-4 h-4" />
+              <Check className="w-5 h-5" />
               <span>{loading === "accept" ? "Accepting..." : "Accept job"}</span>
             </button>
             <button
               onClick={() => handleAction(rejectBooking, "reject")}
               disabled={!!loading}
-              className="px-5 py-3 bg-[#181a27] hover:bg-red-950/40 text-zinc-400 hover:text-red-400 rounded-full text-xs font-bold disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
+              className="px-8 py-4 bg-[#141414] hover:bg-red-950/40 text-neutral-400 hover:text-red-400 rounded-full text-base font-bold disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
               <span>{loading === "reject" ? "..." : "Decline"}</span>
             </button>
           </>
@@ -68,9 +68,9 @@ export default function JobActions({
           <button
             onClick={() => handleAction(startJob, "start")}
             disabled={!!loading}
-            className="flex-1 px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md flex items-center justify-center gap-2"
+            className="flex-1 px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full text-base font-black disabled:opacity-50 transition-all flex items-center justify-center gap-2"
           >
-            <Play className="w-4 h-4" />
+            <Play className="w-5 h-5" />
             <span>{loading === "start" ? "Starting..." : "Start job"}</span>
           </button>
         )}
@@ -79,9 +79,9 @@ export default function JobActions({
           <button
             onClick={() => handleAction(completeJob, "complete")}
             disabled={!!loading}
-            className="flex-1 px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md flex items-center justify-center gap-2"
+            className="flex-1 px-8 py-4 bg-emerald-400 hover:bg-emerald-300 text-black rounded-full text-base font-black disabled:opacity-50 transition-all flex items-center justify-center gap-2"
           >
-            <CheckCircle className="w-4 h-4" />
+            <CheckCircle className="w-5 h-5" />
             <span>{loading === "complete" ? "Completing..." : "Complete & trigger payout"}</span>
           </button>
         )}

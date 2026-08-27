@@ -17,11 +17,11 @@ export default async function WorkerJobsPage() {
   });
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400",
-    ACCEPTED: "bg-blue-500/10 text-blue-400",
-    IN_PROGRESS: "bg-purple-500/10 text-purple-400",
-    COMPLETED: "bg-emerald-500/10 text-emerald-400",
-    CANCELLED: "bg-zinc-800 text-zinc-400",
+    PENDING: "bg-amber-500/15 text-amber-400",
+    ACCEPTED: "bg-blue-500/15 text-blue-400",
+    IN_PROGRESS: "bg-purple-500/15 text-purple-400",
+    COMPLETED: "bg-emerald-500/15 text-emerald-400",
+    CANCELLED: "bg-neutral-800 text-neutral-400",
   };
 
   const groups = {
@@ -32,58 +32,58 @@ export default async function WorkerJobsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Jobs Log</h1>
-        <p className="text-xs text-zinc-400 mt-1">Assignments, active jobs and completed history</p>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Jobs Log</h1>
+        <p className="text-base text-neutral-400 mt-2">Assignments, active jobs and completed history</p>
       </div>
 
       {bookings.length === 0 ? (
-        <div className="text-center py-16 bg-[#12131d] rounded-2xl text-xs text-zinc-500">
+        <div className="text-center py-20 bg-[#0e0e0e] rounded-3xl text-base text-neutral-500">
           <p>No job assignments recorded.</p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {Object.entries(groups).map(
             ([group, items]) =>
               items.length > 0 && (
-                <div key={group} className="space-y-2.5">
-                  <h2 className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                <div key={group} className="space-y-4">
+                  <h2 className="text-sm font-extrabold text-neutral-500 uppercase tracking-widest">
                     {group} ({items.length})
                   </h2>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {items.map((booking) => (
                       <Link
                         key={booking.id}
                         href={`/worker/jobs/${booking.id}`}
-                        className="flex items-center justify-between bg-[#12131d] hover:bg-[#181a27] rounded-2xl p-4 transition-colors"
+                        className="flex items-center justify-between bg-[#0e0e0e] hover:bg-[#161616] rounded-3xl p-6 transition-colors"
                       >
-                        <div className="flex items-center gap-3.5">
-                          <div className="w-10 h-10 rounded-xl bg-[#1d1f2d] flex items-center justify-center text-zinc-400">
-                            <ServiceIcon name={booking.service.name} className="w-4 h-4" />
+                        <div className="flex items-center gap-5">
+                          <div className="w-14 h-14 rounded-2xl bg-[#1c1c1c] flex items-center justify-center text-neutral-300">
+                            <ServiceIcon name={booking.service.name} className="w-7 h-7" />
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-white">
+                            <p className="text-lg font-bold text-white">
                               {booking.service.name}
                             </p>
-                            <p className="text-[11px] text-zinc-500 flex items-center gap-1 mt-0.5">
-                              <Clock className="w-3 h-3" />
+                            <p className="text-sm text-neutral-400 flex items-center gap-2 mt-1">
+                              <Clock className="w-4 h-4" />
                               <span>{booking.customer.name}</span>
                               <span>·</span>
                               <span>{new Date(booking.createdAt).toLocaleDateString()}</span>
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-5">
                           <span
-                            className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${statusStyles[booking.status]}`}
+                            className={`text-xs font-bold px-3.5 py-1.5 rounded-full ${statusStyles[booking.status]}`}
                           >
                             {booking.status.replace("_", " ")}
                           </span>
-                          <span className="font-mono text-xs font-bold text-white">
+                          <span className="font-mono text-base font-extrabold text-white">
                             ₹{booking.actualPrice || booking.estimatedPrice}
                           </span>
-                          <ArrowRight className="w-4 h-4 text-zinc-600" />
+                          <ArrowRight className="w-5 h-5 text-neutral-600" />
                         </div>
                       </Link>
                     ))}

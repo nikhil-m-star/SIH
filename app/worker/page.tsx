@@ -34,88 +34,88 @@ export default async function WorkerDashboardPage() {
   });
 
   const verificationBadge: Record<string, { text: string; class: string }> = {
-    PENDING: { text: "Verification Pending", class: "bg-amber-500/10 text-amber-400" },
-    VERIFIED: { text: "Verified Professional", class: "bg-emerald-500/10 text-emerald-400" },
-    REJECTED: { text: "Verification Rejected", class: "bg-red-500/10 text-red-400" },
+    PENDING: { text: "Verification Pending", class: "bg-amber-500/15 text-amber-400" },
+    VERIFIED: { text: "Verified Professional", class: "bg-emerald-500/15 text-emerald-400" },
+    REJECTED: { text: "Verification Rejected", class: "bg-red-500/15 text-red-400" },
   };
 
   const vBadge = verificationBadge[profile.verificationStatus];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-extrabold text-white tracking-tight">
+          <div className="flex items-center gap-4">
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
               {user.name}
             </h1>
-            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${vBadge.class}`}>
+            <span className={`text-xs font-extrabold px-3 py-1 rounded-full ${vBadge.class}`}>
               {vBadge.text}
             </span>
           </div>
-          <p className="text-xs text-zinc-400 mt-1">Worker Queue & Earnings Overview</p>
+          <p className="text-base text-neutral-400 mt-2">Worker Queue & Earnings Overview</p>
         </div>
         <AvailabilityToggle isAvailable={profile.isAvailable} />
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-[#12131d] rounded-2xl p-5">
-          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">Total Earnings</p>
-          <p className="text-xl md:text-2xl font-mono font-extrabold text-emerald-400 mt-2">
+      {/* Metrics */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-[#0e0e0e] rounded-3xl p-8">
+          <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Total Earnings</p>
+          <p className="text-3xl sm:text-4xl font-mono font-black text-emerald-400 mt-3">
             ₹{profile.totalEarnings.toLocaleString()}
           </p>
         </div>
-        <div className="bg-[#12131d] rounded-2xl p-5">
-          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">Completed Jobs</p>
-          <p className="text-xl md:text-2xl font-mono font-extrabold text-white mt-2">
+        <div className="bg-[#0e0e0e] rounded-3xl p-8">
+          <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Completed Jobs</p>
+          <p className="text-3xl sm:text-4xl font-mono font-black text-white mt-3">
             {profile.completedJobs}
           </p>
         </div>
-        <div className="bg-[#12131d] rounded-2xl p-5">
-          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">Rating Score</p>
-          <p className="text-xl md:text-2xl font-mono font-extrabold text-amber-400 mt-2 flex items-center gap-1.5">
-            <Star className="w-5 h-5 fill-amber-400" />
+        <div className="bg-[#0e0e0e] rounded-3xl p-8">
+          <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Rating Score</p>
+          <p className="text-3xl sm:text-4xl font-mono font-black text-amber-400 mt-3 flex items-center gap-2">
+            <Star className="w-7 h-7 fill-amber-400" />
             <span>{profile.rating.toFixed(1)}</span>
           </p>
         </div>
       </div>
 
-      {/* Pending incoming jobs */}
+      {/* Pending jobs */}
       {pendingJobs.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+        <div className="space-y-4">
+          <h2 className="text-lg font-extrabold text-white">
             Incoming Job Requests ({pendingJobs.length})
           </h2>
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {pendingJobs.map((job) => (
               <Link
                 key={job.id}
                 href={`/worker/jobs/${job.id}`}
-                className="block bg-[#161826] hover:bg-[#1e2032] rounded-2xl p-5 transition-all group"
+                className="block bg-[#121212] hover:bg-[#1a1a1a] rounded-3xl p-7 transition-all group"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#222538] flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
-                      <ServiceIcon name={job.service.name} className="w-5 h-5" />
+                  <div className="flex items-start gap-5">
+                    <div className="w-14 h-14 rounded-2xl bg-[#1e1e1e] flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+                      <ServiceIcon name={job.service.name} className="w-7 h-7" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-white">
+                      <p className="text-lg font-bold text-white">
                         {job.service.name}
                       </p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                      <p className="text-sm text-neutral-400 mt-1">
                         {job.customer.name} · {new Date(job.preferredTime).toLocaleString()}
                       </p>
-                      <p className="text-[11px] text-zinc-400 mt-1 line-clamp-1">
+                      <p className="text-sm text-neutral-300 mt-2 line-clamp-1">
                         {job.description}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono font-extrabold text-sm text-emerald-400">
+                    <p className="font-mono font-black text-2xl text-emerald-400">
                       ₹{job.estimatedPrice}
                     </p>
-                    <span className="inline-block text-[9px] uppercase font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full mt-1">
+                    <span className="inline-block text-xs uppercase font-extrabold text-amber-400 bg-amber-500/15 px-3 py-1 rounded-full mt-2">
                       New
                     </span>
                   </div>
@@ -128,35 +128,35 @@ export default async function WorkerDashboardPage() {
 
       {/* Active Jobs */}
       {activeJobs.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+        <div className="space-y-4">
+          <h2 className="text-lg font-extrabold text-white">
             Active Jobs ({activeJobs.length})
           </h2>
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {activeJobs.map((job) => (
               <Link
                 key={job.id}
                 href={`/worker/jobs/${job.id}`}
-                className="flex items-center justify-between bg-[#12131d] hover:bg-[#181a27] rounded-2xl p-4 transition-colors"
+                className="flex items-center justify-between bg-[#0e0e0e] hover:bg-[#161616] rounded-3xl p-6 transition-colors"
               >
-                <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-[#1d1f2d] flex items-center justify-center text-zinc-300">
-                    <ServiceIcon name={job.service.name} className="w-5 h-5" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#1c1c1c] flex items-center justify-center text-neutral-300">
+                    <ServiceIcon name={job.service.name} className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white">
+                    <p className="text-base font-bold text-white">
                       {job.service.name}
                     </p>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">
+                    <p className="text-sm text-neutral-400 mt-0.5">
                       {job.customer.name}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-400">
+                <div className="flex items-center gap-4">
+                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/15 text-blue-400">
                     {job.status.replace("_", " ")}
                   </span>
-                  <ArrowRight className="w-4 h-4 text-zinc-600" />
+                  <ArrowRight className="w-5 h-5 text-neutral-600" />
                 </div>
               </Link>
             ))}
@@ -165,9 +165,9 @@ export default async function WorkerDashboardPage() {
       )}
 
       {pendingJobs.length === 0 && activeJobs.length === 0 && (
-        <div className="text-center py-16 bg-[#12131d] rounded-2xl text-xs text-zinc-500">
-          <p>No active jobs in queue.</p>
-          <p className="text-[11px] text-zinc-600 mt-1">
+        <div className="text-center py-20 bg-[#0e0e0e] rounded-3xl text-sm text-neutral-500">
+          <p className="font-semibold text-base text-neutral-400">No active jobs in queue.</p>
+          <p className="text-sm text-neutral-500 mt-1">
             {profile.isAvailable
               ? "You will receive notifications when customers request services matching your skills."
               : "Toggle your status to Available to accept new assignments."}

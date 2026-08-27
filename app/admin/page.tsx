@@ -44,30 +44,30 @@ export default async function AdminDashboardPage() {
     { label: "Worker Payouts (90%)", value: `₹${(sums.workerAmount || 0).toLocaleString()}`, color: "text-emerald-400" },
     { label: "Welfare Fund (5%)", value: `₹${(sums.welfareFund || 0).toLocaleString()}`, color: "text-blue-400" },
     { label: "Training Fund (2%)", value: `₹${(sums.trainingFund || 0).toLocaleString()}`, color: "text-purple-400" },
-    { label: "Cooperative Reserve (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-zinc-300" },
+    { label: "Cooperative Reserve (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-neutral-400" },
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Cooperative Administration</h1>
-        <p className="text-xs text-zinc-400 mt-1">Platform overview and fund accounting</p>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Cooperative Administration</h1>
+        <p className="text-base text-neutral-400 mt-2">Platform overview and transparent fund accounting</p>
       </div>
 
       {/* Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="bg-[#12131d] rounded-2xl p-5"
+              className="bg-[#0e0e0e] rounded-3xl p-8"
             >
-              <div className="flex items-center justify-between text-zinc-500 mb-1">
-                <span className="text-xs font-bold uppercase tracking-wider">{stat.label}</span>
-                <Icon className="w-4 h-4 text-zinc-400" />
+              <div className="flex items-center justify-between text-neutral-500 mb-2">
+                <span className="text-xs font-extrabold uppercase tracking-widest">{stat.label}</span>
+                <Icon className="w-5 h-5 text-neutral-400" />
               </div>
-              <p className="text-2xl font-mono font-extrabold text-white mt-2">
+              <p className="text-3xl sm:text-4xl font-mono font-black text-white mt-3">
                 {stat.value}
               </p>
             </div>
@@ -75,16 +75,16 @@ export default async function AdminDashboardPage() {
         })}
       </div>
 
-      {/* Treasury summary */}
-      <div className="space-y-3">
-        <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+      {/* Treasury Breakdown */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-extrabold text-white">
           Treasury Breakdown
         </h2>
-        <div className="bg-[#12131d] rounded-2xl p-6 space-y-3 text-xs">
+        <div className="bg-[#0e0e0e] rounded-3xl p-8 space-y-4 text-base">
           {financials.map((item) => (
             <div key={item.label} className="flex items-center justify-between py-1">
-              <span className="text-zinc-400 font-medium">{item.label}</span>
-              <span className={`font-mono font-bold text-sm ${item.color}`}>
+              <span className="text-neutral-400 font-medium">{item.label}</span>
+              <span className={`font-mono font-extrabold text-lg ${item.color}`}>
                 {item.value}
               </span>
             </div>

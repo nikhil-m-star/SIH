@@ -30,9 +30,9 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
   }
 
   return (
-    <div className="bg-[#12131d] rounded-2xl p-6 space-y-4 text-xs">
-      <h3 className="font-bold text-white">Rate Service Experience</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="bg-[#0e0e0e] rounded-3xl p-8 space-y-5 text-sm">
+      <h3 className="font-extrabold text-white text-base">Rate Service Experience</h3>
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div className="flex items-center gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -41,13 +41,13 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
               onClick={() => setScore(star)}
               onMouseEnter={() => setHoverScore(star)}
               onMouseLeave={() => setHoverScore(0)}
-              className="p-1 text-zinc-600 hover:text-amber-400 transition-colors"
+              className="p-1 text-neutral-700 hover:text-amber-400 transition-colors"
             >
               <Star
-                className={`w-6 h-6 ${
+                className={`w-8 h-8 ${
                   star <= (hoverScore || score)
                     ? "text-amber-400 fill-amber-400"
-                    : "text-zinc-700"
+                    : "text-neutral-700"
                 }`}
               />
             </button>
@@ -56,15 +56,15 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          rows={2}
-          className="w-full bg-[#1a1c29] rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:bg-[#202334]"
-          placeholder="Optional feedback..."
+          rows={3}
+          className="w-full bg-[#181818] rounded-2xl px-5 py-4 text-sm text-white placeholder:text-neutral-600 focus:outline-none focus:bg-[#202020]"
+          placeholder="Optional feedback on quality, punctuality, and professionalism..."
         />
-        {error && <p className="text-red-400 text-xs">{error}</p>}
+        {error && <p className="text-red-400 text-sm font-semibold">{error}</p>}
         <button
           type="submit"
           disabled={score === 0 || loading}
-          className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
+          className="px-8 py-3.5 bg-emerald-400 hover:bg-emerald-300 text-black rounded-full text-sm font-black disabled:opacity-50 transition-all"
         >
           {loading ? "Submitting rating..." : "Submit rating"}
         </button>

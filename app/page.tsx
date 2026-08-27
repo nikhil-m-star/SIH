@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { ServiceIcon } from "@/components/ServiceIcon";
-import { ArrowRight, Sparkles, Shield, Check } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 const SERVICES = [
-  { name: "Plumbing", desc: "Pipes & water systems" },
-  { name: "Electrical", desc: "Wiring & power fixtures" },
-  { name: "AC Repair", desc: "Cooling & servicing" },
+  { name: "Plumbing", desc: "Pipes & water fixtures" },
+  { name: "Electrical", desc: "Wiring & power circuits" },
+  { name: "AC Repair", desc: "Cooling & air systems" },
   { name: "Cleaning", desc: "Deep sanitization" },
   { name: "Carpentry", desc: "Woodwork & repairs" },
 ];
@@ -17,38 +17,31 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-32">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-emerald-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
-
+      <section className="pt-20 pb-28 md:pt-32 md:pb-40 bg-black">
         <div className="container-main">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#161824] text-emerald-400 text-xs font-medium mb-6">
-              <Shield className="w-3.5 h-3.5" />
-              <span>Worker-Owned Cooperative Platform</span>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
+          <div className="max-w-3xl">
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tight text-white leading-[1.04]">
               Fair local work.
               <br />
               <span className="text-emerald-400">Direct to workers.</span>
             </h1>
 
-            <p className="mt-5 text-sm md:text-base text-zinc-400 leading-relaxed max-w-lg">
+            <p className="mt-8 text-lg sm:text-xl text-neutral-400 leading-relaxed max-w-xl">
               Book verified local tradespeople in seconds. 90% of every payment
-              goes directly to the worker who does the job.
+              goes directly to the worker.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
                 href="/customer/book"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-full text-xs transition-all shadow-lg shadow-emerald-500/20"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold rounded-full text-base transition-all"
               >
                 <span>Book a service</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/sign-up"
-                className="inline-flex items-center px-6 py-3 bg-[#161824] hover:bg-[#1f2232] text-zinc-300 hover:text-white rounded-full text-xs font-semibold transition-colors"
+                className="inline-flex items-center px-8 py-4 bg-neutral-900 hover:bg-neutral-800 text-white rounded-full text-base font-bold transition-colors"
               >
                 Join as worker
               </Link>
@@ -57,36 +50,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-12 bg-[#0e0f15]">
+      {/* Services List */}
+      <section className="py-24 bg-[#080808]">
         <div className="container-main">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                Services Available
-              </h2>
-            </div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
+              Services
+            </h2>
             <Link
               href="/customer/ai-help"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181a26] text-xs font-semibold text-emerald-400 hover:bg-[#202334] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neutral-900 text-sm font-bold text-emerald-400 hover:bg-neutral-800 transition-colors w-fit"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Ask AI Help</span>
+              <Sparkles className="w-4 h-4" />
+              <span>Ask AI Diagnosis</span>
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {SERVICES.map((s) => (
               <Link
                 key={s.name}
                 href={`/customer/book?service=${encodeURIComponent(s.name)}`}
-                className="bg-[#14151f] hover:bg-[#1a1c2a] rounded-2xl p-5 transition-all group"
+                className="bg-[#0f0f0f] hover:bg-[#171717] rounded-3xl p-7 transition-all group"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#1c1e2b] flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 group-hover:bg-[#242738] mb-4 transition-colors">
-                  <ServiceIcon name={s.name} className="w-5 h-5" />
+                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center text-neutral-300 group-hover:text-emerald-400 mb-6 transition-colors">
+                  <ServiceIcon name={s.name} className="w-6 h-6" />
                 </div>
-                <p className="font-bold text-xs text-white">{s.name}</p>
-                <p className="text-[11px] text-zinc-500 mt-1">{s.desc}</p>
+                <p className="font-extrabold text-xl text-white">{s.name}</p>
+                <p className="text-sm text-neutral-400 mt-2">{s.desc}</p>
               </Link>
             ))}
           </div>
@@ -94,32 +85,27 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="py-20">
+      <section id="how-it-works" className="py-28 bg-black">
         <div className="container-main">
-          <div className="mb-10">
-            <h2 className="text-2xl font-extrabold text-white">How it works</h2>
-            <p className="text-xs text-zinc-400 mt-1">Simple dispatches with fair economics</p>
-          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-16">How It Works</h2>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-10">
             {/* Customers */}
-            <div className="bg-[#12131c] rounded-2xl p-6 md:p-8 space-y-6">
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                For Customers
+            <div className="bg-[#0a0a0a] rounded-3xl p-8 sm:p-12 space-y-8">
+              <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                Customers
               </span>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {[
-                  { title: "Select or ask AI", desc: "Pick category directly or type your problem for AI guidance." },
+                  { title: "Select or ask AI", desc: "Pick category directly or type what needs fixing." },
                   { title: "Match nearby worker", desc: "Ranked by proximity, availability and verified rating." },
-                  { title: "Track & confirm", desc: "Transparent price upfront. Rate worker on completion." },
+                  { title: "Track & rate", desc: "Upfront price and direct post-job rating." },
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-4 items-start">
-                    <div className="w-6 h-6 rounded-full bg-[#1d1f2d] text-zinc-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                      {i + 1}
-                    </div>
+                  <div key={i} className="flex gap-5 items-start">
+                    <span className="text-lg font-bold text-neutral-500 font-mono">0{i + 1}</span>
                     <div>
-                      <p className="text-xs font-semibold text-white">{item.title}</p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5 leading-relaxed">{item.desc}</p>
+                      <p className="text-lg font-bold text-white">{item.title}</p>
+                      <p className="text-sm text-neutral-400 mt-1">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -127,23 +113,21 @@ export default function HomePage() {
             </div>
 
             {/* Workers */}
-            <div className="bg-[#12131c] rounded-2xl p-6 md:p-8 space-y-6">
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                For Workers
+            <div className="bg-[#0a0a0a] rounded-3xl p-8 sm:p-12 space-y-8">
+              <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                Workers
               </span>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {[
-                  { title: "Register trade skills", desc: "Set skills, years of experience, and service radius." },
-                  { title: "Receive direct jobs", desc: "Get matched with local customers without bidding wars." },
-                  { title: "Earn 90% direct", desc: "Transparent automatic payout upon task completion." },
+                  { title: "Register trade skills", desc: "Set skills, experience years, and active location." },
+                  { title: "Receive direct jobs", desc: "Accept nearby dispatches without bidding fees." },
+                  { title: "Keep 90% direct payout", desc: "Automated payment settlement on completion." },
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-4 items-start">
-                    <div className="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                      {i + 1}
-                    </div>
+                  <div key={i} className="flex gap-5 items-start">
+                    <span className="text-lg font-bold text-emerald-400/60 font-mono">0{i + 1}</span>
                     <div>
-                      <p className="text-xs font-semibold text-white">{item.title}</p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5 leading-relaxed">{item.desc}</p>
+                      <p className="text-lg font-bold text-white">{item.title}</p>
+                      <p className="text-sm text-neutral-400 mt-1">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -154,31 +138,31 @@ export default function HomePage() {
       </section>
 
       {/* Cooperative Breakdown */}
-      <section id="cooperative" className="py-16 bg-[#0e0f15]">
+      <section id="cooperative" className="py-24 bg-[#080808]">
         <div className="container-main">
-          <div className="max-w-md">
-            <h2 className="text-xl font-extrabold text-white mb-1">
-              Transparent Economics
+          <div className="max-w-xl">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-3">
+              Cooperative Economics
             </h2>
-            <p className="text-xs text-zinc-400 mb-6">
-              Payment allocation per ₹1,000 service booking:
+            <p className="text-base text-neutral-400 mb-10">
+              Transparent distribution per ₹1,000 booking:
             </p>
 
-            <div className="bg-[#141520] rounded-2xl p-5 space-y-3">
+            <div className="bg-[#0f0f0f] rounded-3xl p-8 space-y-5">
               {[
-                { label: "Worker Payout", amount: "₹900", share: "90%", color: "bg-emerald-500" },
-                { label: "Welfare Fund", amount: "₹50", share: "5%", color: "bg-blue-500" },
-                { label: "Training Fund", amount: "₹20", share: "2%", color: "bg-purple-500" },
-                { label: "Cooperative Reserve", amount: "₹30", share: "3%", color: "bg-zinc-600" },
+                { label: "Worker Payout", amount: "₹900", share: "90%", color: "bg-emerald-400" },
+                { label: "Welfare Fund", amount: "₹50", share: "5%", color: "bg-blue-400" },
+                { label: "Training Fund", amount: "₹20", share: "2%", color: "bg-purple-400" },
+                { label: "Cooperative Reserve", amount: "₹30", share: "3%", color: "bg-neutral-600" },
               ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2.5">
-                    <div className={`w-2 h-2 rounded-full ${item.color}`} />
-                    <span className="text-zinc-300 font-medium">{item.label}</span>
+                <div key={item.label} className="flex items-center justify-between text-base">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
+                    <span className="text-neutral-200 font-semibold">{item.label}</span>
                   </div>
-                  <div className="flex items-center gap-3 font-mono">
-                    <span className="text-zinc-500 text-[11px]">{item.share}</span>
-                    <span className="font-bold text-white w-12 text-right">
+                  <div className="flex items-center gap-5 font-mono">
+                    <span className="text-neutral-500 text-sm">{item.share}</span>
+                    <span className="font-extrabold text-lg text-white w-16 text-right">
                       {item.amount}
                     </span>
                   </div>
@@ -190,13 +174,10 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 bg-[#0b0c10]">
-        <div className="container-main flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <div className="flex items-center gap-2 text-zinc-400">
-            <Shield className="w-4 h-4 text-emerald-400" />
-            <span className="font-bold text-white">SevaConnect</span>
-          </div>
-          <p>SIH 2026 · Problem Statement 26089</p>
+      <footer className="py-16 bg-black">
+        <div className="container-main flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-500">
+          <span className="font-extrabold text-lg text-white">SevaConnect</span>
+          <p>SIH 2026 · Problem Statement 26089 · Worker Cooperative</p>
         </div>
       </footer>
     </>

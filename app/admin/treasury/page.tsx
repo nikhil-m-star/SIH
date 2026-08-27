@@ -27,11 +27,11 @@ export default async function AdminTreasuryPage() {
   const sums = payments._sum;
 
   const treasuryItems = [
-    { label: "Total Platform Revenue", value: sums.amount || 0, color: "text-white" },
+    { label: "Total Platform Volume", value: sums.amount || 0, color: "text-white" },
     { label: "Worker Direct Payouts", value: sums.workerAmount || 0, color: "text-emerald-400" },
-    { label: "Welfare Fund Balance", value: sums.welfareFund || 0, color: "text-blue-400" },
-    { label: "Training Fund Balance", value: sums.trainingFund || 0, color: "text-purple-400" },
-    { label: "Cooperative Retained Reserve", value: sums.cooperativeShare || 0, color: "text-zinc-300" },
+    { label: "Welfare Fund Reserve", value: sums.welfareFund || 0, color: "text-blue-400" },
+    { label: "Training Fund Reserve", value: sums.trainingFund || 0, color: "text-purple-400" },
+    { label: "Cooperative Retained Share", value: sums.cooperativeShare || 0, color: "text-neutral-400" },
   ];
 
   const typeLabels: Record<string, string> = {
@@ -45,22 +45,22 @@ export default async function AdminTreasuryPage() {
     WORKER_PAYOUT: "text-emerald-400",
     WELFARE_FUND: "text-blue-400",
     TRAINING_FUND: "text-purple-400",
-    COOPERATIVE_SHARE: "text-zinc-400",
+    COOPERATIVE_SHARE: "text-neutral-400",
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Cooperative Treasury</h1>
-        <p className="text-xs text-zinc-400 mt-1">Fund balances, distribution rules & audit trail</p>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Cooperative Treasury</h1>
+        <p className="text-base text-neutral-400 mt-2">Fund balances, distribution rules & audit trail</p>
       </div>
 
       {/* Overview Cards */}
-      <div className="bg-[#12131d] rounded-2xl p-6 space-y-3 text-xs">
+      <div className="bg-[#0e0e0e] rounded-3xl p-8 space-y-4 text-base">
         {treasuryItems.map((item) => (
-          <div key={item.label} className="flex items-center justify-between py-1">
-            <span className="text-zinc-400 font-medium">{item.label}</span>
-            <span className={`font-mono font-bold text-sm ${item.color}`}>
+          <div key={item.label} className="flex items-center justify-between py-1.5">
+            <span className="text-neutral-400 font-medium">{item.label}</span>
+            <span className={`font-mono font-extrabold text-lg ${item.color}`}>
               ₹{item.value.toLocaleString()}
             </span>
           </div>
@@ -68,8 +68,8 @@ export default async function AdminTreasuryPage() {
       </div>
 
       {/* Config Form */}
-      <div className="space-y-3">
-        <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+      <div className="space-y-4">
+        <h2 className="text-xl font-extrabold text-white">
           Fund Distribution Policy
         </h2>
         <ConfigForm
@@ -83,38 +83,38 @@ export default async function AdminTreasuryPage() {
       </div>
 
       {/* Transaction History */}
-      <div className="space-y-3">
-        <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+      <div className="space-y-4">
+        <h2 className="text-xl font-extrabold text-white">
           Ledger Transactions
         </h2>
         {transactions.length === 0 ? (
-          <div className="text-center py-16 bg-[#12131d] rounded-2xl text-xs text-zinc-500">
+          <div className="text-center py-20 bg-[#0e0e0e] rounded-3xl text-base text-neutral-500">
             <p>No transaction history recorded.</p>
           </div>
         ) : (
-          <div className="bg-[#12131d] rounded-2xl overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="bg-[#0e0e0e] rounded-3xl overflow-x-auto p-4">
+            <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-[#1c1e2b] text-zinc-400">
-                  <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Allocation</th>
-                  <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Amount</th>
-                  <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Service</th>
-                  <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Timestamp</th>
+                <tr className="border-b border-[#1c1c1c] text-neutral-400">
+                  <th className="py-4 px-5 font-extrabold uppercase tracking-widest text-xs">Allocation</th>
+                  <th className="py-4 px-5 font-extrabold uppercase tracking-widest text-xs">Amount</th>
+                  <th className="py-4 px-5 font-extrabold uppercase tracking-widest text-xs">Service</th>
+                  <th className="py-4 px-5 font-extrabold uppercase tracking-widest text-xs">Timestamp</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#181a26]">
+              <tbody className="divide-y divide-[#161616]">
                 {transactions.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-[#181a27] transition-colors">
-                    <td className={`py-3.5 px-4 font-bold ${typeStyles[tx.type]}`}>
+                  <tr key={tx.id} className="hover:bg-[#161616] transition-colors">
+                    <td className={`py-4 px-5 font-bold ${typeStyles[tx.type]}`}>
                       {typeLabels[tx.type]}
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-bold text-white">
+                    <td className="py-4 px-5 font-mono font-extrabold text-white text-base">
                       ₹{tx.amount}
                     </td>
-                    <td className="py-3.5 px-4 text-zinc-400">
+                    <td className="py-4 px-5 text-neutral-300 font-medium">
                       {tx.payment.booking?.service?.name || "—"}
                     </td>
-                    <td className="py-3.5 px-4 text-zinc-500 font-mono text-[11px]">
+                    <td className="py-4 px-5 text-neutral-500 font-mono text-xs">
                       {new Date(tx.createdAt).toLocaleDateString()}
                     </td>
                   </tr>

@@ -53,7 +53,7 @@ export default function ConfigForm({ config }: ConfigProps) {
   return (
     <form
       onSubmit={handleSave}
-      className="bg-[#12131d] rounded-2xl p-6 space-y-4 text-xs"
+      className="bg-[#0e0e0e] rounded-3xl p-8 space-y-5 text-sm"
     >
       {[
         { label: "Worker Payout Share %", value: workerSharePct, set: setWorkerSharePct },
@@ -61,8 +61,8 @@ export default function ConfigForm({ config }: ConfigProps) {
         { label: "Skills Training Fund %", value: trainingPct, set: setTrainingPct },
         { label: "Cooperative Reserve %", value: cooperativePct, set: setCooperativePct },
       ].map((field) => (
-        <div key={field.label} className="flex items-center justify-between py-1">
-          <label className="text-zinc-400 font-medium">{field.label}</label>
+        <div key={field.label} className="flex items-center justify-between py-1.5">
+          <label className="text-neutral-300 font-medium text-base">{field.label}</label>
           <input
             type="number"
             min={0}
@@ -70,15 +70,15 @@ export default function ConfigForm({ config }: ConfigProps) {
             step={1}
             value={field.value}
             onChange={(e) => field.set(parseFloat(e.target.value) || 0)}
-            className="w-16 bg-[#1a1c29] rounded-xl px-3 py-1.5 text-right text-white font-mono font-bold focus:outline-none focus:bg-[#222536]"
+            className="w-20 bg-[#181818] rounded-2xl px-4 py-2.5 text-right text-white font-mono font-bold text-base focus:outline-none focus:bg-[#202020]"
           />
         </div>
       ))}
 
-      <div className="flex items-center justify-between pt-3 border-t border-[#1c1e2b]">
-        <span className="font-bold text-zinc-300">Total Allocation</span>
+      <div className="flex items-center justify-between pt-4 border-t border-[#1c1c1c]">
+        <span className="font-extrabold text-white text-base">Total Allocation</span>
         <span
-          className={`font-mono font-extrabold text-sm ${
+          className={`font-mono font-black text-xl ${
             total === 100 ? "text-emerald-400" : "text-red-400"
           }`}
         >
@@ -87,12 +87,12 @@ export default function ConfigForm({ config }: ConfigProps) {
       </div>
 
       {total !== 100 && (
-        <p className="text-red-400 text-[11px]">Total percentages must equal 100%</p>
+        <p className="text-red-400 text-sm font-semibold">Total percentages must equal 100%</p>
       )}
-      {error && <p className="text-red-400 text-[11px]">{error}</p>}
+      {error && <p className="text-red-400 text-sm font-semibold">{error}</p>}
       {saved && (
-        <p className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1.5">
-          <Check className="w-3.5 h-3.5" />
+        <p className="text-emerald-400 text-sm font-bold flex items-center gap-2">
+          <Check className="w-4 h-4" />
           <span>Allocation policy updated successfully</span>
         </p>
       )}
@@ -100,7 +100,7 @@ export default function ConfigForm({ config }: ConfigProps) {
       <button
         type="submit"
         disabled={total !== 100 || loading}
-        className="w-full px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
+        className="w-full px-8 py-4 bg-emerald-400 hover:bg-emerald-300 text-black rounded-full text-base font-black disabled:opacity-50 transition-all"
       >
         {loading ? "Saving policy..." : "Update policy"}
       </button>

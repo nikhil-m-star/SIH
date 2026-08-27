@@ -102,56 +102,56 @@ export default function WorkerProfilePage() {
   }
 
   return (
-    <div className="space-y-6 max-w-lg">
+    <div className="space-y-8 max-w-xl">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Worker Profile</h1>
-        <p className="text-xs text-zinc-400 mt-1">Configure trade skills, experience and coordinates</p>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Worker Profile</h1>
+        <p className="text-base text-neutral-400 mt-2">Configure trade skills, experience and location</p>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-5 text-xs bg-[#12131d] p-6 rounded-2xl">
-        <div className="space-y-1">
-          <label className="block text-zinc-300 font-semibold">
+      <form onSubmit={handleSave} className="space-y-6 text-sm bg-[#0e0e0e] p-8 md:p-10 rounded-3xl">
+        <div className="space-y-2">
+          <label className="block text-neutral-200 font-bold">
             Bio & Trade Summary
           </label>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            rows={3}
-            className="w-full bg-[#1a1c29] rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:bg-[#202334]"
-            placeholder="Specializations, equipment, trade certifications..."
+            rows={4}
+            className="w-full bg-[#181818] rounded-2xl px-5 py-4 text-sm text-white placeholder:text-neutral-600 focus:outline-none focus:bg-[#202020]"
+            placeholder="Specializations, tools, trade background..."
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-zinc-300 font-semibold">
+        <div className="space-y-3">
+          <label className="block text-neutral-200 font-bold">
             Services & Experience
           </label>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {services.map((service) => {
               const skill = skills.find((s) => s.serviceId === service.id);
               return (
                 <div
                   key={service.id}
-                  className={`rounded-xl p-3.5 transition-colors ${
-                    skill ? "bg-[#1f2234]" : "bg-[#181a26]"
+                  className={`rounded-2xl p-5 transition-colors ${
+                    skill ? "bg-[#1c1c1c]" : "bg-[#141414]"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <label className="flex items-center gap-3 cursor-pointer">
+                    <label className="flex items-center gap-4 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={!!skill}
                         onChange={() => toggleSkill(service.id)}
-                        className="accent-emerald-500 rounded"
+                        className="accent-emerald-400 w-5 h-5 rounded"
                       />
-                      <ServiceIcon name={service.name} className="w-4 h-4 text-emerald-400" />
-                      <span className="font-bold text-white text-xs">
+                      <ServiceIcon name={service.name} className="w-5 h-5 text-emerald-400" />
+                      <span className="font-extrabold text-white text-base">
                         {service.name}
                       </span>
                     </label>
                     {skill && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-zinc-400 text-[11px]">Years:</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-neutral-400 text-xs font-semibold">Years:</span>
                         <input
                           type="number"
                           min={0}
@@ -160,7 +160,7 @@ export default function WorkerProfilePage() {
                           onChange={(e) =>
                             updateExperience(service.id, parseInt(e.target.value) || 0)
                           }
-                          className="w-14 bg-[#101118] rounded-lg px-2 py-1 text-center text-white text-xs font-mono font-bold focus:outline-none"
+                          className="w-16 bg-black rounded-xl px-3 py-1.5 text-center text-white text-sm font-mono font-bold focus:outline-none"
                         />
                       </div>
                     )}
@@ -171,9 +171,9 @@ export default function WorkerProfilePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <label className="block text-zinc-300 font-semibold">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="block text-neutral-200 font-bold">
               Latitude
             </label>
             <input
@@ -181,11 +181,11 @@ export default function WorkerProfilePage() {
               step="0.0001"
               value={latitude}
               onChange={(e) => setLatitude(parseFloat(e.target.value))}
-              className="w-full bg-[#1a1c29] rounded-xl px-4 py-2.5 text-xs text-zinc-100 font-mono focus:outline-none focus:bg-[#202334]"
+              className="w-full bg-[#181818] rounded-2xl px-5 py-3.5 text-sm text-white font-mono focus:outline-none focus:bg-[#202020]"
             />
           </div>
-          <div className="space-y-1">
-            <label className="block text-zinc-300 font-semibold">
+          <div className="space-y-2">
+            <label className="block text-neutral-200 font-bold">
               Longitude
             </label>
             <input
@@ -193,15 +193,15 @@ export default function WorkerProfilePage() {
               step="0.0001"
               value={longitude}
               onChange={(e) => setLongitude(parseFloat(e.target.value))}
-              className="w-full bg-[#1a1c29] rounded-xl px-4 py-2.5 text-xs text-zinc-100 font-mono focus:outline-none focus:bg-[#202334]"
+              className="w-full bg-[#181818] rounded-2xl px-5 py-3.5 text-sm text-white font-mono focus:outline-none focus:bg-[#202020]"
             />
           </div>
         </div>
 
-        {error && <p className="text-red-400 text-xs">{error}</p>}
+        {error && <p className="text-red-400 text-sm font-semibold">{error}</p>}
         {saved && (
-          <p className="text-emerald-400 text-xs font-semibold flex items-center gap-1.5">
-            <Check className="w-3.5 h-3.5" />
+          <p className="text-emerald-400 text-sm font-bold flex items-center gap-2">
+            <Check className="w-4 h-4" />
             <span>Profile saved successfully</span>
           </p>
         )}
@@ -209,7 +209,7 @@ export default function WorkerProfilePage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
+          className="w-full px-8 py-4 bg-emerald-400 hover:bg-emerald-300 text-black rounded-full text-base font-black disabled:opacity-50 transition-all"
         >
           {loading ? "Saving profile..." : "Save profile"}
         </button>

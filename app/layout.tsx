@@ -17,12 +17,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} dark h-full`}>
-      <body className="min-h-full flex flex-col bg-[#0b0c10] text-zinc-100 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
+      <body className="min-h-full flex flex-col bg-black text-neutral-100 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-400">
         <ClerkProvider
           appearance={{
             variables: {
               colorPrimary: "#10b981",
-              colorBackground: "#13141a",
+              colorBackground: "#0a0a0a",
             },
           }}
         >
