@@ -29,11 +29,11 @@ export default async function WorkerJobDetailPage({
   if (!booking || booking.workerId !== user.id) notFound();
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/15 text-amber-400",
-    ACCEPTED: "bg-blue-500/15 text-blue-400",
-    IN_PROGRESS: "bg-purple-500/15 text-purple-400",
+    PENDING: "bg-neutral-800 text-neutral-300",
+    ACCEPTED: "bg-emerald-500/20 text-emerald-300",
+    IN_PROGRESS: "bg-emerald-500/30 text-emerald-200",
     COMPLETED: "bg-emerald-500/15 text-emerald-400",
-    CANCELLED: "bg-neutral-800 text-neutral-400",
+    CANCELLED: "bg-neutral-900 text-neutral-500",
   };
 
   return (
@@ -115,12 +115,12 @@ export default async function WorkerJobDetailPage({
       {booking.rating && (
         <div className="bg-[#0e0e0e] rounded-3xl p-8 space-y-3 text-sm">
           <h3 className="font-extrabold text-white text-base">Customer Rating</h3>
-          <div className="flex items-center gap-1.5 pt-1 text-amber-400">
+          <div className="flex items-center gap-1.5 pt-1 text-emerald-400">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
                 className={`w-6 h-6 ${
-                  star <= booking.rating!.score ? "fill-amber-400" : "text-neutral-700"
+                  star <= booking.rating!.score ? "fill-emerald-400" : "text-neutral-700"
                 }`}
               />
             ))}

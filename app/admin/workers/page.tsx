@@ -15,9 +15,9 @@ export default async function AdminWorkersPage() {
   });
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/15 text-amber-400",
+    PENDING: "bg-neutral-800 text-neutral-300",
     VERIFIED: "bg-emerald-500/15 text-emerald-400",
-    REJECTED: "bg-red-500/15 text-red-400",
+    REJECTED: "bg-neutral-900 text-neutral-500",
   };
 
   return (
@@ -53,8 +53,8 @@ export default async function AdminWorkersPage() {
                   {worker.user.email}
                 </p>
                 <div className="flex items-center gap-4 text-sm text-neutral-400 pt-2">
-                  <span className="flex items-center gap-1.5 text-amber-400 font-bold">
-                    <Star className="w-4 h-4 fill-amber-400" />
+                  <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                    <Star className="w-4 h-4 fill-emerald-400" />
                     <span>{worker.rating.toFixed(1)}</span>
                   </span>
                   <span>·</span>

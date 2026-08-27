@@ -151,8 +151,8 @@ export default function HomePage() {
             <div className="bg-[#0f0f0f] rounded-3xl p-8 space-y-5">
               {[
                 { label: "Worker Payout", amount: "₹900", share: "90%", color: "bg-emerald-400" },
-                { label: "Welfare Fund", amount: "₹50", share: "5%", color: "bg-blue-400" },
-                { label: "Training Fund", amount: "₹20", share: "2%", color: "bg-purple-400" },
+                { label: "Welfare Fund", amount: "₹50", share: "5%", color: "bg-emerald-600" },
+                { label: "Training Fund", amount: "₹20", share: "2%", color: "bg-emerald-800" },
                 { label: "Cooperative Reserve", amount: "₹30", share: "3%", color: "bg-neutral-600" },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between text-base">

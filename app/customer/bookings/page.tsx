@@ -17,11 +17,11 @@ export default async function CustomerBookingsPage() {
   });
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/15 text-amber-400",
-    ACCEPTED: "bg-blue-500/15 text-blue-400",
-    IN_PROGRESS: "bg-purple-500/15 text-purple-400",
+    PENDING: "bg-neutral-800 text-neutral-300",
+    ACCEPTED: "bg-emerald-500/20 text-emerald-300",
+    IN_PROGRESS: "bg-emerald-500/30 text-emerald-200",
     COMPLETED: "bg-emerald-500/15 text-emerald-400",
-    CANCELLED: "bg-neutral-800 text-neutral-400",
+    CANCELLED: "bg-neutral-900 text-neutral-500",
   };
 
   return (

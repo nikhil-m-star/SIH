@@ -32,11 +32,11 @@ export default async function BookingDetailPage({
   const currentStepIndex = statusSteps.indexOf(booking.status);
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/15 text-amber-400",
-    ACCEPTED: "bg-blue-500/15 text-blue-400",
-    IN_PROGRESS: "bg-purple-500/15 text-purple-400",
+    PENDING: "bg-neutral-800 text-neutral-300",
+    ACCEPTED: "bg-emerald-500/20 text-emerald-300",
+    IN_PROGRESS: "bg-emerald-500/30 text-emerald-200",
     COMPLETED: "bg-emerald-500/15 text-emerald-400",
-    CANCELLED: "bg-neutral-800 text-neutral-400",
+    CANCELLED: "bg-neutral-900 text-neutral-500",
   };
 
   return (
@@ -149,13 +149,13 @@ export default async function BookingDetailPage({
           </div>
           <div className="flex justify-between text-neutral-400">
             <span>Welfare Allocation</span>
-            <span className="text-blue-400 font-bold">
+            <span className="text-emerald-400/80 font-bold">
               ₹{booking.payment.welfareFund}
             </span>
           </div>
           <div className="flex justify-between text-neutral-400">
             <span>Training Allocation</span>
-            <span className="text-purple-400 font-bold">
+            <span className="text-emerald-400/60 font-bold">
               ₹{booking.payment.trainingFund}
             </span>
           </div>
@@ -182,7 +182,7 @@ export default async function BookingDetailPage({
                 key={star}
                 className={`w-6 h-6 ${
                   star <= booking.rating!.score
-                    ? "text-amber-400 fill-amber-400"
+                    ? "text-emerald-400 fill-emerald-400"
                     : "text-neutral-700"
                 }`}
               />

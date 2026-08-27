@@ -68,7 +68,7 @@ export default function JobActions({
           <button
             onClick={() => handleAction(startJob, "start")}
             disabled={!!loading}
-            className="flex-1 px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full text-base font-black disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+            className="flex-1 px-8 py-4 bg-emerald-400 hover:bg-emerald-300 text-black rounded-full text-base font-black disabled:opacity-50 transition-all flex items-center justify-center gap-2"
           >
             <Play className="w-5 h-5" />
             <span>{loading === "start" ? "Starting..." : "Start job"}</span>

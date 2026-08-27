@@ -34,9 +34,9 @@ export default async function WorkerDashboardPage() {
   });
 
   const verificationBadge: Record<string, { text: string; class: string }> = {
-    PENDING: { text: "Verification Pending", class: "bg-amber-500/15 text-amber-400" },
+    PENDING: { text: "Verification Pending", class: "bg-neutral-800 text-neutral-300" },
     VERIFIED: { text: "Verified Professional", class: "bg-emerald-500/15 text-emerald-400" },
-    REJECTED: { text: "Verification Rejected", class: "bg-red-500/15 text-red-400" },
+    REJECTED: { text: "Verification Rejected", class: "bg-neutral-900 text-neutral-500" },
   };
 
   const vBadge = verificationBadge[profile.verificationStatus];
@@ -74,8 +74,8 @@ export default async function WorkerDashboardPage() {
         </div>
         <div className="bg-[#0e0e0e] rounded-3xl p-8">
           <p className="text-xs text-neutral-500 font-extrabold uppercase tracking-widest">Rating Score</p>
-          <p className="text-3xl sm:text-4xl font-black text-amber-400 mt-3 flex items-center gap-2">
-            <Star className="w-7 h-7 fill-amber-400" />
+          <p className="text-3xl sm:text-4xl font-black text-emerald-400 mt-3 flex items-center gap-2">
+            <Star className="w-7 h-7 fill-emerald-400" />
             <span>{profile.rating.toFixed(1)}</span>
           </p>
         </div>
@@ -96,7 +96,7 @@ export default async function WorkerDashboardPage() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-start gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-[#1e1e1e] flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+                    <div className="w-14 h-14 rounded-2xl bg-[#1e1e1e] flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
                       <ServiceIcon name={job.service.name} className="w-7 h-7" />
                     </div>
                     <div>
@@ -115,7 +115,7 @@ export default async function WorkerDashboardPage() {
                     <p className="font-black text-2xl text-emerald-400">
                       ₹{job.estimatedPrice}
                     </p>
-                    <span className="inline-block text-xs uppercase font-extrabold text-amber-400 bg-amber-500/15 px-3 py-1 rounded-full mt-2">
+                    <span className="inline-block text-xs uppercase font-extrabold text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-full mt-2">
                       New
                     </span>
                   </div>
@@ -153,7 +153,7 @@ export default async function WorkerDashboardPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/15 text-blue-400">
+                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300">
                     {job.status.replace("_", " ")}
                   </span>
                   <ArrowRight className="w-5 h-5 text-neutral-600" />

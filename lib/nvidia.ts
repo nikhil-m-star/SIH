@@ -20,6 +20,11 @@ You MUST respond with ONLY a valid JSON object in this exact format:
 
 Do not include any other text, markdown formatting, or code blocks. Only the JSON object.`;
 
+const MODELS = [
+  "meta/llama-3.2-11b-vision-instruct",
+  "meta/llama-3.2-90b-vision-instruct",
+];
+
 export async function identifyService(
   description: string
 ): Promise<AIServiceResult | null> {
@@ -32,63 +37,70 @@ export async function identifyService(
     return null;
   }
 
-  try {
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "meta/llama-3.1-8b-instruct",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: description },
-        ],
-        temperature: 0.2,
-        max_tokens: 300,
-      }),
-    });
+  for (const model of MODELS) {
+    try {
+      const response = await fetch(`${baseUrl}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: description },
+          ],
+          temperature: 0.1,
+          max_tokens: 300,
+        }),
+      });
 
-    if (!response.ok) {
-      console.error("NVIDIA NIM API error:", response.status);
-      return null;
+      if (!response.ok) {
+        console.error(`NVIDIA NIM model ${model} error:`, response.status);
+        continue;
+      }
+
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content;
+
+      if (!content) continue;
+
+      // Extract JSON substring if wrapped in any text/markdown
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) continue;
+
+      const result: AIServiceResult = JSON.parse(jsonMatch[0]);
+
+      // Validate the service name
+      const validServices = [
+        "Plumbing",
+        "Electrical",
+        "AC Repair",
+        "Cleaning",
+        "Carpentry",
+      ];
+      
+      const matched = validServices.find(
+        (s) => s.toLowerCase() === (result.service || "").toLowerCase()
+      ) || validServices.find(
+        (s) => (result.service || "").toLowerCase().includes(s.toLowerCase())
+      );
+
+      result.service = matched || "Plumbing";
+
+      // Validate urgency
+      if (!["LOW", "MEDIUM", "HIGH"].includes(result.urgency)) {
+        result.urgency = "MEDIUM";
+      }
+
+      return result;
+    } catch (error) {
+      console.error(`AI service identification error with ${model}:`, error);
     }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-
-    if (!content) return null;
-
-    // Parse JSON from the response
-    const cleaned = content.replace(/```json\n?|\n?```/g, "").trim();
-    const result: AIServiceResult = JSON.parse(cleaned);
-
-    // Validate the service name
-    const validServices = [
-      "Plumbing",
-      "Electrical",
-      "AC Repair",
-      "Cleaning",
-      "Carpentry",
-    ];
-    if (!validServices.includes(result.service)) {
-      result.service =
-        validServices.find((s) =>
-          result.service.toLowerCase().includes(s.toLowerCase())
-        ) || result.service;
-    }
-
-    // Validate urgency
-    if (!["LOW", "MEDIUM", "HIGH"].includes(result.urgency)) {
-      result.urgency = "MEDIUM";
-    }
-
-    return result;
-  } catch (error) {
-    console.error("AI service identification error:", error);
-    return null;
   }
+
+  return null;
 }
 
 export function isAIConfigured(): boolean {

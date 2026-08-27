@@ -42,8 +42,8 @@ export default async function AdminDashboardPage() {
   const financials = [
     { label: "Total Gross Volume", value: `₹${(sums.amount || 0).toLocaleString()}`, color: "text-white" },
     { label: "Worker Payouts (90%)", value: `₹${(sums.workerAmount || 0).toLocaleString()}`, color: "text-emerald-400" },
-    { label: "Welfare Fund (5%)", value: `₹${(sums.welfareFund || 0).toLocaleString()}`, color: "text-blue-400" },
-    { label: "Training Fund (2%)", value: `₹${(sums.trainingFund || 0).toLocaleString()}`, color: "text-purple-400" },
+    { label: "Welfare Fund (5%)", value: `₹${(sums.welfareFund || 0).toLocaleString()}`, color: "text-emerald-400/80" },
+    { label: "Training Fund (2%)", value: `₹${(sums.trainingFund || 0).toLocaleString()}`, color: "text-emerald-400/60" },
     { label: "Cooperative Reserve (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-neutral-400" },
   ];
 

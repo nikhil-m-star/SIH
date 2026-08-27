@@ -307,8 +307,8 @@ function BookServiceContent() {
                         {worker.userName}
                       </p>
                       <div className="flex items-center gap-4 text-sm text-neutral-400 mt-2">
-                        <span className="flex items-center gap-1.5 text-amber-400 font-bold">
-                          <Star className="w-4 h-4 fill-amber-400" />
+                        <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                          <Star className="w-4 h-4 fill-emerald-400" />
                           <span>{worker.rating.toFixed(1)}</span>
                         </span>
                         <span>·</span>

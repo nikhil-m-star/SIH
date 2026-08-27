@@ -41,12 +41,12 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
               onClick={() => setScore(star)}
               onMouseEnter={() => setHoverScore(star)}
               onMouseLeave={() => setHoverScore(0)}
-              className="p-1 text-neutral-700 hover:text-amber-400 transition-colors"
+              className="p-1 text-neutral-700 hover:text-emerald-400 transition-colors"
             >
               <Star
                 className={`w-8 h-8 ${
                   star <= (hoverScore || score)
-                    ? "text-amber-400 fill-amber-400"
+                    ? "text-emerald-400 fill-emerald-400"
                     : "text-neutral-700"
                 }`}
               />

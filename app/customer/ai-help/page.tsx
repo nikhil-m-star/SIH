@@ -139,10 +139,10 @@ export default function AIHelpPage() {
             <span
               className={`px-3 py-1 rounded-full text-xs font-bold ${
                 result.urgency === "HIGH"
-                  ? "bg-red-500/15 text-red-400"
+                  ? "bg-emerald-500 text-black font-black"
                   : result.urgency === "MEDIUM"
-                    ? "bg-amber-500/15 text-amber-400"
-                    : "bg-emerald-500/15 text-emerald-400"
+                    ? "bg-emerald-500/20 text-emerald-300"
+                    : "bg-neutral-800 text-neutral-300"
               }`}
             >
               {result.urgency}

@@ -29,8 +29,8 @@ export default async function AdminTreasuryPage() {
   const treasuryItems = [
     { label: "Total Platform Volume", value: sums.amount || 0, color: "text-white" },
     { label: "Worker Direct Payouts", value: sums.workerAmount || 0, color: "text-emerald-400" },
-    { label: "Welfare Fund Reserve", value: sums.welfareFund || 0, color: "text-blue-400" },
-    { label: "Training Fund Reserve", value: sums.trainingFund || 0, color: "text-purple-400" },
+    { label: "Welfare Fund Reserve", value: sums.welfareFund || 0, color: "text-emerald-400/80" },
+    { label: "Training Fund Reserve", value: sums.trainingFund || 0, color: "text-emerald-400/60" },
     { label: "Cooperative Retained Share", value: sums.cooperativeShare || 0, color: "text-neutral-400" },
   ];
 
@@ -43,8 +43,8 @@ export default async function AdminTreasuryPage() {
 
   const typeStyles: Record<string, string> = {
     WORKER_PAYOUT: "text-emerald-400",
-    WELFARE_FUND: "text-blue-400",
-    TRAINING_FUND: "text-purple-400",
+    WELFARE_FUND: "text-emerald-400/80",
+    TRAINING_FUND: "text-emerald-400/60",
     COOPERATIVE_SHARE: "text-neutral-400",
   };
 
