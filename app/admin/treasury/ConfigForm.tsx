@@ -44,7 +44,7 @@ export default function ConfigForm({ config }: ConfigProps) {
       router.refresh();
       setTimeout(() => setSaved(false), 3000);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to save");
+      setError(e instanceof Error ? e.message : "Failed to save policy");
     } finally {
       setLoading(false);
     }
@@ -53,16 +53,16 @@ export default function ConfigForm({ config }: ConfigProps) {
   return (
     <form
       onSubmit={handleSave}
-      className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-3 text-xs"
+      className="bg-[#12131d] rounded-2xl p-6 space-y-4 text-xs"
     >
       {[
         { label: "Worker Payout Share %", value: workerSharePct, set: setWorkerSharePct },
-        { label: "Worker Welfare Fund %", value: welfarePct, set: setWelfarePct },
+        { label: "Welfare Fund %", value: welfarePct, set: setWelfarePct },
         { label: "Skills Training Fund %", value: trainingPct, set: setTrainingPct },
-        { label: "Cooperative Retained %", value: cooperativePct, set: setCooperativePct },
+        { label: "Cooperative Reserve %", value: cooperativePct, set: setCooperativePct },
       ].map((field) => (
-        <div key={field.label} className="flex items-center justify-between">
-          <label className="text-zinc-400">{field.label}</label>
+        <div key={field.label} className="flex items-center justify-between py-1">
+          <label className="text-zinc-400 font-medium">{field.label}</label>
           <input
             type="number"
             min={0}
@@ -70,15 +70,15 @@ export default function ConfigForm({ config }: ConfigProps) {
             step={1}
             value={field.value}
             onChange={(e) => field.set(parseFloat(e.target.value) || 0)}
-            className="w-16 bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-right text-zinc-100 font-mono focus:outline-none focus:border-emerald-500"
+            className="w-16 bg-[#1a1c29] rounded-xl px-3 py-1.5 text-right text-white font-mono font-bold focus:outline-none focus:bg-[#222536]"
           />
         </div>
       ))}
 
-      <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
-        <span className="font-medium text-zinc-300">Total Allocation</span>
+      <div className="flex items-center justify-between pt-3 border-t border-[#1c1e2b]">
+        <span className="font-bold text-zinc-300">Total Allocation</span>
         <span
-          className={`font-mono font-bold ${
+          className={`font-mono font-extrabold text-sm ${
             total === 100 ? "text-emerald-400" : "text-red-400"
           }`}
         >
@@ -91,18 +91,18 @@ export default function ConfigForm({ config }: ConfigProps) {
       )}
       {error && <p className="text-red-400 text-[11px]">{error}</p>}
       {saved && (
-        <p className="text-emerald-400 text-[11px] flex items-center gap-1">
-          <Check className="w-3 h-3" />
-          <span>Allocation policy updated</span>
+        <p className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1.5">
+          <Check className="w-3.5 h-3.5" />
+          <span>Allocation policy updated successfully</span>
         </p>
       )}
 
       <button
         type="submit"
         disabled={total !== 100 || loading}
-        className="w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
+        className="w-full px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
       >
-        {loading ? "Saving..." : "Update Policy"}
+        {loading ? "Saving policy..." : "Update policy"}
       </button>
     </form>
   );

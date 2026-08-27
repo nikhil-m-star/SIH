@@ -1,43 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
-  --card: #121215;
-  --card-border: #27272a;
-  --card-hover: #18181b;
+  --bg-main: #0b0c10;
+  --surface-1: #13141a;
+  --surface-2: #181a22;
+  --surface-3: #1f222d;
+  --surface-active: #282c3a;
   --accent: #10b981;
-  --accent-light: #34d399;
-  --accent-dim: rgba(16, 185, 129, 0.12);
+  --accent-soft: rgba(16, 185, 129, 0.12);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-  letter-spacing: -0.01em;
+  background-color: var(--bg-main);
+  color: #f3f4f6;
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.015em;
 }
 
 @utility container-main {
-  max-width: 1120px;
+  max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-/* Custom sleek scrollbars */
+/* Borderless tone-on-tone cards */
+.surface-card {
+  background-color: #14161f;
+  border-radius: 1rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.surface-card:hover {
+  background-color: #1a1c27;
+}
+
+.surface-card-subtle {
+  background-color: #111219;
+  border-radius: 0.875rem;
+}
+
+/* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #0b0c10;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #222530;
   border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
 }

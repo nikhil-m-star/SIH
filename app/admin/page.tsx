@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
-import { Users, UserCheck, ClipboardList, CheckCircle2, Landmark } from "lucide-react";
+import { Users, UserCheck, ClipboardList, CheckCircle2 } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   await requireRole("ADMIN");
@@ -40,18 +40,18 @@ export default async function AdminDashboardPage() {
   ];
 
   const financials = [
-    { label: "Total Gross Revenue", value: `₹${(sums.amount || 0).toLocaleString()}`, color: "text-white" },
+    { label: "Total Gross Volume", value: `₹${(sums.amount || 0).toLocaleString()}`, color: "text-white" },
     { label: "Worker Payouts (90%)", value: `₹${(sums.workerAmount || 0).toLocaleString()}`, color: "text-emerald-400" },
     { label: "Welfare Fund (5%)", value: `₹${(sums.welfareFund || 0).toLocaleString()}`, color: "text-blue-400" },
     { label: "Training Fund (2%)", value: `₹${(sums.trainingFund || 0).toLocaleString()}`, color: "text-purple-400" },
-    { label: "Cooperative Share (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-zinc-300" },
+    { label: "Cooperative Reserve (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-zinc-300" },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-white tracking-tight">Cooperative Administration</h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Platform overview and fund accounting</p>
+        <h1 className="text-2xl font-extrabold text-white tracking-tight">Cooperative Administration</h1>
+        <p className="text-xs text-zinc-400 mt-1">Platform overview and fund accounting</p>
       </div>
 
       {/* Metrics */}
@@ -61,13 +61,13 @@ export default async function AdminDashboardPage() {
           return (
             <div
               key={stat.label}
-              className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4"
+              className="bg-[#12131d] rounded-2xl p-5"
             >
               <div className="flex items-center justify-between text-zinc-500 mb-1">
-                <span className="text-xs">{stat.label}</span>
-                <Icon className="w-4 h-4" />
+                <span className="text-xs font-bold uppercase tracking-wider">{stat.label}</span>
+                <Icon className="w-4 h-4 text-zinc-400" />
               </div>
-              <p className="text-xl font-mono font-bold text-white mt-1">
+              <p className="text-2xl font-mono font-extrabold text-white mt-2">
                 {stat.value}
               </p>
             </div>
@@ -75,16 +75,16 @@ export default async function AdminDashboardPage() {
         })}
       </div>
 
-      {/* Treasury snapshot */}
+      {/* Treasury summary */}
       <div className="space-y-3">
-        <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+        <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
           Treasury Breakdown
         </h2>
-        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-2.5 text-xs">
+        <div className="bg-[#12131d] rounded-2xl p-6 space-y-3 text-xs">
           {financials.map((item) => (
-            <div key={item.label} className="flex items-center justify-between">
-              <span className="text-zinc-400">{item.label}</span>
-              <span className={`font-mono font-semibold ${item.color}`}>
+            <div key={item.label} className="flex items-center justify-between py-1">
+              <span className="text-zinc-400 font-medium">{item.label}</span>
+              <span className={`font-mono font-bold text-sm ${item.color}`}>
                 {item.value}
               </span>
             </div>

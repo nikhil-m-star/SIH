@@ -132,44 +132,43 @@ function BookServiceContent() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-white tracking-tight">Book Service</h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Step-by-step verified worker dispatch</p>
+        <h1 className="text-2xl font-extrabold text-white tracking-tight">Book a Service</h1>
+        <p className="text-xs text-zinc-400 mt-1">Direct dispatch with transparent worker payout</p>
       </div>
 
-      {/* Progress tracker */}
-      <div className="flex items-center gap-2">
+      {/* Stepper */}
+      <div className="flex items-center gap-2 bg-[#12131d] p-2 rounded-2xl w-fit">
         {["service", "details", "workers", "confirm"].map((s, i) => (
           <div key={s} className="flex items-center gap-2">
             <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-colors ${
+              className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                 step === s
-                  ? "bg-emerald-600 text-white border-emerald-500"
+                  ? "bg-emerald-500 text-zinc-950 shadow-md"
                   : ["service", "details", "workers", "confirm"].indexOf(step) > i
-                    ? "bg-emerald-950 text-emerald-400 border-emerald-800"
-                    : "bg-zinc-900 text-zinc-600 border-zinc-800"
+                    ? "bg-[#1f2232] text-emerald-400"
+                    : "bg-[#181926] text-zinc-600"
               }`}
             >
               {["service", "details", "workers", "confirm"].indexOf(step) > i ? (
-                <Check className="w-3 h-3" />
+                <Check className="w-3.5 h-3.5" />
               ) : (
                 i + 1
               )}
             </div>
-            {i < 3 && <div className="w-6 h-[1px] bg-zinc-800" />}
           </div>
         ))}
       </div>
 
       {error && (
-        <div className="p-3 bg-red-950/40 border border-red-800/60 rounded-lg text-xs text-red-400">
+        <div className="p-4 bg-red-950/30 rounded-2xl text-xs text-red-400">
           {error}
         </div>
       )}
 
       {/* Step 1: Select Service */}
       {step === "service" && (
-        <div className="space-y-3">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+        <div className="space-y-4">
+          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
             1. Select Service Category
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -180,17 +179,17 @@ function BookServiceContent() {
                   setSelectedService(service.id);
                   setStep("details");
                 }}
-                className={`bg-zinc-900/60 border rounded-xl p-4 text-left transition-all group ${
+                className={`rounded-2xl p-5 text-left transition-all group ${
                   selectedService === service.id
-                    ? "border-emerald-500 bg-zinc-900"
-                    : "border-zinc-800/80 hover:border-zinc-700"
+                    ? "bg-[#1f2336]"
+                    : "bg-[#12131d] hover:bg-[#191b28]"
                 }`}
               >
-                <div className="w-8 h-8 rounded-lg bg-zinc-800/60 border border-zinc-700/50 flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 mb-3 transition-colors">
-                  <ServiceIcon name={service.name} className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-[#1c1e2b] flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 mb-4 transition-colors">
+                  <ServiceIcon name={service.name} className="w-5 h-5" />
                 </div>
-                <p className="font-medium text-xs text-zinc-200">{service.name}</p>
-                <p className="text-[11px] text-zinc-500 mt-0.5 font-mono">
+                <p className="font-bold text-xs text-white">{service.name}</p>
+                <p className="text-[11px] text-zinc-500 mt-1 font-mono">
                   From ₹{service.basePrice}
                 </p>
               </button>
@@ -201,63 +200,63 @@ function BookServiceContent() {
 
       {/* Step 2: Details */}
       {step === "details" && (
-        <div className="space-y-4 max-w-lg">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-            2. Problem & Location
+        <div className="space-y-4 max-w-lg bg-[#12131d] p-6 rounded-2xl">
+          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+            2. Problem & Location Details
           </h2>
 
-          <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1">
-              Description
+          <div className="space-y-1">
+            <label className="block text-xs font-semibold text-zinc-300">
+              Problem Description
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
-              placeholder="Brief description of the work needed..."
+              className="w-full bg-[#1a1c29] rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:bg-[#202334]"
+              placeholder="Brief description of work required..."
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1">
+          <div className="space-y-1">
+            <label className="block text-xs font-semibold text-zinc-300">
               Service Address
             </label>
             <input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
-              placeholder="Flat / House number, street name"
+              className="w-full bg-[#1a1c29] rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:bg-[#202334]"
+              placeholder="Building, street, landmark"
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1">
+          <div className="space-y-1">
+            <label className="block text-xs font-semibold text-zinc-300">
               Preferred Date & Time
             </label>
             <input
               type="datetime-local"
               value={preferredTime}
               onChange={(e) => setPreferredTime(e.target.value)}
-              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-emerald-500"
+              className="w-full bg-[#1a1c29] rounded-xl px-4 py-3 text-xs text-zinc-100 focus:outline-none focus:bg-[#202334]"
               min={new Date().toISOString().slice(0, 16)}
             />
           </div>
 
-          <div className="flex gap-2 pt-2">
+          <div className="flex gap-2 pt-3">
             <button
               onClick={() => setStep("service")}
-              className="px-3.5 py-2 border border-zinc-800 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
+              className="px-4 py-2.5 bg-[#1a1c29] hover:bg-[#222537] rounded-full text-xs font-semibold text-zinc-300 transition-colors"
             >
               Back
             </button>
             <button
               onClick={handleFindWorkers}
               disabled={!preferredTime || loading}
-              className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
+              className="flex-1 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
             >
-              {loading ? "Matching..." : "Find Workers"}
+              {loading ? "Matching workers..." : "Find matching workers"}
             </button>
           </div>
         </div>
@@ -266,16 +265,16 @@ function BookServiceContent() {
       {/* Step 3: Match Worker */}
       {step === "workers" && (
         <div className="space-y-4 max-w-lg">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
             3. Available Matches
           </h2>
 
           {workers.length === 0 ? (
-            <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-8 text-center text-xs text-zinc-500">
-              <p>No active workers available in this radius.</p>
+            <div className="bg-[#12131d] rounded-2xl p-8 text-center text-xs text-zinc-500">
+              <p>No active verified workers available in this radius right now.</p>
               <button
                 onClick={() => setStep("details")}
-                className="mt-2 text-emerald-400 hover:underline"
+                className="mt-3 text-emerald-400 font-semibold hover:underline"
               >
                 Change time or location
               </button>
@@ -289,19 +288,19 @@ function BookServiceContent() {
                     setSelectedWorker(worker);
                     setStep("confirm");
                   }}
-                  className={`w-full bg-zinc-900/60 border rounded-xl p-4 text-left transition-all ${
+                  className={`w-full rounded-2xl p-5 text-left transition-all ${
                     selectedWorker?.id === worker.id
-                      ? "border-emerald-500 bg-zinc-900"
-                      : "border-zinc-800/80 hover:border-zinc-700"
+                      ? "bg-[#1f2336]"
+                      : "bg-[#12131d] hover:bg-[#181a27]"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-xs text-white">
+                      <p className="font-bold text-xs text-white">
                         {worker.userName}
                       </p>
                       <div className="flex items-center gap-3 text-[11px] text-zinc-400 mt-1">
-                        <span className="flex items-center gap-1 text-amber-400">
+                        <span className="flex items-center gap-1 text-amber-400 font-semibold">
                           <Star className="w-3 h-3 fill-amber-400" />
                           <span>{worker.rating.toFixed(1)}</span>
                         </span>
@@ -315,7 +314,7 @@ function BookServiceContent() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-mono font-bold text-xs text-white">
+                      <p className="font-mono font-extrabold text-sm text-emerald-400">
                         ₹{worker.estimatedPrice}
                       </p>
                       <p className="text-[10px] text-zinc-500 mt-0.5">
@@ -330,63 +329,63 @@ function BookServiceContent() {
 
           <button
             onClick={() => setStep("details")}
-            className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300"
+            className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300 font-semibold mt-2"
           >
             <ArrowLeft className="w-3 h-3" />
-            <span>Back</span>
+            <span>Back to details</span>
           </button>
         </div>
       )}
 
       {/* Step 4: Confirm */}
       {step === "confirm" && selectedWorker && (
-        <div className="space-y-4 max-w-lg">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-            4. Confirm Booking
+        <div className="space-y-4 max-w-lg bg-[#12131d] p-6 rounded-2xl">
+          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+            4. Confirm Dispatch
           </h2>
 
-          <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 space-y-2.5 text-xs">
-            <div className="flex justify-between">
+          <div className="space-y-3 text-xs">
+            <div className="flex justify-between py-1">
               <span className="text-zinc-500">Service</span>
-              <span className="text-zinc-200">
+              <span className="font-semibold text-white">
                 {services.find((s) => s.id === selectedService)?.name}
               </span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-zinc-500">Assigned Worker</span>
-              <span className="text-zinc-200">{selectedWorker.userName}</span>
+            <div className="flex justify-between py-1">
+              <span className="text-zinc-500">Worker</span>
+              <span className="font-semibold text-white">{selectedWorker.userName}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between py-1">
               <span className="text-zinc-500">Scheduled Time</span>
               <span className="text-zinc-200">
                 {new Date(preferredTime).toLocaleString()}
               </span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between py-1">
               <span className="text-zinc-500">Arrival Estimate</span>
               <span className="text-zinc-200">{selectedWorker.estimatedArrival}</span>
             </div>
-            <div className="border-t border-zinc-800 pt-2 flex justify-between">
-              <span className="font-medium text-zinc-300">Estimated Total</span>
-              <span className="font-mono font-bold text-sm text-emerald-400">
+            <div className="pt-3 border-t border-[#1e202d] flex justify-between items-center">
+              <span className="font-bold text-zinc-200">Total Price</span>
+              <span className="font-mono font-extrabold text-base text-emerald-400">
                 ₹{selectedWorker.estimatedPrice}
               </span>
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 pt-3">
             <button
               onClick={() => setStep("workers")}
-              className="px-3.5 py-2 border border-zinc-800 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
+              className="px-4 py-2.5 bg-[#1a1c29] hover:bg-[#222537] rounded-full text-xs font-semibold text-zinc-300 transition-colors"
             >
               Back
             </button>
             <button
               onClick={handleBooking}
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
+              className="flex-1 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
             >
-              {loading ? "Confirming..." : "Confirm Booking"}
+              {loading ? "Confirming dispatch..." : "Confirm dispatch"}
             </button>
           </div>
         </div>
@@ -397,7 +396,7 @@ function BookServiceContent() {
 
 export default function BookServicePage() {
   return (
-    <Suspense fallback={<div className="p-4 text-xs text-zinc-500">Loading booking...</div>}>
+    <Suspense fallback={<div className="p-4 text-xs text-zinc-500">Loading booking flow...</div>}>
       <BookServiceContent />
     </Suspense>
   );

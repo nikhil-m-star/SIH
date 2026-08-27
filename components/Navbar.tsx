@@ -10,75 +10,75 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/80 sticky top-0 z-50">
-      <div className="container-main flex items-center justify-between h-14">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-emerald-400">
-            <ShieldCheck className="w-4 h-4" />
+    <nav className="bg-[#0b0c10]/70 backdrop-blur-xl sticky top-0 z-50">
+      <div className="container-main flex items-center justify-between h-16">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
+            <ShieldCheck className="w-4.5 h-4.5" />
           </div>
-          <span className="font-semibold text-sm tracking-tight text-zinc-100">
+          <span className="font-bold text-sm tracking-tight text-white">
             SevaConnect
           </span>
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-5">
+        {/* Desktop links */}
+        <div className="hidden md:flex items-center gap-6">
           <Link
             href="/#how-it-works"
-            className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="text-xs text-zinc-400 hover:text-white transition-colors"
           >
             How it works
           </Link>
           <Link
             href="/#cooperative"
-            className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="text-xs text-zinc-400 hover:text-white transition-colors"
           >
             Cooperative model
           </Link>
 
           {isSignedIn ? (
-            <div className="flex items-center gap-3 pl-2">
+            <div className="flex items-center pl-2">
               <UserButton />
             </div>
           ) : (
             <div className="flex items-center gap-2 pl-2">
               <SignInButton mode="modal">
-                <button className="text-xs text-zinc-300 hover:text-white px-3 py-1.5 transition-colors">
-                  Sign In
+                <button className="text-xs text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#181a24] transition-colors">
+                  Sign in
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-md font-medium transition-colors">
-                  Get Started
+                <button className="text-xs bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold px-4 py-2 rounded-full transition-all shadow-sm">
+                  Get started
                 </button>
               </SignUpButton>
             </div>
           )}
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile toggle */}
         <button
-          className="md:hidden p-1.5 text-zinc-400 hover:text-zinc-200"
+          className="md:hidden p-2 text-zinc-400 hover:text-white"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle Menu"
+          aria-label="Toggle Navigation"
         >
           {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile drawer */}
       {menuOpen && (
-        <div className="md:hidden border-t border-zinc-800 bg-zinc-950 px-4 py-3 space-y-3">
+        <div className="md:hidden bg-[#13141d] px-6 py-4 space-y-3 rounded-b-2xl shadow-xl">
           <Link
             href="/#how-it-works"
-            className="block text-xs text-zinc-400"
+            className="block text-xs text-zinc-300 py-1"
             onClick={() => setMenuOpen(false)}
           >
             How it works
           </Link>
           <Link
             href="/#cooperative"
-            className="block text-xs text-zinc-400"
+            className="block text-xs text-zinc-300 py-1"
             onClick={() => setMenuOpen(false)}
           >
             Cooperative model
@@ -90,13 +90,13 @@ export default function Navbar() {
           ) : (
             <div className="flex gap-2 pt-2">
               <SignInButton mode="modal">
-                <button className="text-xs text-zinc-300 px-3 py-1.5 border border-zinc-800 rounded-md">
-                  Sign In
+                <button className="text-xs text-zinc-300 bg-[#1e202d] px-3.5 py-1.5 rounded-lg">
+                  Sign in
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="text-xs bg-emerald-600 text-white px-3.5 py-1.5 rounded-md font-medium">
-                  Get Started
+                <button className="text-xs bg-emerald-500 text-zinc-950 font-semibold px-4 py-1.5 rounded-full">
+                  Get started
                 </button>
               </SignUpButton>
             </div>

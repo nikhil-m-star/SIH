@@ -30,10 +30,10 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
   }
 
   return (
-    <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-3 text-xs">
-      <h3 className="font-semibold text-zinc-200">Rate Service Experience</h3>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="flex items-center gap-1.5">
+    <div className="bg-[#12131d] rounded-2xl p-6 space-y-4 text-xs">
+      <h3 className="font-bold text-white">Rate Service Experience</h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex items-center gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -44,7 +44,7 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
               className="p-1 text-zinc-600 hover:text-amber-400 transition-colors"
             >
               <Star
-                className={`w-5 h-5 ${
+                className={`w-6 h-6 ${
                   star <= (hoverScore || score)
                     ? "text-amber-400 fill-amber-400"
                     : "text-zinc-700"
@@ -57,16 +57,16 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           rows={2}
-          className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
-          placeholder="Optional service feedback..."
+          className="w-full bg-[#1a1c29] rounded-xl px-4 py-3 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:bg-[#202334]"
+          placeholder="Optional feedback..."
         />
         {error && <p className="text-red-400 text-xs">{error}</p>}
         <button
           type="submit"
           disabled={score === 0 || loading}
-          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
+          className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-full text-xs font-bold disabled:opacity-50 transition-all shadow-md"
         >
-          {loading ? "Submitting..." : "Submit Rating"}
+          {loading ? "Submitting rating..." : "Submit rating"}
         </button>
       </form>
     </div>

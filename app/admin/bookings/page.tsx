@@ -16,57 +16,57 @@ export default async function AdminBookingsPage() {
   });
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    ACCEPTED: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    IN_PROGRESS: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    COMPLETED: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    CANCELLED: "bg-zinc-800 text-zinc-400 border-zinc-700",
+    PENDING: "bg-amber-500/10 text-amber-400",
+    ACCEPTED: "bg-blue-500/10 text-blue-400",
+    IN_PROGRESS: "bg-purple-500/10 text-purple-400",
+    COMPLETED: "bg-emerald-500/10 text-emerald-400",
+    CANCELLED: "bg-zinc-800 text-zinc-400",
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-white tracking-tight">All System Bookings</h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Platform service ledger</p>
+        <h1 className="text-2xl font-extrabold text-white tracking-tight">System Bookings</h1>
+        <p className="text-xs text-zinc-400 mt-1">Audit log of all platform service dispatches</p>
       </div>
 
       {bookings.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-900/40 rounded-xl border border-zinc-800 text-xs text-zinc-500">
-          <p>No bookings registered.</p>
+        <div className="text-center py-16 bg-[#12131d] rounded-2xl text-xs text-zinc-500">
+          <p>No bookings found.</p>
         </div>
       ) : (
-        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl overflow-x-auto">
+        <div className="bg-[#12131d] rounded-2xl overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-zinc-800 text-zinc-400">
-                <th className="py-2.5 px-3 font-semibold">Service</th>
-                <th className="py-2.5 px-3 font-semibold">Customer</th>
-                <th className="py-2.5 px-3 font-semibold">Worker</th>
-                <th className="py-2.5 px-3 font-semibold">Amount</th>
-                <th className="py-2.5 px-3 font-semibold">Status</th>
-                <th className="py-2.5 px-3 font-semibold">Date</th>
+              <tr className="border-b border-[#1c1e2b] text-zinc-400">
+                <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Service</th>
+                <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Customer</th>
+                <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Worker</th>
+                <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Price</th>
+                <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Status</th>
+                <th className="py-3.5 px-4 font-bold uppercase tracking-wider text-[10px]">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
+            <tbody className="divide-y divide-[#181a26] text-zinc-300">
               {bookings.map((booking) => (
-                <tr key={booking.id} className="hover:bg-zinc-800/30 transition-colors">
-                  <td className="py-2.5 px-3 font-medium text-white flex items-center gap-2">
-                    <ServiceIcon name={booking.service.name} className="w-3.5 h-3.5 text-zinc-400" />
+                <tr key={booking.id} className="hover:bg-[#181a27] transition-colors">
+                  <td className="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+                    <ServiceIcon name={booking.service.name} className="w-4 h-4 text-emerald-400" />
                     <span>{booking.service.name}</span>
                   </td>
-                  <td className="py-2.5 px-3 text-zinc-400">{booking.customer.name}</td>
-                  <td className="py-2.5 px-3 text-zinc-400">{booking.worker?.name || "—"}</td>
-                  <td className="py-2.5 px-3 font-mono font-medium text-white">
+                  <td className="py-3.5 px-4 text-zinc-300">{booking.customer.name}</td>
+                  <td className="py-3.5 px-4 text-zinc-300">{booking.worker?.name || "—"}</td>
+                  <td className="py-3.5 px-4 font-mono font-bold text-white">
                     ₹{booking.actualPrice || booking.estimatedPrice}
                   </td>
-                  <td className="py-2.5 px-3">
+                  <td className="py-3.5 px-4">
                     <span
-                      className={`text-[10px] font-medium px-2 py-0.5 rounded border ${statusStyles[booking.status]}`}
+                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${statusStyles[booking.status]}`}
                     >
                       {booking.status.replace("_", " ")}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 text-zinc-500 text-[11px] font-mono">
+                  <td className="py-3.5 px-4 text-zinc-500 text-[11px] font-mono">
                     {new Date(booking.createdAt).toLocaleDateString()}
                   </td>
                 </tr>

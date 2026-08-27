@@ -23,12 +23,12 @@ export default async function CustomerHomePage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-white tracking-tight">
-          Welcome, {user.name.split(" ")[0]}
+        <h1 className="text-2xl font-extrabold text-white tracking-tight">
+          Welcome back, {user.name.split(" ")[0]}
         </h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Select a service to book a worker</p>
+        <p className="text-xs text-zinc-400 mt-1">Select a category to dispatch a verified worker</p>
       </div>
 
       {/* Services Grid */}
@@ -37,13 +37,13 @@ export default async function CustomerHomePage() {
           <Link
             key={service.id}
             href={`/customer/book?serviceId=${service.id}`}
-            className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 hover:border-emerald-500/40 hover:bg-zinc-900 transition-all group"
+            className="bg-[#12131d] hover:bg-[#1a1c29] rounded-2xl p-5 transition-all group"
           >
-            <div className="w-8 h-8 rounded-lg bg-zinc-800/60 border border-zinc-700/50 flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 mb-3 transition-colors">
-              <ServiceIcon name={service.name} className="w-4 h-4" />
+            <div className="w-10 h-10 rounded-xl bg-[#1d1f2d] flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 group-hover:bg-[#25283a] mb-4 transition-colors">
+              <ServiceIcon name={service.name} className="w-5 h-5" />
             </div>
-            <p className="font-medium text-xs text-zinc-200">{service.name}</p>
-            <p className="text-[11px] text-zinc-500 mt-0.5 font-mono">
+            <p className="font-bold text-xs text-white">{service.name}</p>
+            <p className="text-[11px] text-zinc-500 mt-1 font-mono">
               From ₹{service.basePrice}
             </p>
           </Link>
@@ -53,18 +53,18 @@ export default async function CustomerHomePage() {
       {/* AI Help Banner */}
       <Link
         href="/customer/ai-help"
-        className="flex items-center justify-between bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 hover:border-emerald-500/40 transition-colors group"
+        className="flex items-center justify-between bg-[#141622] hover:bg-[#1a1c2c] rounded-2xl p-5 transition-all group"
       >
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <Sparkles className="w-4 h-4" />
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+            <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-zinc-200">
+            <p className="text-xs font-bold text-white">
               Not sure which service you need?
             </p>
             <p className="text-[11px] text-zinc-400 mt-0.5">
-              Describe your issue in plain language for automated recommendation
+              Describe your problem for automatic AI diagnosis and dispatch
             </p>
           </div>
         </div>
@@ -73,14 +73,14 @@ export default async function CustomerHomePage() {
 
       {/* Recent Bookings */}
       {recentBookings.length > 0 && (
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
               Recent Bookings
             </h2>
             <Link
               href="/customer/bookings"
-              className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
             >
               View all
             </Link>
@@ -90,14 +90,14 @@ export default async function CustomerHomePage() {
               <Link
                 key={booking.id}
                 href={`/customer/bookings/${booking.id}`}
-                className="flex items-center justify-between bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-3.5 hover:border-zinc-700 transition-colors"
+                className="flex items-center justify-between bg-[#12131c] hover:bg-[#181a26] rounded-2xl p-4 transition-colors"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-md bg-zinc-800 flex items-center justify-center text-zinc-400">
-                    <ServiceIcon name={booking.service.name} className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#1d1f2c] flex items-center justify-center text-zinc-400">
+                    <ServiceIcon name={booking.service.name} className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-zinc-200">
+                    <p className="text-xs font-bold text-white">
                       {booking.service.name}
                     </p>
                     <p className="text-[11px] text-zinc-500 flex items-center gap-1 mt-0.5">
@@ -109,7 +109,7 @@ export default async function CustomerHomePage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono font-medium text-zinc-300">
+                  <span className="text-xs font-mono font-bold text-white">
                     ₹{booking.actualPrice || booking.estimatedPrice}
                   </span>
                   <StatusBadge status={booking.status} />
@@ -125,16 +125,16 @@ export default async function CustomerHomePage() {
 
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    ACCEPTED: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    IN_PROGRESS: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    COMPLETED: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    CANCELLED: "bg-zinc-800 text-zinc-400 border-zinc-700",
+    PENDING: "bg-amber-500/10 text-amber-400",
+    ACCEPTED: "bg-blue-500/10 text-blue-400",
+    IN_PROGRESS: "bg-purple-500/10 text-purple-400",
+    COMPLETED: "bg-emerald-500/10 text-emerald-400",
+    CANCELLED: "bg-zinc-800 text-zinc-400",
   };
 
   return (
     <span
-      className={`text-[10px] font-medium px-2 py-0.5 rounded border ${styles[status] || "bg-zinc-800 text-zinc-400 border-zinc-700"}`}
+      className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${styles[status] || "bg-zinc-800 text-zinc-400"}`}
     >
       {status.replace("_", " ")}
     </span>

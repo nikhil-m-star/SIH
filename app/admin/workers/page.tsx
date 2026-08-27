@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import WorkerVerifyButton from "./WorkerVerifyButton";
-import { Star, MapPin } from "lucide-react";
+import { Star } from "lucide-react";
 
 export default async function AdminWorkersPage() {
   await requireRole("ADMIN");
@@ -15,36 +15,36 @@ export default async function AdminWorkersPage() {
   });
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    VERIFIED: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    REJECTED: "bg-red-500/10 text-red-400 border-red-500/20",
+    PENDING: "bg-amber-500/10 text-amber-400",
+    VERIFIED: "bg-emerald-500/10 text-emerald-400",
+    REJECTED: "bg-red-500/10 text-red-400",
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-white tracking-tight">Worker Management</h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Verification status and roster audit</p>
+        <h1 className="text-2xl font-extrabold text-white tracking-tight">Worker Management</h1>
+        <p className="text-xs text-zinc-400 mt-1">Verification queue and cooperative roster</p>
       </div>
 
       {workers.length === 0 ? (
-        <div className="text-center py-12 bg-zinc-900/40 rounded-xl border border-zinc-800 text-xs text-zinc-500">
-          <p>No workers registered in cooperative yet.</p>
+        <div className="text-center py-16 bg-[#12131d] rounded-2xl text-xs text-zinc-500">
+          <p>No workers registered yet.</p>
         </div>
       ) : (
         <div className="space-y-2.5">
           {workers.map((worker) => (
             <div
               key={worker.id}
-              className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 flex items-center justify-between"
+              className="bg-[#12131d] hover:bg-[#181a27] rounded-2xl p-5 flex items-center justify-between transition-colors"
             >
               <div className="space-y-1 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-white">
+                <div className="flex items-center gap-3">
+                  <span className="font-bold text-white text-sm">
                     {worker.user.name}
                   </span>
                   <span
-                    className={`text-[10px] font-medium px-2 py-0.2 rounded border ${statusStyles[worker.verificationStatus]}`}
+                    className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusStyles[worker.verificationStatus]}`}
                   >
                     {worker.verificationStatus}
                   </span>
@@ -53,27 +53,27 @@ export default async function AdminWorkersPage() {
                   {worker.user.email}
                 </p>
                 <div className="flex items-center gap-3 text-[11px] text-zinc-400 pt-1">
-                  <span className="flex items-center gap-0.5 text-amber-400">
-                    <Star className="w-3 h-3 fill-amber-400" />
+                  <span className="flex items-center gap-1 text-amber-400 font-bold">
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
                     <span>{worker.rating.toFixed(1)}</span>
                   </span>
                   <span>·</span>
-                  <span>{worker.completedJobs} jobs</span>
+                  <span>{worker.completedJobs} completed jobs</span>
                   <span>·</span>
-                  <span className="font-mono">
+                  <span className="font-mono font-bold text-white">
                     ₹{worker.totalEarnings.toLocaleString()} earned
                   </span>
                   <span>·</span>
-                  <span className={worker.isAvailable ? "text-emerald-400" : "text-zinc-500"}>
+                  <span className={worker.isAvailable ? "text-emerald-400 font-semibold" : "text-zinc-500"}>
                     {worker.isAvailable ? "Available" : "Offline"}
                   </span>
                 </div>
                 {worker.skills.length > 0 && (
-                  <div className="flex flex-wrap gap-1 pt-1">
+                  <div className="flex flex-wrap gap-1.5 pt-2">
                     {worker.skills.map((skill) => (
                       <span
                         key={skill.id}
-                        className="text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded border border-zinc-700/50"
+                        className="text-[10px] bg-[#1c1e2d] text-zinc-300 px-2 py-0.5 rounded-lg font-medium"
                       >
                         {skill.service.name} ({skill.experienceYears}y)
                       </span>

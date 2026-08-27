@@ -29,70 +29,70 @@ export default async function WorkerJobDetailPage({
   if (!booking || booking.workerId !== user.id) notFound();
 
   const statusStyles: Record<string, string> = {
-    PENDING: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    ACCEPTED: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    IN_PROGRESS: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    COMPLETED: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    CANCELLED: "bg-zinc-800 text-zinc-400 border-zinc-700",
+    PENDING: "bg-amber-500/10 text-amber-400",
+    ACCEPTED: "bg-blue-500/10 text-blue-400",
+    IN_PROGRESS: "bg-purple-500/10 text-purple-400",
+    COMPLETED: "bg-emerald-500/10 text-emerald-400",
+    CANCELLED: "bg-zinc-800 text-zinc-400",
   };
 
   return (
     <div className="space-y-6 max-w-lg">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-tight">Job Dispatch</h1>
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">Job Dispatch</h1>
           <p className="text-xs text-zinc-500 font-mono mt-0.5">{booking.id}</p>
         </div>
         <Link
           href="/worker/jobs"
-          className="text-xs text-zinc-400 hover:text-zinc-200 inline-flex items-center gap-1"
+          className="text-xs text-zinc-400 hover:text-white bg-[#141520] px-3 py-1.5 rounded-full inline-flex items-center gap-1 font-semibold"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>All Jobs</span>
+          <span>All jobs</span>
         </Link>
       </div>
 
-      <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-2.5 text-xs">
-        <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
-          <span className="text-zinc-500">Status</span>
+      <div className="bg-[#12131d] rounded-2xl p-6 space-y-3 text-xs">
+        <div className="flex items-center justify-between pb-3 border-b border-[#1c1e2b]">
+          <span className="text-zinc-500 font-medium">Status</span>
           <span
-            className={`text-[10px] font-medium px-2 py-0.5 rounded border ${statusStyles[booking.status]}`}
+            className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${statusStyles[booking.status]}`}
           >
             {booking.status.replace("_", " ")}
           </span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center py-1">
           <span className="text-zinc-500">Service</span>
-          <span className="font-medium text-zinc-200 flex items-center gap-1.5">
-            <ServiceIcon name={booking.service.name} className="w-3.5 h-3.5" />
+          <span className="font-bold text-white flex items-center gap-2">
+            <ServiceIcon name={booking.service.name} className="w-4 h-4 text-emerald-400" />
             <span>{booking.service.name}</span>
           </span>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between py-1">
           <span className="text-zinc-500">Customer</span>
-          <span className="text-zinc-200 font-medium">{booking.customer.name}</span>
+          <span className="text-white font-bold">{booking.customer.name}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-zinc-500">Problem</span>
-          <span className="text-zinc-200 text-right max-w-[65%]">
+        <div className="flex justify-between py-1">
+          <span className="text-zinc-500">Problem Description</span>
+          <span className="text-zinc-200 text-right max-w-[65%] font-medium">
             {booking.description}
           </span>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between py-1">
           <span className="text-zinc-500">Scheduled Time</span>
           <span className="text-zinc-200">
             {new Date(booking.preferredTime).toLocaleString()}
           </span>
         </div>
         {booking.address && (
-          <div className="flex justify-between">
-            <span className="text-zinc-500">Location</span>
+          <div className="flex justify-between py-1">
+            <span className="text-zinc-500">Service Location</span>
             <span className="text-zinc-200">{booking.address}</span>
           </div>
         )}
-        <div className="border-t border-zinc-800 pt-2 flex justify-between">
-          <span className="font-medium text-zinc-300">Total Price</span>
-          <span className="font-mono font-bold text-sm text-emerald-400">
+        <div className="pt-3 border-t border-[#1c1e2b] flex justify-between items-center">
+          <span className="font-bold text-zinc-300">Total Booking Price</span>
+          <span className="font-mono font-extrabold text-base text-emerald-400">
             ₹{booking.actualPrice || booking.estimatedPrice}
           </span>
         </div>
@@ -101,9 +101,9 @@ export default async function WorkerJobDetailPage({
       <JobActions bookingId={booking.id} status={booking.status} />
 
       {booking.payment && (
-        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-1 text-xs">
-          <h3 className="font-semibold text-zinc-300 mb-1">Your Direct Payout (90%)</h3>
-          <p className="text-2xl font-mono font-bold text-emerald-400">
+        <div className="bg-[#12131d] rounded-2xl p-6 space-y-1 text-xs">
+          <h3 className="font-bold text-white">Your Direct Worker Share (90%)</h3>
+          <p className="text-3xl font-mono font-extrabold text-emerald-400 pt-1">
             ₹{booking.payment.workerAmount}
           </p>
           <p className="text-[11px] text-zinc-500">
@@ -113,20 +113,22 @@ export default async function WorkerJobDetailPage({
       )}
 
       {booking.rating && (
-        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-2 text-xs">
-          <h3 className="font-semibold text-zinc-300">Customer Rating</h3>
-          <div className="flex items-center gap-1 text-amber-400">
+        <div className="bg-[#12131d] rounded-2xl p-6 space-y-2 text-xs">
+          <h3 className="font-bold text-white">Customer Rating</h3>
+          <div className="flex items-center gap-1 text-amber-400 pt-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
-                className={`w-4 h-4 ${
+                className={`w-5 h-5 ${
                   star <= booking.rating!.score ? "fill-amber-400" : "text-zinc-700"
                 }`}
               />
             ))}
           </div>
           {booking.rating.comment && (
-            <p className="text-zinc-400 pt-1">{booking.rating.comment}</p>
+            <p className="text-zinc-300 pt-2 bg-[#1a1c29] p-3 rounded-xl">
+              {booking.rating.comment}
+            </p>
           )}
         </div>
       )}
