@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import { ServiceIcon } from "@/components/ServiceIcon";
+import { ArrowRight, Sparkles, CheckCircle2, Shield } from "lucide-react";
 
 const SERVICES = [
-  { name: "Plumbing", icon: "🔧", desc: "Pipes, leaks, fixtures" },
-  { name: "Electrical", icon: "⚡", desc: "Wiring, switches, faults" },
-  { name: "AC Repair", icon: "❄️", desc: "Cooling, maintenance" },
-  { name: "Cleaning", icon: "🧹", desc: "Deep clean, sanitization" },
-  { name: "Carpentry", icon: "🪚", desc: "Furniture, woodwork" },
+  { name: "Plumbing", desc: "Pipes, leaks & fixtures" },
+  { name: "Electrical", desc: "Wiring, circuits & fixtures" },
+  { name: "AC Repair", desc: "Cooling & servicing" },
+  { name: "Cleaning", desc: "Deep cleaning & hygiene" },
+  { name: "Carpentry", desc: "Furniture & woodwork" },
 ];
 
 export default function HomePage() {
@@ -15,102 +17,99 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-white">
-        <div className="container-main py-16 md:py-24">
-          <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
+      <section className="border-b border-zinc-800/60 bg-gradient-to-b from-zinc-950 via-zinc-900/30 to-zinc-950">
+        <div className="container-main py-20 md:py-28">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-6">
+              <Shield className="w-3.5 h-3.5" />
+              <span>Cooperative-Owned Platform</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
               Local services.
               <br />
-              Fair work.
+              Fair compensation.
               <br />
-              <span className="text-[var(--color-primary)]">
-                Stronger communities.
-              </span>
+              <span className="text-emerald-400">Direct to workers.</span>
             </h1>
-            <p className="mt-5 text-lg text-gray-600 leading-relaxed max-w-lg">
-              A cooperative-powered service platform connecting customers with
-              trusted local workers. Transparent pay, verified professionals.
+            <p className="mt-4 text-sm text-zinc-400 leading-relaxed max-w-md">
+              Connecting households with verified tradespeople. Transparent 90%
+              worker payout with zero corporate extraction.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/customer/book"
-                className="inline-flex items-center px-6 py-3 bg-[var(--color-primary)] text-white rounded-lg font-medium hover:bg-[var(--color-primary-light)] transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium transition-colors shadow-sm"
               >
-                Find a Service
+                <span>Book a Service</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
                 href="/sign-up"
-                className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                className="inline-flex items-center px-5 py-2.5 border border-zinc-800 hover:border-zinc-700 bg-zinc-900/60 text-zinc-300 hover:text-white rounded-lg text-xs font-medium transition-colors"
               >
-                Join as a Worker
+                Join as Worker
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services */}
-      <section className="bg-gray-50 border-y border-gray-200">
-        <div className="container-main py-12">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-6">
-            Available Services
-          </h2>
+      {/* Services Grid */}
+      <section className="border-b border-zinc-800/60 bg-zinc-950/60 py-12">
+        <div className="container-main">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+              Available Services
+            </h2>
+            <Link
+              href="/customer/ai-help"
+              className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>AI Service Diagnosis</span>
+            </Link>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
             {SERVICES.map((s) => (
-              <div
+              <Link
                 key={s.name}
-                className="bg-white rounded-xl border border-gray-200 p-4 text-center hover:border-[var(--color-primary)] hover:shadow-sm transition-all"
+                href={`/customer/book?service=${encodeURIComponent(s.name)}`}
+                className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-4 hover:border-emerald-500/40 hover:bg-zinc-900/80 transition-all group"
               >
-                <span className="text-3xl">{s.icon}</span>
-                <p className="mt-2 font-medium text-sm text-gray-900">
-                  {s.name}
-                </p>
-                <p className="text-xs text-gray-500 mt-0.5">{s.desc}</p>
-              </div>
+                <div className="w-8 h-8 rounded-lg bg-zinc-800/60 border border-zinc-700/50 flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 transition-colors mb-3">
+                  <ServiceIcon name={s.name} className="w-4 h-4" />
+                </div>
+                <p className="font-medium text-xs text-zinc-200">{s.name}</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">{s.desc}</p>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="bg-white">
-        <div className="container-main py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-10">
-            How It Works
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12">
+      {/* How it works */}
+      <section id="how-it-works" className="border-b border-zinc-800/60 py-16 bg-zinc-950">
+        <div className="container-main">
+          <h2 className="text-lg font-bold text-white mb-8">How it works</h2>
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Customer */}
-            <div>
-              <h3 className="text-sm font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-4">
-                For Customers
+            <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-6">
+              <h3 className="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-5">
+                Customers
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-4 text-xs">
                 {[
-                  {
-                    step: "1",
-                    title: "Choose a service",
-                    desc: "Select from plumbing, electrical, cleaning, and more.",
-                  },
-                  {
-                    step: "2",
-                    title: "Find a worker",
-                    desc: "Our matching system finds verified workers near you.",
-                  },
-                  {
-                    step: "3",
-                    title: "Book and pay",
-                    desc: "Confirm your booking, track progress, and pay fairly.",
-                  },
-                ].map((item) => (
-                  <div key={item.step} className="flex gap-4">
-                    <div className="w-8 h-8 bg-[var(--color-primary)] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {item.step}
-                    </div>
+                  { title: "Select service", desc: "Choose directly or use AI for problem diagnosis." },
+                  { title: "Match verified worker", desc: "Ranked by proximity, availability and ratings." },
+                  { title: "Complete & rate", desc: "Track progress and rate upon verified completion." },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="w-5 h-5 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5 border border-zinc-700">
+                      {i + 1}
+                    </span>
                     <div>
-                      <p className="font-medium text-gray-900">{item.title}</p>
-                      <p className="text-sm text-gray-500 mt-0.5">
-                        {item.desc}
-                      </p>
+                      <p className="font-medium text-zinc-200">{item.title}</p>
+                      <p className="text-zinc-500 mt-0.5">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -118,37 +117,23 @@ export default function HomePage() {
             </div>
 
             {/* Worker */}
-            <div>
-              <h3 className="text-sm font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-4">
-                For Workers
+            <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-6">
+              <h3 className="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-5">
+                Workers
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-4 text-xs">
                 {[
-                  {
-                    step: "1",
-                    title: "Set your skills",
-                    desc: "Create your profile with the services you offer.",
-                  },
-                  {
-                    step: "2",
-                    title: "Receive jobs",
-                    desc: "Get matched with nearby customers who need your help.",
-                  },
-                  {
-                    step: "3",
-                    title: "Earn fairly",
-                    desc: "Keep 90% of every payment. No middlemen fees.",
-                  },
-                ].map((item) => (
-                  <div key={item.step} className="flex gap-4">
-                    <div className="w-8 h-8 bg-[var(--color-accent)] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {item.step}
-                    </div>
+                  { title: "Set skills & location", desc: "Configure service categories and availability." },
+                  { title: "Accept bookings", desc: "Receive direct job alerts in your area." },
+                  { title: "Keep 90% earnings", desc: "Transparent payouts with community funds." },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5 border border-emerald-500/20">
+                      {i + 1}
+                    </span>
                     <div>
-                      <p className="font-medium text-gray-900">{item.title}</p>
-                      <p className="text-sm text-gray-500 mt-0.5">
-                        {item.desc}
-                      </p>
+                      <p className="font-medium text-zinc-200">{item.title}</p>
+                      <p className="text-zinc-500 mt-0.5">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -158,56 +143,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI Help */}
-      <section className="bg-gray-50 border-y border-gray-200">
-        <div className="container-main py-12">
-          <div className="max-w-lg">
-            <h2 className="text-xl font-bold text-gray-900">
-              Not sure what service you need?
+      {/* Cooperative Breakdown */}
+      <section id="cooperative" className="py-16 bg-zinc-950">
+        <div className="container-main">
+          <div className="max-w-md">
+            <h2 className="text-lg font-bold text-white mb-2">
+              Transparent Economics
             </h2>
-            <p className="mt-2 text-gray-600 text-sm leading-relaxed">
-              Describe your problem in plain language — our optional AI helper
-              can identify the right service for you. No obligation, no pressure.
+            <p className="text-xs text-zinc-400 mb-6">
+              Example breakdown per ₹1,000 service payment:
             </p>
-            <Link
-              href="/customer/ai-help"
-              className="inline-flex items-center mt-4 text-sm font-medium text-[var(--color-primary)] hover:underline"
-            >
-              Try AI Help →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Cooperative Model */}
-      <section id="cooperative" className="bg-white">
-        <div className="container-main py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">
-            Cooperative Model
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-lg">
-            Every payment is transparently distributed. Workers keep the
-            majority. The rest supports community welfare and training.
-          </p>
-          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 max-w-md">
-            <p className="text-sm font-medium text-gray-500 mb-4">
-              Example: ₹1,000 customer payment
-            </p>
-            <div className="space-y-3">
+            <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-2.5 text-xs">
               {[
-                { label: "Worker", amount: "₹900", pct: "90%", color: "bg-[var(--color-primary)]" },
-                { label: "Welfare Fund", amount: "₹50", pct: "5%", color: "bg-blue-500" },
-                { label: "Training Fund", amount: "₹20", pct: "2%", color: "bg-purple-500" },
-                { label: "Cooperative", amount: "₹30", pct: "3%", color: "bg-orange-500" },
+                { label: "Worker Payout", amount: "₹900", share: "90%", color: "bg-emerald-500" },
+                { label: "Worker Welfare Fund", amount: "₹50", share: "5%", color: "bg-blue-500" },
+                { label: "Skills Training Fund", amount: "₹20", share: "2%", color: "bg-purple-500" },
+                { label: "Cooperative Operations", amount: "₹30", share: "3%", color: "bg-zinc-500" },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                    <span className="text-sm text-gray-700">{item.label}</span>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                    <span className="text-zinc-300">{item.label}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-gray-400">{item.pct}</span>
-                    <span className="text-sm font-semibold text-gray-900 w-12 text-right">
+                  <div className="flex items-center gap-3 font-mono">
+                    <span className="text-zinc-500 text-[11px]">{item.share}</span>
+                    <span className="font-semibold text-zinc-100 w-12 text-right">
                       {item.amount}
                     </span>
                   </div>
@@ -219,18 +179,13 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400">
-        <div className="container-main py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-[var(--color-primary)] rounded flex items-center justify-center">
-              <span className="text-white font-bold text-xs">S</span>
-            </div>
-            <span className="text-sm text-gray-300">SevaConnect</span>
+      <footer className="border-t border-zinc-800/60 bg-zinc-950 py-8">
+        <div className="container-main flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          <div className="flex items-center gap-2 text-zinc-400">
+            <Shield className="w-4 h-4 text-emerald-400" />
+            <span className="font-medium">SevaConnect</span>
           </div>
-          <p className="text-xs">
-            Built for SIH 2026 · Problem Statement 26089 · Cooperative-powered
-            local services
-          </p>
+          <p>SIH 2026 · Problem Statement 26089</p>
         </div>
       </footer>
     </>

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
+import { Users, UserCheck, ClipboardList, CheckCircle2, Landmark } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   await requireRole("ADMIN");
@@ -32,70 +33,58 @@ export default async function AdminDashboardPage() {
   const sums = totalPayments._sum;
 
   const stats = [
-    { label: "Total Workers", value: totalWorkers, icon: "👷" },
-    { label: "Total Customers", value: totalCustomers, icon: "👥" },
-    { label: "Active Bookings", value: activeBookings, icon: "📋" },
-    { label: "Completed", value: completedBookings, icon: "✅" },
+    { label: "Total Workers", value: totalWorkers, icon: Users },
+    { label: "Total Customers", value: totalCustomers, icon: UserCheck },
+    { label: "Active Jobs", value: activeBookings, icon: ClipboardList },
+    { label: "Completed", value: completedBookings, icon: CheckCircle2 },
   ];
 
   const financials = [
-    {
-      label: "Total Revenue",
-      value: `₹${(sums.amount || 0).toLocaleString()}`,
-      color: "text-gray-900",
-    },
-    {
-      label: "Worker Payouts",
-      value: `₹${(sums.workerAmount || 0).toLocaleString()}`,
-      color: "text-[var(--color-primary)]",
-    },
-    {
-      label: "Welfare Fund",
-      value: `₹${(sums.welfareFund || 0).toLocaleString()}`,
-      color: "text-blue-600",
-    },
-    {
-      label: "Training Fund",
-      value: `₹${(sums.trainingFund || 0).toLocaleString()}`,
-      color: "text-purple-600",
-    },
-    {
-      label: "Cooperative Share",
-      value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`,
-      color: "text-orange-600",
-    },
+    { label: "Total Gross Revenue", value: `₹${(sums.amount || 0).toLocaleString()}`, color: "text-white" },
+    { label: "Worker Payouts (90%)", value: `₹${(sums.workerAmount || 0).toLocaleString()}`, color: "text-emerald-400" },
+    { label: "Welfare Fund (5%)", value: `₹${(sums.welfareFund || 0).toLocaleString()}`, color: "text-blue-400" },
+    { label: "Training Fund (2%)", value: `₹${(sums.trainingFund || 0).toLocaleString()}`, color: "text-purple-400" },
+    { label: "Cooperative Share (3%)", value: `₹${(sums.cooperativeShare || 0).toLocaleString()}`, color: "text-zinc-300" },
   ];
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-
-      {/* Stats Grid */}
-      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="bg-white border border-gray-200 rounded-xl p-4"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-xl">{stat.icon}</span>
-              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
-          </div>
-        ))}
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-white tracking-tight">Cooperative Administration</h1>
+        <p className="text-xs text-zinc-400 mt-0.5">Platform overview and fund accounting</p>
       </div>
 
-      {/* Financials */}
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">
-          Cooperative Finances
+      {/* Metrics */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4"
+            >
+              <div className="flex items-center justify-between text-zinc-500 mb-1">
+                <span className="text-xs">{stat.label}</span>
+                <Icon className="w-4 h-4" />
+              </div>
+              <p className="text-xl font-mono font-bold text-white mt-1">
+                {stat.value}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Treasury snapshot */}
+      <div className="space-y-3">
+        <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+          Treasury Breakdown
         </h2>
-        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-2.5 text-xs">
           {financials.map((item) => (
             <div key={item.label} className="flex items-center justify-between">
-              <span className="text-sm text-gray-500">{item.label}</span>
-              <span className={`text-sm font-semibold ${item.color}`}>
+              <span className="text-zinc-400">{item.label}</span>
+              <span className={`font-mono font-semibold ${item.color}`}>
                 {item.value}
               </span>
             </div>

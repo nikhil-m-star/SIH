@@ -9,16 +9,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SevaConnect — Local Services, Fair Work",
-  description:
-    "A cooperative-powered service platform connecting customers with trusted local workers. Fair pay, transparent economics, stronger communities.",
+  title: "SevaConnect — Local Cooperative Services",
+  description: "Worker-owned local service cooperative platform.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="min-h-full flex flex-col font-sans antialiased bg-gray-50 text-gray-900">
-        <ClerkProvider>
+    <html lang="en" className={`${inter.variable} dark h-full`}>
+      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "#10b981",
+              colorBackground: "#121215",
+            },
+          }}
+        >
           {children}
         </ClerkProvider>
       </body>

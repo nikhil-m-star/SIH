@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getCurrentDbUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { ServiceIcon } from "@/components/ServiceIcon";
+import { Sparkles, ArrowRight, Clock } from "lucide-react";
 
 export default async function CustomerHomePage() {
   const user = await getCurrentDbUser();
@@ -21,54 +23,64 @@ export default async function CustomerHomePage() {
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">
-        Welcome back, {user.name.split(" ")[0]}
-      </h1>
-      <p className="text-gray-500 mt-1">What do you need help with today?</p>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-white tracking-tight">
+          Welcome, {user.name.split(" ")[0]}
+        </h1>
+        <p className="text-xs text-zinc-400 mt-0.5">Select a service to book a worker</p>
+      </div>
 
       {/* Services Grid */}
-      <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
         {services.map((service) => (
           <Link
             key={service.id}
             href={`/customer/book?serviceId=${service.id}`}
-            className="bg-white border border-gray-200 rounded-xl p-4 hover:border-[var(--color-primary)] hover:shadow-sm transition-all"
+            className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 hover:border-emerald-500/40 hover:bg-zinc-900 transition-all group"
           >
-            <span className="text-2xl">{service.icon}</span>
-            <p className="mt-2 font-medium text-sm text-gray-900">
-              {service.name}
-            </p>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <div className="w-8 h-8 rounded-lg bg-zinc-800/60 border border-zinc-700/50 flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 mb-3 transition-colors">
+              <ServiceIcon name={service.name} className="w-4 h-4" />
+            </div>
+            <p className="font-medium text-xs text-zinc-200">{service.name}</p>
+            <p className="text-[11px] text-zinc-500 mt-0.5 font-mono">
               From ₹{service.basePrice}
             </p>
           </Link>
         ))}
       </div>
 
-      {/* AI Help */}
+      {/* AI Help Banner */}
       <Link
         href="/customer/ai-help"
-        className="mt-4 block bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/20 rounded-xl p-4 hover:bg-[var(--color-primary)]/10 transition-colors"
+        className="flex items-center justify-between bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 hover:border-emerald-500/40 transition-colors group"
       >
-        <p className="font-medium text-[var(--color-primary)] text-sm">
-          🤖 Not sure what service you need?
-        </p>
-        <p className="text-xs text-gray-600 mt-1">
-          Describe your problem and AI will help identify the right service
-        </p>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-zinc-200">
+              Not sure which service you need?
+            </p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">
+              Describe your issue in plain language for automated recommendation
+            </p>
+          </div>
+        </div>
+        <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-emerald-400 transition-colors" />
       </Link>
 
       {/* Recent Bookings */}
       {recentBookings.length > 0 && (
-        <div className="mt-8">
+        <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
               Recent Bookings
             </h2>
             <Link
               href="/customer/bookings"
-              className="text-sm text-[var(--color-primary)] hover:underline"
+              className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
             >
               View all
             </Link>
@@ -78,20 +90,28 @@ export default async function CustomerHomePage() {
               <Link
                 key={booking.id}
                 href={`/customer/bookings/${booking.id}`}
-                className="block bg-white border border-gray-200 rounded-lg p-3 hover:shadow-sm transition-shadow"
+                className="flex items-center justify-between bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-3.5 hover:border-zinc-700 transition-colors"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span>{booking.service.icon}</span>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {booking.service.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(booking.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md bg-zinc-800 flex items-center justify-center text-zinc-400">
+                    <ServiceIcon name={booking.service.name} className="w-3.5 h-3.5" />
                   </div>
+                  <div>
+                    <p className="text-xs font-medium text-zinc-200">
+                      {booking.service.name}
+                    </p>
+                    <p className="text-[11px] text-zinc-500 flex items-center gap-1 mt-0.5">
+                      <Clock className="w-3 h-3" />
+                      <span>{new Date(booking.createdAt).toLocaleDateString()}</span>
+                      <span>·</span>
+                      <span>{booking.worker?.name || "Assigning worker"}</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-mono font-medium text-zinc-300">
+                    ₹{booking.actualPrice || booking.estimatedPrice}
+                  </span>
                   <StatusBadge status={booking.status} />
                 </div>
               </Link>
@@ -105,16 +125,16 @@ export default async function CustomerHomePage() {
 
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
-    PENDING: "bg-yellow-100 text-yellow-800",
-    ACCEPTED: "bg-blue-100 text-blue-800",
-    IN_PROGRESS: "bg-purple-100 text-purple-800",
-    COMPLETED: "bg-green-100 text-green-800",
-    CANCELLED: "bg-gray-100 text-gray-600",
+    PENDING: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    ACCEPTED: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    IN_PROGRESS: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+    COMPLETED: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    CANCELLED: "bg-zinc-800 text-zinc-400 border-zinc-700",
   };
 
   return (
     <span
-      className={`text-xs font-medium px-2 py-1 rounded-full ${styles[status] || "bg-gray-100 text-gray-600"}`}
+      className={`text-[10px] font-medium px-2 py-0.5 rounded border ${styles[status] || "bg-zinc-800 text-zinc-400 border-zinc-700"}`}
     >
       {status.replace("_", " ")}
     </span>

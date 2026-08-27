@@ -8,7 +8,7 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log("Seeding database...");
 
   // Clean existing data
   await prisma.cooperativeTransaction.deleteMany();
@@ -24,30 +24,30 @@ async function main() {
   // Create Services
   const services = await Promise.all([
     prisma.service.create({
-      data: { name: "Plumbing", description: "Pipes, leaks, fixtures, and water systems", icon: "🔧", basePrice: 500 },
+      data: { name: "Plumbing", description: "Pipes, leaks, fixtures, and water systems", icon: "wrench", basePrice: 500 },
     }),
     prisma.service.create({
-      data: { name: "Electrical", description: "Wiring, switches, faults, and installations", icon: "⚡", basePrice: 600 },
+      data: { name: "Electrical", description: "Wiring, switches, faults, and installations", icon: "zap", basePrice: 600 },
     }),
     prisma.service.create({
-      data: { name: "AC Repair", description: "Cooling systems, maintenance, and installation", icon: "❄️", basePrice: 800 },
+      data: { name: "AC Repair", description: "Cooling systems, maintenance, and installation", icon: "wind", basePrice: 800 },
     }),
     prisma.service.create({
-      data: { name: "Cleaning", description: "Deep cleaning, sanitization, and maintenance", icon: "🧹", basePrice: 400 },
+      data: { name: "Cleaning", description: "Deep cleaning, sanitization, and maintenance", icon: "sparkles", basePrice: 400 },
     }),
     prisma.service.create({
-      data: { name: "Carpentry", description: "Furniture repair, woodwork, and installations", icon: "🪚", basePrice: 700 },
+      data: { name: "Carpentry", description: "Furniture repair, woodwork, and installations", icon: "hammer", basePrice: 700 },
     }),
   ]);
 
-  console.log(`✅ Created ${services.length} services`);
+  console.log(`Created ${services.length} services`);
 
   // Create Cooperative Config
   await prisma.cooperativeConfig.create({
     data: { workerSharePct: 90, welfarePct: 5, trainingPct: 2, cooperativePct: 3 },
   });
 
-  console.log("✅ Created cooperative config");
+  console.log("Created cooperative config");
 
   // Create Customers
   const customerNames = [
@@ -68,7 +68,7 @@ async function main() {
     )
   );
 
-  console.log(`✅ Created ${customers.length} customers`);
+  console.log(`Created ${customers.length} customers`);
 
   // Create Workers
   const workerData = [
@@ -140,7 +140,7 @@ async function main() {
     workers.push({ user, profile });
   }
 
-  console.log(`✅ Created ${workers.length} workers with profiles and skills`);
+  console.log(`Created ${workers.length} workers with profiles and skills`);
 
   // Create Admin
   await prisma.user.create({
@@ -152,7 +152,7 @@ async function main() {
     },
   });
 
-  console.log("✅ Created admin user");
+  console.log("Created admin user");
 
   // Create Bookings
   const statuses = ["COMPLETED", "COMPLETED", "COMPLETED", "COMPLETED", "COMPLETED",
@@ -226,7 +226,6 @@ async function main() {
       },
     });
 
-    // Create payment for completed bookings
     if (status === "COMPLETED") {
       const amount = estimatedPrice;
       const workerAmount = Math.round(amount * 0.9);
@@ -255,7 +254,6 @@ async function main() {
         ],
       });
 
-      // Create rating for completed bookings
       if (Math.random() > 0.2) {
         await prisma.rating.create({
           data: {
@@ -263,7 +261,7 @@ async function main() {
             customerId: customer.id,
             workerId: worker.user.id,
             score: Math.floor(Math.random() * 2) + 4,
-            comment: ["Great work!", "Very professional", "Quick and reliable", "Excellent service", "Would hire again"][Math.floor(Math.random() * 5)],
+            comment: ["Great work", "Professional & punctual", "Quality service", "Fair pricing", "Recommended"][Math.floor(Math.random() * 5)],
           },
         });
       }
@@ -272,8 +270,8 @@ async function main() {
     bookingCount++;
   }
 
-  console.log(`✅ Created ${bookingCount} bookings with payments, transactions, and ratings`);
-  console.log("🎉 Seeding complete!");
+  console.log(`Created ${bookingCount} bookings with payments, transactions, and ratings`);
+  console.log("Seeding complete");
 }
 
 main()

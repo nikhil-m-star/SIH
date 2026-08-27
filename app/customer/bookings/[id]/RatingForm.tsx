@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { submitRating } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { Star } from "lucide-react";
 
 export default function RatingForm({ bookingId }: { bookingId: string }) {
   const [score, setScore] = useState(0);
@@ -22,17 +23,17 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
       await submitRating({ bookingId, score, comment: comment || undefined });
       router.refresh();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to submit rating");
+      setError(e instanceof Error ? e.message : "Rating submission failed");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="mt-4 bg-white border border-gray-200 rounded-xl p-5">
-      <h3 className="font-semibold text-gray-900 mb-3">Rate this service</h3>
+    <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-3 text-xs">
+      <h3 className="font-semibold text-zinc-200">Rate Service Experience</h3>
       <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="flex gap-1">
+        <div className="flex items-center gap-1.5">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -40,17 +41,15 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
               onClick={() => setScore(star)}
               onMouseEnter={() => setHoverScore(star)}
               onMouseLeave={() => setHoverScore(0)}
-              className="text-2xl transition-colors"
+              className="p-1 text-zinc-600 hover:text-amber-400 transition-colors"
             >
-              <span
-                className={
+              <Star
+                className={`w-5 h-5 ${
                   star <= (hoverScore || score)
-                    ? "text-yellow-400"
-                    : "text-gray-300"
-                }
-              >
-                ★
-              </span>
+                    ? "text-amber-400 fill-amber-400"
+                    : "text-zinc-700"
+                }`}
+              />
             </button>
           ))}
         </div>
@@ -58,14 +57,14 @@ export default function RatingForm({ bookingId }: { bookingId: string }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           rows={2}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-          placeholder="Optional comment..."
+          className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+          placeholder="Optional service feedback..."
         />
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-red-400 text-xs">{error}</p>}
         <button
           type="submit"
           disabled={score === 0 || loading}
-          className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium disabled:opacity-50"
+          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
         >
           {loading ? "Submitting..." : "Submit Rating"}
         </button>

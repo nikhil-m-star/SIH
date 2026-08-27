@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { updateWorkerProfile } from "@/lib/actions";
+import { ServiceIcon } from "@/components/ServiceIcon";
+import { User, Check } from "lucide-react";
 
 interface Service {
   id: string;
@@ -22,7 +24,7 @@ export default function WorkerProfilePage() {
   const [profile, setProfile] = useState<WorkerProfileData | null>(null);
   const [bio, setBio] = useState("");
   const [latitude, setLatitude] = useState<number>(12.9716);
-  const [longitude, setLongitude] = useState<number>(77.5946);
+  const [longitude, setLongitude] = useState(77.5946);
   const [skills, setSkills] = useState<
     { serviceId: string; experienceYears: number }[]
   >([]);
@@ -32,13 +34,11 @@ export default function WorkerProfilePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch services
     fetch("/api/services")
       .then((r) => r.json())
       .then((data) => setServices(data))
       .catch(console.error);
 
-    // Fetch current profile
     fetch("/api/worker/profile")
       .then((r) => r.json())
       .then((data) => {
@@ -57,7 +57,6 @@ export default function WorkerProfilePage() {
       })
       .catch(console.error);
 
-    // Try geolocation
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         setLatitude(pos.coords.latitude);
@@ -96,33 +95,36 @@ export default function WorkerProfilePage() {
       router.refresh();
       setTimeout(() => setSaved(false), 3000);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to save");
+      setError(e instanceof Error ? e.message : "Failed to save profile");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
+    <div className="space-y-6 max-w-lg">
+      <div>
+        <h1 className="text-xl font-bold text-white tracking-tight">Worker Profile</h1>
+        <p className="text-xs text-zinc-400 mt-0.5">Manage trade skills and location</p>
+      </div>
 
-      <form onSubmit={handleSave} className="mt-6 space-y-5">
+      <form onSubmit={handleSave} className="space-y-4 text-xs">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Bio
+          <label className="block text-zinc-300 font-medium mb-1">
+            Bio & Trade Summary
           </label>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             rows={3}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-            placeholder="Tell customers about your experience and skills..."
+            className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+            placeholder="Experience, specialties, tools available..."
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Skills & Services
+          <label className="block text-zinc-300 font-medium mb-2">
+            Services & Experience
           </label>
           <div className="space-y-2">
             {services.map((service) => {
@@ -132,25 +134,26 @@ export default function WorkerProfilePage() {
                   key={service.id}
                   className={`border rounded-lg p-3 transition-colors ${
                     skill
-                      ? "border-[var(--color-primary)] bg-[var(--color-primary)]/5"
-                      : "border-gray-200"
+                      ? "border-emerald-500/50 bg-zinc-900"
+                      : "border-zinc-800/80 bg-zinc-900/40"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-2.5 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={!!skill}
                         onChange={() => toggleSkill(service.id)}
-                        className="accent-[var(--color-primary)]"
+                        className="accent-emerald-500 rounded"
                       />
-                      <span className="text-sm font-medium">
-                        {service.icon} {service.name}
+                      <ServiceIcon name={service.name} className="w-3.5 h-3.5 text-zinc-400" />
+                      <span className="font-medium text-zinc-200">
+                        {service.name}
                       </span>
                     </label>
                     {skill && (
-                      <div className="flex items-center gap-2">
-                        <label className="text-xs text-gray-500">Years:</label>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-zinc-500 text-[11px]">Years:</span>
                         <input
                           type="number"
                           min={0}
@@ -159,7 +162,7 @@ export default function WorkerProfilePage() {
                           onChange={(e) =>
                             updateExperience(service.id, parseInt(e.target.value) || 0)
                           }
-                          className="w-16 border border-gray-300 rounded px-2 py-1 text-sm"
+                          className="w-14 bg-zinc-950 border border-zinc-800 rounded px-2 py-0.5 text-center text-zinc-100 text-xs focus:outline-none focus:border-emerald-500"
                         />
                       </div>
                     )}
@@ -172,7 +175,7 @@ export default function WorkerProfilePage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-zinc-300 font-medium mb-1">
               Latitude
             </label>
             <input
@@ -180,11 +183,11 @@ export default function WorkerProfilePage() {
               step="0.0001"
               value={latitude}
               onChange={(e) => setLatitude(parseFloat(e.target.value))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-emerald-500 font-mono"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-zinc-300 font-medium mb-1">
               Longitude
             </label>
             <input
@@ -192,22 +195,23 @@ export default function WorkerProfilePage() {
               step="0.0001"
               value={longitude}
               onChange={(e) => setLongitude(parseFloat(e.target.value))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-emerald-500 font-mono"
             />
           </div>
         </div>
 
-        {error && (
-          <p className="text-sm text-red-600">{error}</p>
-        )}
+        {error && <p className="text-red-400 text-xs">{error}</p>}
         {saved && (
-          <p className="text-sm text-green-600">Profile saved successfully!</p>
+          <p className="text-emerald-400 text-xs flex items-center gap-1">
+            <Check className="w-3 h-3" />
+            <span>Profile updated successfully</span>
+          </p>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+          className="w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
         >
           {loading ? "Saving..." : "Save Profile"}
         </button>

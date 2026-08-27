@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { updateCooperativeConfig } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 
 interface ConfigProps {
   config: {
@@ -52,16 +53,16 @@ export default function ConfigForm({ config }: ConfigProps) {
   return (
     <form
       onSubmit={handleSave}
-      className="bg-white border border-gray-200 rounded-xl p-5 space-y-3"
+      className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-3 text-xs"
     >
       {[
-        { label: "Worker Share %", value: workerSharePct, set: setWorkerSharePct },
-        { label: "Welfare %", value: welfarePct, set: setWelfarePct },
-        { label: "Training %", value: trainingPct, set: setTrainingPct },
-        { label: "Cooperative %", value: cooperativePct, set: setCooperativePct },
+        { label: "Worker Payout Share %", value: workerSharePct, set: setWorkerSharePct },
+        { label: "Worker Welfare Fund %", value: welfarePct, set: setWelfarePct },
+        { label: "Skills Training Fund %", value: trainingPct, set: setTrainingPct },
+        { label: "Cooperative Retained %", value: cooperativePct, set: setCooperativePct },
       ].map((field) => (
         <div key={field.label} className="flex items-center justify-between">
-          <label className="text-sm text-gray-600">{field.label}</label>
+          <label className="text-zinc-400">{field.label}</label>
           <input
             type="number"
             min={0}
@@ -69,34 +70,39 @@ export default function ConfigForm({ config }: ConfigProps) {
             step={1}
             value={field.value}
             onChange={(e) => field.set(parseFloat(e.target.value) || 0)}
-            className="w-20 border border-gray-300 rounded px-2 py-1 text-sm text-right focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-16 bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-right text-zinc-100 font-mono focus:outline-none focus:border-emerald-500"
           />
         </div>
       ))}
 
-      <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-        <span className="text-sm font-medium text-gray-700">Total</span>
+      <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+        <span className="font-medium text-zinc-300">Total Allocation</span>
         <span
-          className={`text-sm font-bold ${total === 100 ? "text-green-600" : "text-red-600"}`}
+          className={`font-mono font-bold ${
+            total === 100 ? "text-emerald-400" : "text-red-400"
+          }`}
         >
           {total}%
         </span>
       </div>
 
       {total !== 100 && (
-        <p className="text-xs text-red-600">Percentages must sum to 100%</p>
+        <p className="text-red-400 text-[11px]">Total percentages must equal 100%</p>
       )}
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-red-400 text-[11px]">{error}</p>}
       {saved && (
-        <p className="text-xs text-green-600">Configuration saved!</p>
+        <p className="text-emerald-400 text-[11px] flex items-center gap-1">
+          <Check className="w-3 h-3" />
+          <span>Allocation policy updated</span>
+        </p>
       )}
 
       <button
         type="submit"
         disabled={total !== 100 || loading}
-        className="w-full px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+        className="w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
       >
-        {loading ? "Saving..." : "Save Configuration"}
+        {loading ? "Saving..." : "Update Policy"}
       </button>
     </form>
   );

@@ -3,6 +3,8 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createBooking } from "@/lib/actions";
+import { ServiceIcon } from "@/components/ServiceIcon";
+import { Star, MapPin, Check, ArrowLeft } from "lucide-react";
 
 interface Service {
   id: string;
@@ -27,11 +29,12 @@ function BookServiceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const preselectedServiceId = searchParams.get("serviceId");
+  const preselectedServiceName = searchParams.get("service");
   const preselectedUrgency = searchParams.get("urgency");
   const aiUsed = searchParams.get("aiUsed") === "true";
 
   const [step, setStep] = useState<"service" | "details" | "workers" | "confirm">(
-    preselectedServiceId ? "details" : "service"
+    preselectedServiceId || preselectedServiceName ? "details" : "service"
   );
   const [services, setServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState(preselectedServiceId || "");
@@ -49,20 +52,27 @@ function BookServiceContent() {
   useEffect(() => {
     fetch("/api/services")
       .then((r) => r.json())
-      .then((data) => setServices(data))
+      .then((data: Service[]) => {
+        setServices(data);
+        if (preselectedServiceName && !selectedService) {
+          const match = data.find(
+            (s) => s.name.toLowerCase() === preselectedServiceName.toLowerCase()
+          );
+          if (match) setSelectedService(match.id);
+        }
+      })
       .catch(console.error);
 
-    // Try to get user location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           setLatitude(pos.coords.latitude);
           setLongitude(pos.coords.longitude);
         },
-        () => {} // Ignore errors, use default
+        () => {}
       );
     }
-  }, []);
+  }, [preselectedServiceName, selectedService]);
 
   async function handleFindWorkers() {
     if (!selectedService || !preferredTime) return;
@@ -84,7 +94,7 @@ function BookServiceContent() {
       setWorkers(data);
       setStep("workers");
     } catch {
-      setError("Failed to find workers. Please try again.");
+      setError("Worker matching failed. Please retry.");
     } finally {
       setLoading(false);
     }
@@ -113,51 +123,56 @@ function BookServiceContent() {
         router.push(`/customer/bookings/${result.bookingId}`);
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Booking failed");
+      setError(e instanceof Error ? e.message : "Booking creation failed");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">Book a Service</h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-white tracking-tight">Book Service</h1>
+        <p className="text-xs text-zinc-400 mt-0.5">Step-by-step verified worker dispatch</p>
+      </div>
 
-      {/* Progress */}
-      <div className="flex items-center gap-2 mt-4 mb-6">
+      {/* Progress tracker */}
+      <div className="flex items-center gap-2">
         {["service", "details", "workers", "confirm"].map((s, i) => (
           <div key={s} className="flex items-center gap-2">
             <div
-              className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+              className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-colors ${
                 step === s
-                  ? "bg-[var(--color-primary)] text-white"
+                  ? "bg-emerald-600 text-white border-emerald-500"
                   : ["service", "details", "workers", "confirm"].indexOf(step) > i
-                    ? "bg-green-500 text-white"
-                    : "bg-gray-200 text-gray-500"
+                    ? "bg-emerald-950 text-emerald-400 border-emerald-800"
+                    : "bg-zinc-900 text-zinc-600 border-zinc-800"
               }`}
             >
-              {i + 1}
+              {["service", "details", "workers", "confirm"].indexOf(step) > i ? (
+                <Check className="w-3 h-3" />
+              ) : (
+                i + 1
+              )}
             </div>
-            {i < 3 && (
-              <div className="w-8 h-0.5 bg-gray-200" />
-            )}
+            {i < 3 && <div className="w-6 h-[1px] bg-zinc-800" />}
           </div>
         ))}
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="p-3 bg-red-950/40 border border-red-800/60 rounded-lg text-xs text-red-400">
           {error}
         </div>
       )}
 
-      {/* Step 1: Service Selection */}
+      {/* Step 1: Select Service */}
       {step === "service" && (
-        <div>
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">
-            Select a service
+        <div className="space-y-3">
+          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            1. Select Service Category
           </h2>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {services.map((service) => (
               <button
                 key={service.id}
@@ -165,15 +180,17 @@ function BookServiceContent() {
                   setSelectedService(service.id);
                   setStep("details");
                 }}
-                className={`bg-white border rounded-xl p-4 text-left transition-all ${
+                className={`bg-zinc-900/60 border rounded-xl p-4 text-left transition-all group ${
                   selectedService === service.id
-                    ? "border-[var(--color-primary)] shadow-sm"
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-emerald-500 bg-zinc-900"
+                    : "border-zinc-800/80 hover:border-zinc-700"
                 }`}
               >
-                <span className="text-2xl">{service.icon}</span>
-                <p className="mt-2 font-medium text-sm">{service.name}</p>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <div className="w-8 h-8 rounded-lg bg-zinc-800/60 border border-zinc-700/50 flex items-center justify-center text-zinc-300 group-hover:text-emerald-400 mb-3 transition-colors">
+                  <ServiceIcon name={service.name} className="w-4 h-4" />
+                </div>
+                <p className="font-medium text-xs text-zinc-200">{service.name}</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5 font-mono">
                   From ₹{service.basePrice}
                 </p>
               </button>
@@ -184,88 +201,87 @@ function BookServiceContent() {
 
       {/* Step 2: Details */}
       {step === "details" && (
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-800">
-            Tell us more
+        <div className="space-y-4 max-w-lg">
+          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            2. Problem & Location
           </h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Describe the problem
+            <label className="block text-xs font-medium text-zinc-300 mb-1">
+              Description
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-              placeholder="E.g., Water is leaking from the kitchen sink..."
+              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+              placeholder="Brief description of the work needed..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Address
+            <label className="block text-xs font-medium text-zinc-300 mb-1">
+              Service Address
             </label>
             <input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-              placeholder="Your address"
+              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+              placeholder="Flat / House number, street name"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Preferred time
+            <label className="block text-xs font-medium text-zinc-300 mb-1">
+              Preferred Date & Time
             </label>
             <input
               type="datetime-local"
               value={preferredTime}
               onChange={(e) => setPreferredTime(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-emerald-500"
               min={new Date().toISOString().slice(0, 16)}
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-2 pt-2">
             <button
               onClick={() => setStep("service")}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+              className="px-3.5 py-2 border border-zinc-800 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
             >
               Back
             </button>
             <button
               onClick={handleFindWorkers}
               disabled={!preferredTime || loading}
-              className="flex-1 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+              className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
             >
-              {loading ? "Finding workers..." : "Find Workers"}
+              {loading ? "Matching..." : "Find Workers"}
             </button>
           </div>
         </div>
       )}
 
-      {/* Step 3: Worker Selection */}
+      {/* Step 3: Match Worker */}
       {step === "workers" && (
-        <div>
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">
-            Available Workers
+        <div className="space-y-4 max-w-lg">
+          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            3. Available Matches
           </h2>
+
           {workers.length === 0 ? (
-            <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
-              <p className="text-gray-500">
-                No workers available for this service right now.
-              </p>
+            <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-8 text-center text-xs text-zinc-500">
+              <p>No active workers available in this radius.</p>
               <button
                 onClick={() => setStep("details")}
-                className="mt-3 text-sm text-[var(--color-primary)] hover:underline"
+                className="mt-2 text-emerald-400 hover:underline"
               >
-                Try different time
+                Change time or location
               </button>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {workers.map((worker) => (
                 <button
                   key={worker.id}
@@ -273,40 +289,37 @@ function BookServiceContent() {
                     setSelectedWorker(worker);
                     setStep("confirm");
                   }}
-                  className={`w-full bg-white border rounded-xl p-4 text-left transition-all hover:shadow-sm ${
+                  className={`w-full bg-zinc-900/60 border rounded-xl p-4 text-left transition-all ${
                     selectedWorker?.id === worker.id
-                      ? "border-[var(--color-primary)]"
-                      : "border-gray-200"
+                      ? "border-emerald-500 bg-zinc-900"
+                      : "border-zinc-800/80 hover:border-zinc-700"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-semibold text-xs text-white">
                         {worker.userName}
                       </p>
-                      <div className="flex items-center gap-3 mt-1">
-                        <span className="text-xs text-gray-500">
-                          ⭐ {worker.rating.toFixed(1)}
+                      <div className="flex items-center gap-3 text-[11px] text-zinc-400 mt-1">
+                        <span className="flex items-center gap-1 text-amber-400">
+                          <Star className="w-3 h-3 fill-amber-400" />
+                          <span>{worker.rating.toFixed(1)}</span>
                         </span>
-                        <span className="text-xs text-gray-500">
-                          {worker.completedJobs} jobs
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          📍 {worker.distance} km
+                        <span>·</span>
+                        <span>{worker.completedJobs} jobs</span>
+                        <span>·</span>
+                        <span className="flex items-center gap-0.5">
+                          <MapPin className="w-3 h-3" />
+                          <span>{worker.distance} km</span>
                         </span>
                       </div>
-                      {worker.bio && (
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">
-                          {worker.bio}
-                        </p>
-                      )}
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-mono font-bold text-xs text-white">
                         ₹{worker.estimatedPrice}
                       </p>
-                      <p className="text-xs text-gray-500">
-                        ~{worker.estimatedArrival}
+                      <p className="text-[10px] text-zinc-500 mt-0.5">
+                        ETA: {worker.estimatedArrival}
                       </p>
                     </div>
                   </div>
@@ -314,64 +327,66 @@ function BookServiceContent() {
               ))}
             </div>
           )}
+
           <button
             onClick={() => setStep("details")}
-            className="mt-3 text-sm text-gray-600 hover:text-gray-900"
+            className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300"
           >
-            ← Back to details
+            <ArrowLeft className="w-3 h-3" />
+            <span>Back</span>
           </button>
         </div>
       )}
 
-      {/* Step 4: Confirmation */}
+      {/* Step 4: Confirm */}
       {step === "confirm" && selectedWorker && (
-        <div>
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">
-            Confirm Booking
+        <div className="space-y-4 max-w-lg">
+          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            4. Confirm Booking
           </h2>
-          <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Service</span>
-              <span className="font-medium">
+
+          <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 space-y-2.5 text-xs">
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Service</span>
+              <span className="text-zinc-200">
                 {services.find((s) => s.id === selectedService)?.name}
               </span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Worker</span>
-              <span className="font-medium">{selectedWorker.userName}</span>
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Assigned Worker</span>
+              <span className="text-zinc-200">{selectedWorker.userName}</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Preferred time</span>
-              <span className="font-medium">
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Scheduled Time</span>
+              <span className="text-zinc-200">
                 {new Date(preferredTime).toLocaleString()}
               </span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Est. arrival</span>
-              <span className="font-medium">{selectedWorker.estimatedArrival}</span>
-            </div>
-            <hr className="border-gray-100" />
             <div className="flex justify-between">
-              <span className="font-medium text-gray-900">Estimated Price</span>
-              <span className="font-bold text-lg text-gray-900">
+              <span className="text-zinc-500">Arrival Estimate</span>
+              <span className="text-zinc-200">{selectedWorker.estimatedArrival}</span>
+            </div>
+            <div className="border-t border-zinc-800 pt-2 flex justify-between">
+              <span className="font-medium text-zinc-300">Estimated Total</span>
+              <span className="font-mono font-bold text-sm text-emerald-400">
                 ₹{selectedWorker.estimatedPrice}
               </span>
             </div>
           </div>
 
-          <div className="flex gap-3 mt-4">
+          <div className="flex gap-2">
             <button
               onClick={() => setStep("workers")}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+              className="px-3.5 py-2 border border-zinc-800 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
             >
               Back
             </button>
             <button
               onClick={handleBooking}
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+              className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors"
             >
-              {loading ? "Booking..." : "Confirm Booking"}
+              {loading ? "Confirming..." : "Confirm Booking"}
             </button>
           </div>
         </div>
@@ -382,7 +397,7 @@ function BookServiceContent() {
 
 export default function BookServicePage() {
   return (
-    <Suspense fallback={<div className="p-4 text-gray-500 text-sm">Loading booking...</div>}>
+    <Suspense fallback={<div className="p-4 text-xs text-zinc-500">Loading booking...</div>}>
       <BookServiceContent />
     </Suspense>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { verifyWorker } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { Check, X } from "lucide-react";
 
 export default function WorkerVerifyButton({
   workerId,
@@ -27,23 +28,25 @@ export default function WorkerVerifyButton({
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col sm:flex-row gap-1.5 shrink-0">
       {currentStatus !== "VERIFIED" && (
         <button
           onClick={() => handleAction("VERIFIED")}
           disabled={loading}
-          className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 disabled:opacity-50"
+          className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 rounded text-[11px] font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-1"
         >
-          Verify
+          <Check className="w-3 h-3" />
+          <span>Verify</span>
         </button>
       )}
       {currentStatus !== "REJECTED" && (
         <button
           onClick={() => handleAction("REJECTED")}
           disabled={loading}
-          className="px-3 py-1.5 border border-red-300 text-red-700 rounded-lg text-xs font-medium hover:bg-red-50 disabled:opacity-50"
+          className="px-2.5 py-1 bg-red-950/20 hover:bg-red-600/30 text-red-400 border border-red-800/40 rounded text-[11px] font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-1"
         >
-          Reject
+          <X className="w-3 h-3" />
+          <span>Reject</span>
         </button>
       )}
     </div>

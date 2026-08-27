@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import ConfigForm from "./ConfigForm";
+import { ServiceIcon } from "@/components/ServiceIcon";
 
 export default async function AdminTreasuryPage() {
   await requireRole("ADMIN");
@@ -27,49 +28,50 @@ export default async function AdminTreasuryPage() {
   const sums = payments._sum;
 
   const treasuryItems = [
-    { label: "Total Collected", value: sums.amount || 0, color: "text-gray-900" },
-    { label: "Worker Earnings", value: sums.workerAmount || 0, color: "text-[var(--color-primary)]" },
-    { label: "Welfare Fund", value: sums.welfareFund || 0, color: "text-blue-600" },
-    { label: "Training Fund", value: sums.trainingFund || 0, color: "text-purple-600" },
-    { label: "Cooperative Share", value: sums.cooperativeShare || 0, color: "text-orange-600" },
+    { label: "Total Revenue Processed", value: sums.amount || 0, color: "text-white" },
+    { label: "Worker Payouts", value: sums.workerAmount || 0, color: "text-emerald-400" },
+    { label: "Welfare Fund Balance", value: sums.welfareFund || 0, color: "text-blue-400" },
+    { label: "Training Fund Balance", value: sums.trainingFund || 0, color: "text-purple-400" },
+    { label: "Cooperative Retained Share", value: sums.cooperativeShare || 0, color: "text-zinc-300" },
   ];
 
   const typeLabels: Record<string, string> = {
     WORKER_PAYOUT: "Worker Payout",
-    WELFARE_FUND: "Welfare Fund",
-    TRAINING_FUND: "Training Fund",
+    WELFARE_FUND: "Welfare Allocation",
+    TRAINING_FUND: "Training Allocation",
     COOPERATIVE_SHARE: "Cooperative Share",
   };
 
   const typeStyles: Record<string, string> = {
-    WORKER_PAYOUT: "text-[var(--color-primary)]",
-    WELFARE_FUND: "text-blue-600",
-    TRAINING_FUND: "text-purple-600",
-    COOPERATIVE_SHARE: "text-orange-600",
+    WORKER_PAYOUT: "text-emerald-400",
+    WELFARE_FUND: "text-blue-400",
+    TRAINING_FUND: "text-purple-400",
+    COOPERATIVE_SHARE: "text-zinc-400",
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">
-        Cooperative Treasury
-      </h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-white tracking-tight">Cooperative Treasury</h1>
+        <p className="text-xs text-zinc-400 mt-0.5">Fund balances, distribution rules & audit trail</p>
+      </div>
 
-      {/* Summary */}
-      <div className="mt-6 bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+      {/* Overview */}
+      <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 space-y-2.5 text-xs">
         {treasuryItems.map((item) => (
           <div key={item.label} className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">{item.label}</span>
-            <span className={`text-sm font-semibold ${item.color}`}>
+            <span className="text-zinc-400">{item.label}</span>
+            <span className={`font-mono font-semibold ${item.color}`}>
               ₹{item.value.toLocaleString()}
             </span>
           </div>
         ))}
       </div>
 
-      {/* Config */}
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">
-          Fund Distribution
+      {/* Config Form */}
+      <div className="space-y-3">
+        <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+          Fund Distribution Policy
         </h2>
         <ConfigForm
           config={{
@@ -82,47 +84,38 @@ export default async function AdminTreasuryPage() {
       </div>
 
       {/* Transaction History */}
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">
-          Transaction History
+      <div className="space-y-3">
+        <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+          Ledger Transactions
         </h2>
         {transactions.length === 0 ? (
-          <div className="text-center py-8 bg-white rounded-xl border border-gray-200">
-            <p className="text-gray-500 text-sm">No transactions yet</p>
+          <div className="text-center py-8 bg-zinc-900/40 rounded-xl border border-zinc-800 text-xs text-zinc-500">
+            <p>No transaction history recorded yet.</p>
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl overflow-x-auto">
+            <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">
-                    Type
-                  </th>
-                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">
-                    Amount
-                  </th>
-                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">
-                    Service
-                  </th>
-                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500">
-                    Date
-                  </th>
+                <tr className="border-b border-zinc-800 text-zinc-400">
+                  <th className="py-2.5 px-3 font-semibold">Allocation</th>
+                  <th className="py-2.5 px-3 font-semibold">Amount</th>
+                  <th className="py-2.5 px-3 font-semibold">Service</th>
+                  <th className="py-2.5 px-3 font-semibold">Timestamp</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-zinc-800/60">
                 {transactions.map((tx) => (
-                  <tr
-                    key={tx.id}
-                    className="border-b border-gray-50 hover:bg-gray-50"
-                  >
-                    <td className={`py-2 px-3 font-medium ${typeStyles[tx.type]}`}>
+                  <tr key={tx.id} className="hover:bg-zinc-800/30 transition-colors">
+                    <td className={`py-2.5 px-3 font-medium ${typeStyles[tx.type]}`}>
                       {typeLabels[tx.type]}
                     </td>
-                    <td className="py-2 px-3">₹{tx.amount}</td>
-                    <td className="py-2 px-3 text-gray-500">
+                    <td className="py-2.5 px-3 font-mono font-medium text-white">
+                      ₹{tx.amount}
+                    </td>
+                    <td className="py-2.5 px-3 text-zinc-400">
                       {tx.payment.booking?.service?.name || "—"}
                     </td>
-                    <td className="py-2 px-3 text-gray-500 text-xs">
+                    <td className="py-2.5 px-3 text-zinc-500 font-mono text-[11px]">
                       {new Date(tx.createdAt).toLocaleDateString()}
                     </td>
                   </tr>

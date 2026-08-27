@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { acceptBooking, rejectBooking, startJob, completeJob } from "@/lib/actions";
+import { Check, X, Play, CheckCircle } from "lucide-react";
 
 export default function JobActions({
   bookingId,
@@ -34,29 +35,31 @@ export default function JobActions({
   if (status === "COMPLETED" || status === "CANCELLED") return null;
 
   return (
-    <div className="mt-4">
+    <div className="space-y-3">
       {error && (
-        <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="p-3 bg-red-950/40 border border-red-800/60 rounded-lg text-xs text-red-400">
           {error}
         </div>
       )}
 
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         {status === "PENDING" && (
           <>
             <button
               onClick={() => handleAction(acceptBooking, "accept")}
               disabled={!!loading}
-              className="flex-1 px-4 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+              className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
             >
-              {loading === "accept" ? "Accepting..." : "Accept Job"}
+              <Check className="w-3.5 h-3.5" />
+              <span>{loading === "accept" ? "Accepting..." : "Accept Job"}</span>
             </button>
             <button
               onClick={() => handleAction(rejectBooking, "reject")}
               disabled={!!loading}
-              className="px-4 py-2.5 border border-red-300 text-red-700 rounded-lg text-sm font-medium hover:bg-red-50 disabled:opacity-50 transition-colors"
+              className="px-3.5 py-2 border border-zinc-800 text-zinc-400 hover:text-red-400 hover:border-red-800/60 rounded-lg text-xs font-medium disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
             >
-              {loading === "reject" ? "..." : "Reject"}
+              <X className="w-3.5 h-3.5" />
+              <span>{loading === "reject" ? "..." : "Decline"}</span>
             </button>
           </>
         )}
@@ -65,9 +68,10 @@ export default function JobActions({
           <button
             onClick={() => handleAction(startJob, "start")}
             disabled={!!loading}
-            className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
           >
-            {loading === "start" ? "Starting..." : "Start Job"}
+            <Play className="w-3.5 h-3.5" />
+            <span>{loading === "start" ? "Starting..." : "Start Service"}</span>
           </button>
         )}
 
@@ -75,9 +79,10 @@ export default function JobActions({
           <button
             onClick={() => handleAction(completeJob, "complete")}
             disabled={!!loading}
-            className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50 transition-colors"
+            className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
           >
-            {loading === "complete" ? "Completing..." : "Mark as Completed"}
+            <CheckCircle className="w-3.5 h-3.5" />
+            <span>{loading === "complete" ? "Completing..." : "Complete & Receive Payment"}</span>
           </button>
         )}
       </div>

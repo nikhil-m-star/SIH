@@ -3,6 +3,7 @@
 import { toggleWorkerAvailability } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Radio } from "lucide-react";
 
 export default function AvailabilityToggle({
   isAvailable,
@@ -28,18 +29,18 @@ export default function AvailabilityToggle({
     <button
       onClick={handleToggle}
       disabled={loading}
-      className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+      className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
         isAvailable
-          ? "bg-green-100 text-green-800 hover:bg-green-200"
-          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20"
+          : "bg-zinc-900 text-zinc-500 border-zinc-800 hover:bg-zinc-850"
       }`}
     >
       <span
-        className={`w-2 h-2 rounded-full ${
-          isAvailable ? "bg-green-500" : "bg-gray-400"
+        className={`w-1.5 h-1.5 rounded-full ${
+          isAvailable ? "bg-emerald-400" : "bg-zinc-600"
         }`}
       />
-      {isAvailable ? "Available" : "Unavailable"}
+      <span>{isAvailable ? "Available" : "Offline"}</span>
     </button>
   );
 }

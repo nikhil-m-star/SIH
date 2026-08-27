@@ -1,54 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
+import { Menu, X, ShieldCheck } from "lucide-react";
 
 export default function Navbar() {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="container-main flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-[var(--color-primary)] rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">S</span>
+    <nav className="bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/80 sticky top-0 z-50">
+      <div className="container-main flex items-center justify-between h-14">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-7 h-7 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-emerald-400">
+            <ShieldCheck className="w-4 h-4" />
           </div>
-          <span className="font-semibold text-lg text-gray-900">
+          <span className="font-semibold text-sm tracking-tight text-zinc-100">
             SevaConnect
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-5">
           <Link
             href="/#how-it-works"
-            className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
           >
-            How It Works
+            How it works
           </Link>
           <Link
             href="/#cooperative"
-            className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
           >
-            Cooperative Model
+            Cooperative model
           </Link>
 
           {isSignedIn ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 pl-2">
               <UserButton />
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 pl-2">
               <SignInButton mode="modal">
-                <button className="text-sm text-gray-700 hover:text-gray-900 font-medium px-3 py-2 transition-colors">
+                <button className="text-xs text-zinc-300 hover:text-white px-3 py-1.5 transition-colors">
                   Sign In
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="text-sm bg-[var(--color-primary)] text-white px-4 py-2 rounded-lg font-medium hover:bg-[var(--color-primary-light)] transition-colors">
+                <button className="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-md font-medium transition-colors">
                   Get Started
                 </button>
               </SignUpButton>
@@ -58,64 +58,44 @@ export default function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-1.5 text-zinc-400 hover:text-zinc-200"
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle Menu"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            {menuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-3">
+        <div className="md:hidden border-t border-zinc-800 bg-zinc-950 px-4 py-3 space-y-3">
           <Link
             href="/#how-it-works"
-            className="block text-sm text-gray-600"
+            className="block text-xs text-zinc-400"
             onClick={() => setMenuOpen(false)}
           >
-            How It Works
+            How it works
           </Link>
           <Link
             href="/#cooperative"
-            className="block text-sm text-gray-600"
+            className="block text-xs text-zinc-400"
             onClick={() => setMenuOpen(false)}
           >
-            Cooperative Model
+            Cooperative model
           </Link>
           {isSignedIn ? (
             <div className="pt-2">
               <UserButton />
             </div>
           ) : (
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-2 pt-2">
               <SignInButton mode="modal">
-                <button className="text-sm text-gray-700 font-medium px-3 py-2">
+                <button className="text-xs text-zinc-300 px-3 py-1.5 border border-zinc-800 rounded-md">
                   Sign In
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="text-sm bg-[var(--color-primary)] text-white px-4 py-2 rounded-lg font-medium">
+                <button className="text-xs bg-emerald-600 text-white px-3.5 py-1.5 rounded-md font-medium">
                   Get Started
                 </button>
               </SignUpButton>

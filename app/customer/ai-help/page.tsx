@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Sparkles, ArrowRight, AlertCircle, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function AIHelpPage() {
   const [description, setDescription] = useState("");
@@ -34,14 +36,14 @@ export default function AIHelpPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "AI service is currently unavailable");
+        setError(data.error || "Service unavailable. You can select a service directly.");
         return;
       }
 
       setResult(data.result);
       setServiceId(data.serviceId || "");
     } catch {
-      setError("Failed to connect to AI service. Please try again.");
+      setError("AI diagnosis unreachable. Please select service manually.");
     } finally {
       setLoading(false);
     }
@@ -59,104 +61,107 @@ export default function AIHelpPage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900">AI Help</h1>
-      <p className="text-gray-500 mt-1">
-        Describe your problem and AI will identify the right service for you.
-      </p>
-
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+    <div className="space-y-6 max-w-lg">
+      <div className="flex items-center justify-between">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            What&apos;s the problem?
+          <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>AI Service Diagnosis</span>
+          </h1>
+          <p className="text-xs text-zinc-400 mt-0.5">
+            Identify the service category from your problem description
+          </p>
+        </div>
+        <Link
+          href="/customer/book"
+          className="text-xs text-zinc-400 hover:text-zinc-200 inline-flex items-center gap-1"
+        >
+          <ArrowLeft className="w-3 h-3" />
+          <span>Manual book</span>
+        </Link>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <div>
+          <label className="block text-xs font-medium text-zinc-300 mb-1">
+            Problem Description
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-            placeholder="E.g., Water is leaking from underneath my kitchen sink and there's a puddle on the floor..."
+            className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+            placeholder="E.g., Water is leaking from beneath the kitchen sink onto the floor cabinet..."
           />
-          <p className="text-xs text-gray-400 mt-1">
-            Be as specific as possible for better results
-          </p>
         </div>
 
         <button
           type="submit"
           disabled={loading || description.length < 10}
-          className="w-full px-4 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+          className="w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
         >
-          {loading ? "Analyzing..." : "Identify Service"}
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>{loading ? "Analyzing..." : "Diagnose Service"}</span>
         </button>
       </form>
 
       {error && (
-        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-          {error}
-          <p className="mt-1 text-xs">
-            You can always{" "}
-            <a
+        <div className="p-3 bg-red-950/40 border border-red-800/60 rounded-lg text-xs text-red-400 flex items-start gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+          <div>
+            <p>{error}</p>
+            <Link
               href="/customer/book"
-              className="underline font-medium"
+              className="text-emerald-400 underline mt-1 inline-block"
             >
-              select a service manually
-            </a>
-            .
-          </p>
+              Choose service manually
+            </Link>
+          </div>
         </div>
       )}
 
       {result && (
-        <div className="mt-6 bg-white border border-gray-200 rounded-xl p-5">
-          <h3 className="font-semibold text-gray-900 mb-3">
-            AI Recommendation
-          </h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-start">
-              <span className="text-sm text-gray-500">Service</span>
-              <span className="text-sm font-semibold text-[var(--color-primary)]">
-                {result.service}
-              </span>
-            </div>
-            <div className="flex justify-between items-start">
-              <span className="text-sm text-gray-500">Problem</span>
-              <span className="text-sm font-medium text-gray-900 text-right max-w-[60%]">
-                {result.problem}
-              </span>
-            </div>
-            <div className="flex justify-between items-start">
-              <span className="text-sm text-gray-500">Urgency</span>
-              <span
-                className={`text-xs font-medium px-2 py-1 rounded-full ${
-                  result.urgency === "HIGH"
-                    ? "bg-red-100 text-red-800"
-                    : result.urgency === "MEDIUM"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-green-100 text-green-800"
-                }`}
-              >
-                {result.urgency}
-              </span>
-            </div>
-            <hr className="border-gray-100" />
-            <p className="text-sm text-gray-600">{result.explanation}</p>
+        <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs">
+          <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+            <span className="text-zinc-500 font-medium">Recommended Service</span>
+            <span className="font-semibold text-emerald-400">
+              {result.service}
+            </span>
           </div>
+          <div className="flex items-center justify-between">
+            <span className="text-zinc-500">Diagnosed Issue</span>
+            <span className="text-zinc-200 text-right max-w-[65%]">
+              {result.problem}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-zinc-500">Urgency</span>
+            <span
+              className={`px-1.5 py-0.5 rounded text-[10px] font-medium border ${
+                result.urgency === "HIGH"
+                  ? "bg-red-500/10 text-red-400 border-red-500/20"
+                  : result.urgency === "MEDIUM"
+                    ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                    : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+              }`}
+            >
+              {result.urgency}
+            </span>
+          </div>
+          <p className="text-zinc-400 pt-1 text-[11px] leading-relaxed">
+            {result.explanation}
+          </p>
 
           <button
             onClick={handleBookService}
             disabled={!serviceId}
-            className="mt-4 w-full px-4 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-primary-light)] disabled:opacity-50 transition-colors"
+            className="mt-2 w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
           >
-            Book {result.service} Service →
+            <span>Proceed to Book {result.service}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
-
-      <p className="mt-6 text-xs text-gray-400 text-center">
-        AI recommendations are suggestions only. You can always choose a
-        different service.
-      </p>
     </div>
   );
 }

@@ -1,29 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #1a5632;
-  --color-primary-light: #2d7a4a;
-  --color-primary-dark: #0f3d22;
-  --color-accent: #e8a838;
-  --color-accent-light: #f0c060;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f7f8fa;
-  --color-border: #e2e5e9;
-  --color-text: #1a1d21;
-  --color-text-secondary: #5a6068;
-  --color-success: #16a34a;
-  --color-warning: #f59e0b;
-  --color-error: #dc2626;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --card: #121215;
+  --card-border: #27272a;
+  --card-hover: #18181b;
+  --accent: #10b981;
+  --accent-light: #34d399;
+  --accent-dim: rgba(16, 185, 129, 0.12);
 }
 
 body {
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 @utility container-main {
-  max-width: 1200px;
+  max-width: 1120px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Custom sleek scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
 }
