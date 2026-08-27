@@ -123,8 +123,10 @@ function BookServiceContent() {
         aiUsed,
       });
 
-      if (result.success) {
+      if (result.success && result.bookingId) {
         router.push(`/customer/bookings/${result.bookingId}`);
+      } else {
+        setError(result.error || "Failed to create booking");
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Booking creation failed");

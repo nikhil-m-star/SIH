@@ -1,19 +1,19 @@
 import { z } from "zod";
 
 export const onboardingSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(1, "Name is required"),
   role: z.enum(["CUSTOMER", "WORKER"]),
 });
 
 export const bookingSchema = z.object({
   serviceId: z.string().min(1, "Service is required"),
-  description: z.string().min(10, "Please describe your problem in detail"),
-  latitude: z.number().min(-90).max(90),
-  longitude: z.number().min(-180).max(180),
+  description: z.string().min(1, "Please enter a description").default("Service requested"),
+  latitude: z.number().min(-90).max(90).default(12.9716),
+  longitude: z.number().min(-180).max(180).default(77.5946),
   address: z.string().optional(),
   preferredTime: z.string().min(1, "Preferred time is required"),
   workerId: z.string().min(1, "Please select a worker"),
-  estimatedPrice: z.number().positive(),
+  estimatedPrice: z.number().positive().default(500),
   urgency: z.enum(["LOW", "MEDIUM", "HIGH"]).default("MEDIUM"),
   aiUsed: z.boolean().default(false),
 });
@@ -48,5 +48,5 @@ export const cooperativeConfigSchema = z.object({
 export const aiHelpSchema = z.object({
   description: z
     .string()
-    .min(10, "Please describe your problem in more detail"),
+    .min(3, "Please describe your problem in more detail"),
 });
