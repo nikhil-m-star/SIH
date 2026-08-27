@@ -34,7 +34,13 @@ export default function Navbar() {
           </Link>
 
           {isSignedIn ? (
-            <div className="flex items-center pl-2">
+            <div className="flex items-center gap-4 pl-2">
+              <Link
+                href="/onboarding"
+                className="text-sm bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold px-5 py-2 rounded-full transition-all shadow-md"
+              >
+                Dashboard
+              </Link>
               <UserButton />
             </div>
           ) : (
@@ -45,7 +51,7 @@ export default function Navbar() {
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="text-sm bg-white hover:bg-neutral-200 text-black font-bold px-5 py-2 rounded-full transition-all">
+                <button className="text-sm bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold px-5 py-2 rounded-full transition-all">
                   Get started
                 </button>
               </SignUpButton>
@@ -81,7 +87,14 @@ export default function Navbar() {
             Cooperative model
           </Link>
           {isSignedIn ? (
-            <div className="pt-2">
+            <div className="flex items-center justify-between pt-3">
+              <Link
+                href="/onboarding"
+                className="text-sm bg-emerald-400 text-black font-extrabold px-5 py-2.5 rounded-full"
+                onClick={() => setMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
               <UserButton />
             </div>
           ) : (
@@ -92,7 +105,7 @@ export default function Navbar() {
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="text-sm bg-white text-black font-bold px-5 py-2.5 rounded-full">
+                <button className="text-sm bg-emerald-400 text-black font-extrabold px-5 py-2.5 rounded-full">
                   Get started
                 </button>
               </SignUpButton>

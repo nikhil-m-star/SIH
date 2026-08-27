@@ -60,10 +60,11 @@ export async function findMatchingWorkers(
   });
   if (!service) return [];
 
-  // Find all verified, available workers with matching skill
-  const workers = await prisma.workerProfile.findMany({
+  // Find all available workers who are not rejected
+  // Prioritize workers with matching skills; fallback to all available workers if none found
+  let workers = await prisma.workerProfile.findMany({
     where: {
-      verificationStatus: "VERIFIED",
+      verificationStatus: { not: "REJECTED" },
       isAvailable: true,
       skills: {
         some: { serviceId },
@@ -76,6 +77,22 @@ export async function findMatchingWorkers(
       },
     },
   });
+
+  // If no worker has explicitly tagged this skill, include all active available workers
+  if (workers.length === 0) {
+    workers = await prisma.workerProfile.findMany({
+      where: {
+        verificationStatus: { not: "REJECTED" },
+        isAvailable: true,
+      },
+      include: {
+        user: true,
+        skills: true,
+      },
+    });
+  }
+
+  if (workers.length === 0) return [];
 
   // Get active bookings count for workload calculation
   const activeBookingCounts = await prisma.booking.groupBy({
@@ -103,44 +120,43 @@ export async function findMatchingWorkers(
         workerLon
       );
 
-      // Filter out workers too far away (50km max)
-      if (distance > 50) return null;
-
       const currentWorkload = workloadMap.get(worker.userId) ?? 0;
-      const experienceYears = worker.skills[0]?.experienceYears ?? 0;
+      const matchingSkill = worker.skills.find((s) => s.serviceId === serviceId);
+      const experienceYears = matchingSkill?.experienceYears ?? 1;
 
-      // Calculate score (higher is better)
-      const distanceScore = Math.max(0, 100 - distance * 2); // 0-100
-      const ratingScore = worker.rating * 20; // 0-100
-      const workloadScore = Math.max(0, 100 - currentWorkload * 25); // penalize busy workers
-      const experienceScore = Math.min(experienceYears * 10, 50); // 0-50
-      const jobsScore = Math.min(worker.completedJobs * 2, 50); // 0-50
+      // Verified workers get bonus score
+      const verifiedBonus = worker.verificationStatus === "VERIFIED" ? 25 : 10;
+      const distanceScore = Math.max(0, 100 - distance * 2);
+      const ratingScore = (worker.rating || 4.5) * 20;
+      const workloadScore = Math.max(0, 100 - currentWorkload * 25);
+      const experienceScore = Math.min(experienceYears * 10, 50);
+      const jobsScore = Math.min(worker.completedJobs * 2, 50);
 
       const score =
         distanceScore * 0.3 +
-        ratingScore * 0.25 +
+        ratingScore * 0.2 +
         workloadScore * 0.2 +
         experienceScore * 0.15 +
-        jobsScore * 0.1;
+        jobsScore * 0.1 +
+        verifiedBonus;
 
       // Estimate price based on distance and experience
-      const priceMultiplier = 1 + distance * 0.02 + experienceYears * 0.05;
+      const priceMultiplier = 1 + Math.min(distance, 20) * 0.01 + Math.min(experienceYears, 10) * 0.03;
       const estimatedPrice = Math.round(service.basePrice * priceMultiplier);
 
       return {
         id: worker.id,
         userId: worker.userId,
         userName: worker.user.name,
-        bio: worker.bio,
-        rating: worker.rating,
+        bio: worker.bio || "Verified local service professional",
+        rating: worker.rating || 5.0,
         completedJobs: worker.completedJobs,
-        distance: Math.round(distance * 10) / 10,
+        distance: Math.max(0.5, Math.round(distance * 10) / 10),
         estimatedPrice,
         estimatedArrival: estimateArrival(distance),
         score,
       };
     })
-    .filter((w): w is MatchedWorker => w !== null)
     .sort((a, b) => b.score - a.score);
 
   return scored;
