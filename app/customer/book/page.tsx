@@ -6,6 +6,13 @@ import { createBooking } from "@/lib/actions";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Star, MapPin, Check, ArrowLeft } from "lucide-react";
 import { formatDateTime } from "@/lib/format";
+import Script from "next/script";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+} 
 
 interface Service {
   id: string;
@@ -105,37 +112,108 @@ function BookServiceContent() {
   }
 
   async function handleBooking() {
-    if (!selectedWorker) return;
-    setLoading(true);
-    setError("");
+  if (!selectedWorker) return;
 
-    try {
-      const result = await createBooking({
-        serviceId: selectedService,
-        description: description || "Service requested",
-        latitude,
-        longitude,
-        address,
-        preferredTime,
-        workerId: selectedWorker.userId,
-        estimatedPrice: selectedWorker.estimatedPrice,
-        urgency,
-        aiUsed,
-      });
+  setLoading(true);
+  setError("");
 
-      if (result.success && result.bookingId) {
-        router.push(`/customer/bookings/${result.bookingId}`);
-      } else {
-        setError(result.error || "Failed to create booking");
-      }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Booking creation failed");
-    } finally {
-      setLoading(false);
+  try {
+
+    const result = await createBooking({
+      serviceId: selectedService,
+      description: description || "Service requested",
+      latitude,
+      longitude,
+      address,
+      preferredTime,
+      workerId: selectedWorker.userId,
+      estimatedPrice: selectedWorker.estimatedPrice,
+      urgency,
+      aiUsed,
+    });
+
+    if (!result.success || !result.bookingId) {
+      setError(result.error || "Failed to create booking");
+      return;
     }
+
+   
+    const paymentRes = await fetch("/api/payment/create-order", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    bookingId: result.bookingId,
+  }),
+});
+
+    const paymentData = await paymentRes.json();
+
+    if (!paymentRes.ok) {
+      setError(paymentData.error || "Failed to create payment order");
+      return;
+    }
+
+    console.log("Razorpay order:", paymentData);
+
+    
+    const options = {
+  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+  amount: paymentData.amount,
+  currency: paymentData.currency,
+  name: "SevaConnect",
+  description: "Service Booking",
+  order_id: paymentData.id,
+
+  handler: async function (response: any) {
+  try {
+    const verifyRes = await fetch("/api/payment/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+        bookingId: result.bookingId,
+      }),
+    });
+
+    const verifyData = await verifyRes.json();
+
+    if (!verifyRes.ok) {
+      setError(verifyData.error || "Payment verification failed");
+      return;
+    }
+
+    console.log("Payment verified:", verifyData);
+    router.push(`/customer/bookings/${result.bookingId}`);
+  } catch (error) {
+    console.error(error);
+    setError("Unable to verify payment");
   }
+},
+};
+
+const razorpay = new window.Razorpay(options);
+
+razorpay.open();
+
+  } catch (e) {
+    setError(e instanceof Error ? e.message : "Booking creation failed");
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
+    <>
+    <Script
+  src="https://checkout.razorpay.com/v1/checkout.js"
+  strategy="afterInteractive"
+  />
     <div className="space-y-10">
       <div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
@@ -401,6 +479,7 @@ function BookServiceContent() {
         </div>
       )}
     </div>
+    </>
   );
 }
 
